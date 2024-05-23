@@ -1,6 +1,8 @@
+import setProfilePic from "@/app/profilepic/setProfilePic";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import defaultAvatar from "../assets/default_avatar.jpg";
 
 export default async function AuthButton() {
   const supabase = createClient();
@@ -17,10 +19,31 @@ export default async function AuthButton() {
     return redirect("/login");
   };
 
+  // const setProfilePic = async () => {
+  //   "use server";
+  //   return alert("This feature is not yet implemented");
+
+    // const supabase = createClient();
+    // await supabase.auth.update({
+    //   data: { avatar_url: "https://assets.leetcode.com/users/default_avatar.jpg" },
+    // });
+  // }
+
   return user ? (
     <div className="flex items-center gap-4">
       Hey, {user.user_metadata.username}!
-      <form action={signOut}>
+      <form className="flex grow items-center gap-4" action={setProfilePic}>
+        <div className="relative">
+          <button className="flex items-center focus:outline-none" id="headlessui-menu-button-:r58:" type="button" 
+          aria-haspopup="menu" aria-expanded="false" data-headlessui-state="">
+          <span id="navbar_user_avatar" className="relative ml-1 h-6 w-6">
+          <img src={defaultAvatar.src} alt="avatar" 
+          className="h-full w-full rounded-full object-cover"/>
+          </span>
+          </button>
+        </div>
+      </form>
+      <form className="flex items-center gap-4" action={signOut}>
         <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
           Logout
         </button>

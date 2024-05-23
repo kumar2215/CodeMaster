@@ -6,21 +6,21 @@ import Body from "@/components/Body";
 export default async function Index() {
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-10">
+    <div className="flex-1 grow w-full flex flex-col gap-10">
       <nav 
         style={{
           display: "grid",
-          gridTemplateColumns: "900px 200px",
+          gridTemplateColumns: "550px 550px",
           justifyContent: "center",
-          borderBottom: "1px hsl(var(--foreground) / 0.1)",
+          border: "1px solid #e5e7eb",
         }}
         >
-        <div className="w-sm flex items-start p-3 text-sm">
-          {<PremiumButton />}
+        <div className="w-full max-w-4xl flex justify-start p-3 text-sm">
+          <PremiumButton />
         </div>
-        <div className="w-full max-w-5xl flex gap-5 items-center p-3 text-sm">
-          {<AuthButton />}
-          {<SignUpButton />}
+        <div className="w-full max-w-4xl flex justify-end gap-5 p-3 text-sm">
+          <AuthButton />
+          <SignUpButton />
         </div>
       </nav>
 

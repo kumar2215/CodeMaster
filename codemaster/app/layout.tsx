@@ -1,4 +1,5 @@
 import { GeistSans } from "geist/font/sans";
+import logo from "../assets/CodeMaster-logo.jpg";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -7,8 +8,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "CodeMaster",
+  description: "The best place to learn how to code",
 };
 
 export default function RootLayout({
@@ -18,6 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className}>
+      <link rel="icon" type="image/jpg" href={logo.src}/>
       <body className="bg-background text-foreground">
         <main className="min-h-screen flex flex-col items-center">
           {children}
