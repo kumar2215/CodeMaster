@@ -1,11 +1,11 @@
-import Navbar from "../../utils/navbar";
+import Navbar from "../utils/navbar";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { StaticImageData } from "next/image";
-import debuggingIcon from "../../../assets/debugging-icon.jpg";
-import codeUnderstandingIcon from "../../../assets/Code-understanding-icon.jpg";
-import goodCodePracticesIcon from "../../../assets/good-coding-principles-icon.jpg";
-import codeRefactoringIcon from "../../../assets/code-refactoring-icon.jpg";
+import debuggingIcon from "../../assets/debugging-icon.jpg";
+import codeUnderstandingIcon from "../../assets/Code-understanding-icon.jpg";
+import goodCodePracticesIcon from "../../assets/good-coding-principles-icon.jpg";
+import codeRefactoringIcon from "../../assets/code-refactoring-icon.jpg";
 
 const thisLink = "/problemset";
 
@@ -21,7 +21,7 @@ function section(title: string, description: string, link: string, image: Static
         padding: "20px",
         flexDirection: "column",
         justifyContent: "start",
-        backgroundColor: "#f3f4f6",
+        backgroundColor: "ghostwhite",
         border: "1px solid black",
         borderRadius: "10px",
         boxShadow: "3px 3px 2px #888888"
@@ -56,7 +56,7 @@ export default async function ProtectedPage() {
   }
 
   return (
-    <div className="flex-1 bg-teal-300 w-full flex flex-col gap-10 items-center">
+    <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
       {Navbar(thisLink)}
       <div 
       className="animate-in w-3/4 h-full grid grid-cols-2 grid-rows-2 gap-20 opacity-0 px-3"
