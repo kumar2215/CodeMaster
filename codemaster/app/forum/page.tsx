@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 const thisLink = "/forum";
 
-export default async function ProtectedPage() {
+export default async function Forum() {
   const supabase = createClient();
 
   const {
@@ -16,7 +16,7 @@ export default async function ProtectedPage() {
   }
 
   return (
-    <div className="flex-1 bg-teal-300 w-full flex flex-col gap-10 items-center">
+    <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
       {Navbar(thisLink)}
       <div className="text-xl font-bold">
         <h1>Not implemented yet</h1>

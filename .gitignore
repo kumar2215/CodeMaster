@@ -25,7 +25,8 @@ build/
 
 # Coverage directory
 coverage/
-/components/tutorial
+
+codemaster/app/questionGeneration/test.py
 
 # npm cache directory
 .npm

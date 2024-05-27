@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "../submit-button";
 
-export default function Login({
+export default function SignUp({
   searchParams,
 }: {
   searchParams: { message: string };
@@ -29,11 +29,32 @@ export default function Login({
       },
     });
 
-    if (error) {
-      return redirect("/login?message=Could not authenticate user");
+    const res = await supabase.from("Users").select("*").eq("username", username);
+
+    if (res.data && res.data.length > 0) { 
+      return redirect("/signup?message=Username already exists. Please use a different username.");
     }
 
-    return redirect("/login?message=Check email to continue sign in process");
+    if (error) {
+      console.error(error);
+      return redirect("/signup?message=Someting went wrong. Please try again.");
+    }
+
+    try {
+      alert("Check email to continue sign in process");
+      // return redirect("/signup?message=Check email to continue sign in process"); // mesaage doesn't show, need to fix
+    } catch (error) {
+      console.error(error);
+    } finally {
+      await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+      const res = await supabase.from("Users").insert([{ username: username, email: email }]);
+      if (res.error) {
+        console.error(res.error);
+      }
+    }
   };
 
   return (

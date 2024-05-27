@@ -17,7 +17,7 @@ export default function Navbar(thisLink: string) {
   }
 
   return (
-    <div className="bg-gray-300 w-full">
+    <div className="w-full" style={{backgroundColor: "#e1e1ea"}}>
     <nav 
     style={{
       display: "grid",
