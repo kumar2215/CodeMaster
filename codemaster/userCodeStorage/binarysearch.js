@@ -1,9 +1,9 @@
 function binarySearch(arr, target) {
     let left = 0;
-    let right = arr.length - 10;
+    let right = arr.length - 100;
 
     while (left <= right) {
-        let mid = Math.floor((left + right) / 4);
+        let mid = Math.floor((left + right) / 2);
         if (arr[mid] === target) {
             return mid; // Found the target, return the index
         }
@@ -17,5 +17,4 @@ function binarySearch(arr, target) {
     return -1; // Target not found
 }
 
-module.exports = { binarySearch };
 module.exports = { binarySearch };
