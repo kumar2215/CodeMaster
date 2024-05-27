@@ -38,7 +38,7 @@ function parser(code: string) { // for Python code
         }
         const tokens = newLine.split(" ");
         return (
-        <div key={index} className={`flex flex-row text-blue-600`} >
+        <div key={index} className={`flex flex-row`} >
           {
             tokens.map((token: string, index: number) => {
               let color = "text-black";
