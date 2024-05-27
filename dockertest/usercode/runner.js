@@ -4,23 +4,35 @@ const fs = require('fs');
 const userCode = require('./userCode');
 
 const testCaseFileName = process.env.TESTCASE_FILENAME;
-
+const functionName = process.env.FUNCTION_NAME;
+const formatString = process.env.FORMAT;
+const format = formatString.split(',')
 
 // Load and parse the test cases JSON file
 fs.readFile(`./${testCaseFileName}`, 'utf-8', (err, data) => {
     if (err) {
-        console.error("Failed to read test cases:", err);
         return;
     }
-    const testCases = JSON.parse(data);
-    const results = [];
 
+    let testCases
+    try {
+        testCases = JSON.parse(data);
+    } catch (error) {
+        process.exit(1);
+    }
+
+    const results = [];
+    const args = []
+    for (let i = 0; i < format.length - 1; i++) {
+        args.push(format[i]);
+    }
 
     testCases.forEach((test, index) => {
-        const { array, target, expected } = test;
-        const result = userCode.binarySearch(array, target); // Assume binarySearch is exported
+        const { expected, ...params } = test;
+        const testArgs = args.map(arg => params[arg]);
+        const result = userCode[functionName](...testArgs); // Assume binarySearch is exported
         const passed = result === expected;
-        results.push({ test: index + 1, passed, result, expected });        
+        results.push({ test: test, passed, result, expected });        
         
         // if (result === expected) {
         //     console.error(`✓ Passed: Correct index found -> ${result}`);

@@ -12,28 +12,33 @@ export async function POST(req) {
     try {
         const data = await req.json();
         console.log('Received data:', data);
-        const { code, question } = data;
+        const { code, question, testcase, function_name, format } = data;
 
         if (!code) {
             console.log('Code not provided');
             return NextResponse.json({ message: 'Code not provided' }, { status: 400 });
         }
-
         const currentDirectory = process.cwd();
-        const completeCode = `${code}\nmodule.exports = { binarySearch };`;
+        console.log(testcase,"hello")
+
+        const completeCode = `${code}\nmodule.exports = { ${function_name} };`;
         const codeStoragePath = path.resolve(currentDirectory, 'userCodeStorage', `${question}.js`);
         const testCasePath = path.resolve(currentDirectory, 'app', 'testcases', `${question}.json`);
 
-        console.log('Writing code to:', codeStoragePath);
         // Write the code written by user into a js file
         await writeFile(codeStoragePath, completeCode);
 
+        await writeFile(testCasePath, JSON.stringify(testcase), 'utf8');
+
+
         // Ensure the paths are correct
-        console.log('Code storage path:', codeStoragePath);
-        console.log('Test case path:', testCasePath);
+        // console.log('Code storage path:', codeStoragePath);
+        // console.log('Test case path:', testCasePath);
 
         // Define the Docker command
-        const dockerCommand = `docker run --rm -e TESTCASE_FILENAME=${question}.json -v "${codeStoragePath.replace(/\\/g, '/')}:/usr/src/app/userCode.js" -v "${testCasePath.replace(/\\/g, '/')}:/usr/src/app/${question}.json" usercode node /usr/src/app/runner.js`;
+        //Build docker as "usercode"
+        const formatData = format.join(',')
+        const dockerCommand = `docker run --rm -e FORMAT=${formatData} -e FUNCTION_NAME=${function_name} -e TESTCASE_FILENAME=${question}.json -v "${codeStoragePath.replace(/\\/g, '/')}:/usr/src/app/userCode.js" -v "${testCasePath.replace(/\\/g, '/')}:/usr/src/app/${question}.json" usercode node /usr/src/app/runner.js`;
 
         console.log('Executing Docker command:', dockerCommand);
         // Execute the Docker command
@@ -72,7 +77,10 @@ export async function POST(req) {
             }, { status: 200 });
         }
     } catch (error) {
-        console.log('Caught error:', error.message);
-        return NextResponse.json({ message: 'Failed to process the request. Is your code free of syntax errors?', error: error.message }, { status: 500 });
+        console.log('Caught error:', error.message, "hellokid");
+        //Hide several sensitive infomation
+        const cleanedError = error.message.replace(/\/usr\/src\/app\/[^\s]*/g, '[hidden path]')
+        .replace(/Command failed:.*/g, '[hidden command]');
+        return NextResponse.json({ message: cleanedError, error: error.message }, { status: 500 });
     }
 }
