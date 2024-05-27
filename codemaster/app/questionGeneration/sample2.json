@@ -1,0 +1,39 @@
+{
+    "type": "Debugging",
+    "title": "Binary Search",
+    "context": "Study the code given below.",
+    "language": "Python",
+    "code": "function binarySearch(arr, target) {\n    let left = 0;\n    let right = arr.length - 10;\n\n    while (left <= right) {\n        let mid = Math.floor((left + right) / 4);\n        if (arr[mid] === target) {\n            return mid; // Found the target, return the index\n        }\n        if (arr[mid] < target) {\n            left = mid + 1; // Continue searching to the right\n        } else {\n            right = mid - 1; // Continue searching to the left\n        }\n    }\n\n    return -1; // Target not found\n}\n\nmodule.exports = { binarySearch };",
+    "difficulty": "Medium",
+    "source": {
+      "link": false,
+      "src": "NUS CS2040S Midterm 2029"
+    },
+    "parts": [
+      {
+        "part": "Null",
+        "question": "The code given has several bugs in it. Can you fix it such that it becomes correct",
+        "questionType": "Freestyle",
+        "format": ["array", "target", "expected"],
+        "inputs": [
+            {
+                "array": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                "target": 7,
+                "expected": 6
+            },
+            {
+                "array": [10, 20, 30, 40, 50],
+                "target": 30,
+                "expected": 2
+            },
+            {
+                "array": [15, 22, 34, 67, 88, 99],
+                "target": 100,
+                "expected": -1
+            }
+        ],
+        "points": [5,5,10],
+        "functionName": "binarySearch"
+        }
+    ]
+}
