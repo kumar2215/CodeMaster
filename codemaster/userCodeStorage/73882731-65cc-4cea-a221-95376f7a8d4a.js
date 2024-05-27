@@ -7,7 +7,7 @@ function binarySearch(arr, target) {
         if (arr[mid] === target) {
             return mid; // Found the target, return the index
         }
-        if (arr[mid] < target) {asas
+        if (arr[mid] < target) {
             left = mid + 1; // Continue searching to the right
         } else {
             right = mid - 1; // Continue searching to the left
