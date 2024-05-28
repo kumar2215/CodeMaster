@@ -1,86 +1,10 @@
-import Navbar from "../../utils/navbar";
+import Navbar from "@/components/misc/navbar";
+import Table  from "@/components/misc/questionsTable";
 import React from 'react';
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import Link  from "next/link";
-import completedLogo from "../../../assets/completed-mark.jpg"
-import attemptedLogo from "../../../assets/attempted-mark.jpg"
 
 const thisLink = "/problemset";
-
-function table(questions: any[]) {
-  return (
-    <div className="flex flex-col w-full max-w-4xl border-2 border-gray-400">
-      <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '0.8fr 6.5fr 1.2fr 1.1fr',
-        width: '100%',
-        maxWidth: '56rem',
-        minHeight: '2rem',
-        lineHeight: '2rem',
-        textAlign: 'center',
-        alignItems: 'center',
-        fontSize: '1rem',
-        fontWeight: '600',
-        backgroundColor: '#f0f0f0'
-      }}>
-        <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Status</div>
-        <div style={{ borderRight: '1px solid rgb(156 163 175)', textAlign: 'left', paddingLeft: '1rem'}}>Title</div>
-        <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Difficulty</div>
-        <div>Points</div>
-      </div>
-      
-      {questions.map((entry, index) => {
-        const color = entry.difficulty === "Easy" 
-          ? "text-green-500" 
-          : entry.difficulty === "Medium" 
-          ? "text-yellow-500" 
-          : entry.difficulty === "Hard" 
-          ? "text-red-400" 
-          : "text-gray-400";
-        const link = `/questions/${entry.id}`;
-        return <div
-        key={index}
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '0.8fr 6.5fr 1.2fr 1.1fr',
-          width: '100%',
-          maxWidth: '56rem',
-          minHeight: '2rem',
-          lineHeight: '2rem',
-          textAlign: 'center',
-          alignItems: 'center',
-          fontSize: '0.875rem',
-          fontWeight: '400',
-          backgroundColor: 'white',
-          borderTop: '1px solid rgb(156 163 175)'
-        }}>
-          <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>
-            {entry.status === "Completed" 
-            ? <img src={completedLogo.src} alt="Completed" width={0.6 * completedLogo.width}/>
-            : entry.status === "Attempted" 
-            ? <img src={attemptedLogo.src} alt="Attempted" width={0.6 * attemptedLogo.width}/>
-            : <div className="text-gray-400">-</div>
-          }</div>
-          <div 
-          className="hover:text-blue-500 hover:leading-8 hover:font-medium cursor-pointer"
-          style={{ 
-            borderRight: '1px solid rgb(156 163 175)', 
-            textAlign: 'left', 
-            paddingLeft: '1rem'
-            }}>
-            <Link href={link}>{entry.title}</Link>
-          </div>
-          <div style={{ borderRight: '1px solid rgb(156 163 175)', fontWeight: "600" }}>{
-            <div className={color}>{entry.difficulty}</div>
-          }</div>
-          <div>{entry.points}</div>
-        </div>
-      })}
-    </div>
-  );
-};
 
 export default async function CodeUnderstanding() {
   const supabase = createClient();
@@ -106,7 +30,7 @@ export default async function CodeUnderstanding() {
   const { data: questions, error: err2 } = await supabase.from("Questions").select(`*`).eq("type", "Code Understanding");
   if (err2) { console.error(err2); }
 
-  if (questions) {
+  if (questions) { // need to modify this logic
     for (let i = 0; i < questions.length; i++) {
       if (questionIdsDoneByUser && questionIdsDoneByUser.includes(questions[i].id)) {
         const question = questionsDoneByUser[questionIdsDoneByUser.indexOf(questions[i].id)];
@@ -131,7 +55,7 @@ export default async function CodeUnderstanding() {
     </p>
     </div>
     <h2 className="max-h-3 leading-3"/>
-    {questions && table(questions)}
+    {questions && <Table data={questions} />}
     </div>
   );
 }

@@ -1,7 +1,7 @@
-import PremiumButton from "../components/PremiumButton";
-import AuthButton from "../components/AuthButton";
-import SignUpButton from "@/components/SignUpButton";
-import Body from "@/components/Body";
+import PremiumButton from "@/components/buttons/PremiumButton";
+import AuthButton from "@/components/buttons/AuthButton";
+import SignUpButton from "@/components/buttons/SignUpButton";
+import Body from "@/components/frontPageBody";
 
 export default async function Index() {
 

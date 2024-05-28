@@ -2,7 +2,7 @@ import setProfilePic from "@/app/profilepic/setProfilePic";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import defaultAvatar from "../assets/default_avatar.jpg";
+import defaultAvatar from "@/assets/default_avatar.jpg";
 
 export default async function AuthButton() {
   const supabase = createClient();

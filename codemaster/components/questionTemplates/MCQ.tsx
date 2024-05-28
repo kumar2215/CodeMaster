@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react';
 import { createClient } from "@/utils/supabase/client";
-import { SubmitButton } from '@/app/question-submit-button';
+import { SubmitButton } from '@/components/buttons/submit-button';
 
 function MCQ(params: any) {
 

@@ -1,7 +1,7 @@
-import Navbar from "../utils/navbar";
+import Navbar from "../../components/misc/navbar";
+import section from "@/components/misc/card";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { StaticImageData } from "next/image";
 import debuggingIcon from "../../assets/debugging-icon.jpg";
 import codeUnderstandingIcon from "../../assets/Code-understanding-icon.jpg";
 import goodCodePracticesIcon from "../../assets/good-coding-principles-icon.jpg";
@@ -9,42 +9,7 @@ import codeRefactoringIcon from "../../assets/code-refactoring-icon.jpg";
 
 const thisLink = "/problemset";
 
-function section(title: string, description: string, link: string, image: StaticImageData) {
-
-  return (
-    <a href={link}>
-      <div
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        padding: "20px",
-        flexDirection: "column",
-        justifyContent: "start",
-        backgroundColor: "ghostwhite",
-        border: "1px solid black",
-        borderRadius: "10px",
-        boxShadow: "3px 3px 2px #888888"
-      }}
-      className="hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 cursor-pointer"
-      >
-        <div className="grid grid-cols-2 gap-x-5">
-          <div>
-            <h1 className="text-2xl font-bold">{title}</h1>
-            <br/>
-            <img src={image.src} alt="icon"/>
-          </div>
-          <p className="text-lg text-left">
-            {description}
-          </p>
-        </div>
-      </div>
-    </a>
-  );
-}
-
-
-export default async function ProtectedPage() {
+export default async function ProblemSet() {
   const supabase = createClient();
 
   const {

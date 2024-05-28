@@ -81,17 +81,17 @@ export default function Parser(codeObject: any) { // for Python code
   const code = codeObject.code;
   const language = codeObject.language;
 
-  // useEffect(() => {
-  //   document.addEventListener('keydown', interceptKeys);
-  //   document.addEventListener('contextmenu', (e) => e.preventDefault());
-  //   document.addEventListener('dragstart', (e) => e.preventDefault());
+  useEffect(() => {
+    document.addEventListener('keydown', interceptKeys);
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+    document.addEventListener('dragstart', (e) => e.preventDefault());
 
-  //   return () => {
-  //     document.removeEventListener('keydown', interceptKeys);
-  //     document.removeEventListener('contextmenu', (e) => e.preventDefault());
-  //     document.removeEventListener('dragstart', (e) => e.preventDefault());
-  //   };
-  // }, []);
+    return () => {
+      document.removeEventListener('keydown', interceptKeys);
+      document.removeEventListener('contextmenu', (e) => e.preventDefault());
+      document.removeEventListener('dragstart', (e) => e.preventDefault());
+    };
+  }, []);
 
   switch (language) {
     case "Python":

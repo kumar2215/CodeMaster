@@ -1,4 +1,4 @@
-import Navbar from "../utils/navbar";
+import Navbar from "../../components/misc/navbar";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { SubmitButton } from "../auth-submit-button";
+import { SubmitButton } from "../../components/buttons/submit-button";
 
 export default function SignUp({
   searchParams,

@@ -1,5 +1,5 @@
-import PremiumButton from "@/components/PremiumButton";
-import AuthButton from "@/components/AuthButton";
+import PremiumButton from "@/components/buttons/PremiumButton";
+import AuthButton from "@/components/buttons/AuthButton";
 
 export default function Navbar(thisLink: string) {
 

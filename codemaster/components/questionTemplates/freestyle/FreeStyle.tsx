@@ -4,11 +4,11 @@ import dynamic from 'next/dynamic';
 import axios from 'axios';
 
 
-const CodeEditor = dynamic(() => import('../../../components/CodeEditor'), { ssr: false });
+const CodeEditor = dynamic(() => import('../../../components/codeBoxes/CodeEditor'), { ssr: false });
 
 
 
-export default function FreeStyle ({data, codeData, testcase, id}) {
+export default function FreeStyle ({data, codeData, testcase, id}: {data: any, codeData: any, testcase: any, id: any}) {
 
     const [code, setCode] = useState(codeData);
     const [output, setOutput] = useState('');
@@ -41,19 +41,19 @@ export default function FreeStyle ({data, codeData, testcase, id}) {
             setFailedTests([])
             console.log(output)
           }
-        } catch (error: Error) {
-          if (error.response && error.response.data) {
+          } catch (error: any) {
+            if (error.response && error.response.data) {
               if (error.response.data.details) {
-                  setOutput(`Something went wrong`);
+                setOutput(`Something went wrong`);
               } else {
-                  setOutput(error.response.data.message);
+                setOutput(error.response.data.message);
               }
-          } else {
+            } else {
               // Fallback to the generic Axios error message
               console.log('API error:', error.message);
               setOutput(error.message);
+            }
           }
-      }
       setIsLoading(false);
       };
       return (
@@ -75,9 +75,9 @@ export default function FreeStyle ({data, codeData, testcase, id}) {
                   <div>
                     <div>{output}</div>
                     {
-                      failedTests.map((data, index) => (
+                      failedTests.map((data: any, index: number) => ( // Add type assertion here
                         <div key={index}>
-                            {`${JSON.stringify(data.test)} Got ${data.result} instead`}
+                            {`${JSON.stringify((data as any).test)} Got ${(data as any).result} instead`}
                         </div>
                       ))
                     }

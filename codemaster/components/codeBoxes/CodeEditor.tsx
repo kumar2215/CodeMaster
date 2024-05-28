@@ -12,10 +12,15 @@ import 'codemirror/addon/lint/javascript-lint';
 import 'codemirror/addon/lint/lint.js';
 import 'codemirror/addon/hint/javascript-hint';
 import { JSHINT } from 'jshint';
+declare global {
+  interface Window {
+    JSHINT: typeof JSHINT;
+  }
+}
 window.JSHINT = JSHINT;
 
 //Change the height in global.css file
-const CodeEditor = ({ language, code, setCode }) => {
+const CodeEditor = ({ language, code, setCode }: { language: string, code: string, setCode: (code: string) => void }) => {
   const editorRef = useRef();
 
   return (
