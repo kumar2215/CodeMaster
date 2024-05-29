@@ -77,7 +77,7 @@ function parsePython(code: string) {
   );
 }
 
-export default function Parser(codeObject: any) { // for Python code
+export default function Parser(codeObject: any) {
   const code = codeObject.code;
   const language = codeObject.language;
 
@@ -95,6 +95,8 @@ export default function Parser(codeObject: any) { // for Python code
 
   switch (language) {
     case "Python":
+      return parsePython(code);
+    case "JavaScript":
       return parsePython(code);
     default:
       return <div>{code}</div>;

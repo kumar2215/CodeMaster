@@ -1,4 +1,4 @@
-import Parser from "../../app/utils/parser";
+import Parser from "@/app/utils/parser";
 
 function placeInCodeBox(code: string, language: string) {
   const indents = code.split("\n");

@@ -1,11 +1,11 @@
-import Navbar from "../../components/misc/navbar";
+import Navbar from "@/components/misc/navbar";
 import section from "@/components/misc/card";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import debuggingIcon from "../../assets/debugging-icon.jpg";
-import codeUnderstandingIcon from "../../assets/Code-understanding-icon.jpg";
-import goodCodePracticesIcon from "../../assets/good-coding-principles-icon.jpg";
-import codeRefactoringIcon from "../../assets/code-refactoring-icon.jpg";
+import debuggingIcon from "@/assets/debugging-icon.jpg";
+import codeUnderstandingIcon from "@/assets/Code-understanding-icon.jpg";
+import goodCodePracticesIcon from "@/assets/good-coding-principles-icon.jpg";
+import codeRefactoringIcon from "@/assets/code-refactoring-icon.jpg";
 
 const thisLink = "/problemset";
 

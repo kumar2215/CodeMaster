@@ -1,5 +1,6 @@
 import Navbar from "../../../components/misc/navbar";
 import placeInCodeBox from "@/components/codeBoxes/codeBox";
+import CodeEditor from "@/components/codeBoxes/CodeEditor";
 import MCQ from "@/components/questionTemplates/MCQ";
 import { SupabaseClient, User } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/server";
@@ -178,7 +179,9 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
       <div className="w-full max-w-5xl bg-slate-50 p-3 border-4">
         <div className="text-2xl font-bold min-h-10">Question: {questionData.title}</div>
         <div className="text-lg text-gray-500 min-h-10">{questionData.context}</div>
-        {placeInCodeBox(questionData.code, questionData.language)}
+        {questionData.parts.length === 1 && questionData.parts[0].type === "Freestyle"
+        ? <CodeEditor codeData={questionData.code} language={questionData.language} />
+        : placeInCodeBox(questionData.code, questionData.language)}
         { questionData.source.link
         ? <div className="text-lg font-medium leading-10">
           <p>source: 

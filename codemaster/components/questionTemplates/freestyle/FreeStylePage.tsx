@@ -19,8 +19,6 @@ export default async function FreeStylePage ({ FreestyleID, code } : { Freestyle
   .select('question, inputs, points, function_name, format')
   .eq('id', FreestyleID); 
 
-
-
   const inputs = data![0].inputs
   const testcase = []
 
