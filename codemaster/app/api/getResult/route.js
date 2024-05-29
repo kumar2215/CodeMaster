@@ -12,33 +12,33 @@ export async function POST(req) {
     try {
         const data = await req.json();
         console.log('Received data:', data);
-        const { code, question, testcase, function_name, format } = data;
+        const { code, questionId, testcases, function_name, format } = data;
 
         if (!code) {
             console.log('Code not provided');
             return NextResponse.json({ message: 'Code not provided' }, { status: 400 });
         }
         const currentDirectory = process.cwd();
-        console.log(testcase,"hello")
+        console.log(testcases, "hello")
 
         const completeCode = `${code}\nmodule.exports = { ${function_name} };`;
-        const codeStoragePath = path.resolve(currentDirectory, 'userCodeStorage', `${question}.js`);
-        const testCasePath = path.resolve(currentDirectory, 'app', 'testcases', `${question}.json`);
+        const codeStoragePath = path.resolve(currentDirectory, 'userCodeStorage', `${questionId}.js`);
+        const testcasesPath = path.resolve(currentDirectory, 'app', 'testcases', `${questionId}.json`);
 
         // Write the code written by user into a js file
         await writeFile(codeStoragePath, completeCode);
 
-        await writeFile(testCasePath, JSON.stringify(testcase), 'utf8');
+        await writeFile(testcasesPath, JSON.stringify(testcases), 'utf8');
 
 
         // Ensure the paths are correct
         // console.log('Code storage path:', codeStoragePath);
-        // console.log('Test case path:', testCasePath);
+        // console.log('Test case path:', testcasesPath);
 
         // Define the Docker command
         //Build docker as "usercode"
         const formatData = format.join(',')
-        const dockerCommand = `docker run --rm -e FORMAT=${formatData} -e FUNCTION_NAME=${function_name} -e TESTCASE_FILENAME=${question}.json -v "${codeStoragePath.replace(/\\/g, '/')}:/usr/src/app/userCode.js" -v "${testCasePath.replace(/\\/g, '/')}:/usr/src/app/${question}.json" usercode node /usr/src/app/runner.js`;
+        const dockerCommand = `docker run --rm -e FORMAT=${formatData} -e FUNCTION_NAME=${function_name} -e testcases_FILENAME=${questionId}.json -v "${codeStoragePath.replace(/\\/g, '/')}:/usr/src/app/userCode.js" -v "${testcasesPath.replace(/\\/g, '/')}:/usr/src/app/${questionId}.json" usercode node /usr/src/app/runner.js`;
 
         console.log('Executing Docker command:', dockerCommand);
         // Execute the Docker command

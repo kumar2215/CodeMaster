@@ -1,4 +1,5 @@
-import { createClient } from "@/utils/supabase/server";
+"use client";
+import { createClient } from "@/utils/supabase/client";
 import React from 'react'
 import Freestyle from './FreeStyle'
 import test from "node:test";
@@ -13,11 +14,14 @@ interface data {
 
 export default async function FreeStylePage ({ FreestyleID, code } : { FreestyleID: string, code:string }) {
   const supabase = createClient();
+  console.log(FreestyleID);
 
   const { data: data, error } = await supabase
   .from('Freestyle')
-  .select('question, inputs, points, function_name, format')
-  .eq('id', FreestyleID); 
+  .select('*');
+  // .eq('id', FreestyleID);
+  
+  console.log(data);
 
   const inputs = data![0].inputs
   const testcase = []
@@ -37,7 +41,7 @@ export default async function FreeStylePage ({ FreestyleID, code } : { Freestyle
 
   return (
     <div className="w-full">
-      <Freestyle data={data} codeData={code} testcase={testcase} id={FreestyleID}></Freestyle>
+      <Freestyle data={data}></Freestyle>
     </div>
   )
 }
