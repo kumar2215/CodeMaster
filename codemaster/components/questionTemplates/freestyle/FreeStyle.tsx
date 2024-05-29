@@ -56,7 +56,7 @@ export default function FreeStyle ({data}: {data: any}) {
   };
   return (
     <div className='w-full h-full'>
-    <CodeEditor language="javascript" codeData={code} />
+    <CodeEditor language="javascript" code={code} setCode={setCode} />
     { source.link
       ? <div className="text-lg font-medium leading-10">
       <p>source: 
@@ -93,9 +93,8 @@ export default function FreeStyle ({data}: {data: any}) {
       }
       </div>
     ) : (output)
-  }
-  </div>
-  </div>
-);
-
+    }
+    </div>
+    </div>
+  );
 }

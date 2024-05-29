@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Controlled as ControlledEditor } from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
@@ -24,9 +24,8 @@ if (typeof window !== 'undefined') {
 }
 
 //Change the height in global.css file
-const CodeEditor = ({ language, codeData }: { language: string, codeData: string }) => {
+const CodeEditor = ({ language, code, setCode }: { language: string, code: string, setCode: (code: string) => void }) => {
   const editorRef = useRef();
-  const [code, setCode] = useState(codeData);
 
   return (
     <ControlledEditor

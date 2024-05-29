@@ -38,7 +38,7 @@ export async function POST(req) {
         // Define the Docker command
         //Build docker as "usercode"
         const formatData = format.join(',')
-        const dockerCommand = `docker run --rm -e FORMAT=${formatData} -e FUNCTION_NAME=${function_name} -e testcases_FILENAME=${questionId}.json -v "${codeStoragePath.replace(/\\/g, '/')}:/usr/src/app/userCode.js" -v "${testcasesPath.replace(/\\/g, '/')}:/usr/src/app/${questionId}.json" usercode node /usr/src/app/runner.js`;
+        const dockerCommand = `docker run --rm -e FORMAT=${formatData} -e FUNCTION_NAME=${function_name} -e TESTCASE_FILENAME=${questionId}.json -v "${codeStoragePath.replace(/\\/g, '/')}:/usr/src/app/userCode.js" -v "${testcasesPath.replace(/\\/g, '/')}:/usr/src/app/${questionId}.json" usercode node /usr/src/app/runner.js`;
 
         console.log('Executing Docker command:', dockerCommand);
         // Execute the Docker command
