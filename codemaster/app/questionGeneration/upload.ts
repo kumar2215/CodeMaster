@@ -1,6 +1,6 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 import fs from "fs";
-import question from "./sample.json";
+import question from "./sample2.json";
 
 const envFile = fs.readFileSync("../../.env.local").toString();
 const lines = envFile.split("\n");
@@ -14,23 +14,7 @@ const supabase = createClient(
   NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
-interface Source {
-  link: boolean;
-  src: string;
-}
-
-interface Question {
-  type: string;
-  title: string;
-  context: string;
-  language: string;
-  code: string;
-  difficulty: string;
-  source: Source;
-  parts: any[];
-}
-
-export default async function upload(question: Question) {
+export default async function upload(question: any) {
 
   const { data, error: err } = await supabase.auth.signInWithPassword({
     email: EMAIL,
@@ -40,9 +24,8 @@ export default async function upload(question: Question) {
 
   const type = question.type;
   const title = question.title;
-  const context = question.context;
+  const content = question.content;
   const language = question.language;
-  const code = question.code;
   const difficulty = question.difficulty;
   const source = question.source;
   const parts = question.parts;
@@ -61,7 +44,7 @@ export default async function upload(question: Question) {
     const question = part.question;
     const questionType = part.questionType;
 
-    if (questionType === "Multiple Responses") {
+    if (questionType === "Multiple-Responses") {
       const format: string[] = part.format;
       const inputs = part.inputs;
       for (let j = 0; j < inputs.length; j++) {
@@ -86,12 +69,13 @@ export default async function upload(question: Question) {
       if (error) { console.error(error); return;}
       const part_id = res && res[0].id;
       parts[i] = {
-        type: "MultipleResponses",
+        type: "Multiple-Responses",
         part_id: part_id
       }
     }
 
     if (questionType === "Freestyle") {
+      const code = part.code;
       const format: string[] = part.format;
       const inputs = part.inputs;
       for (let j = 0; j < inputs.length; j++) {
@@ -111,7 +95,8 @@ export default async function upload(question: Question) {
       const points: number[] = part.points;
       total_points += points.reduce((a: number, b: number) => a + b, 0);
       const { data: res, error } = await supabase.from("Freestyle").insert({
-        part: partValue, question: question, format: format, inputs: inputs, points: points, functionName: part.functionName
+        part: partValue, question: question, code: code, format: format, inputs: inputs, 
+        points: points, function_name: part.functionName
       }).select();
       if (error) { console.error(error); return;}
       const part_id = res && res[0].id;
@@ -139,7 +124,7 @@ export default async function upload(question: Question) {
   }
 
   const { data: res, error } = await supabase.from("Questions").insert({
-    type: type, title: title, context: context, language: language, code: code, 
+    type: type, title: title, content: content, language: language, 
     difficulty: difficulty, source: source, parts: parts, points: total_points
   }).select();
   if (error) { console.error(error); return; }

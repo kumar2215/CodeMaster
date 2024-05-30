@@ -1,11 +1,13 @@
 "use client";
+import { createClient } from "@/utils/supabase/client";
+import { SubmitButton } from '@/components/buttons/submit-button';
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import axios from 'axios';
 
 const CodeEditor = dynamic(() => import('@/components/codeBoxes/CodeEditor'), { ssr: false });
 
-export default function FreeStyle ({data}: {data: any}) {
+export default function FreeStyle ({data}: {data: any}) { // need to connect to database
   
   const id = data.id;
   const codeData = data.code;
@@ -37,7 +39,7 @@ export default function FreeStyle ({data}: {data: any}) {
       } else {
         setOutput(response.data.message)
         setFailedTests([])
-        console.log(output)
+        // console.log(output)
       }
     } catch (error: any) {
       if (error.response && error.response.data) {

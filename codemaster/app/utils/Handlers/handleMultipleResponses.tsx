@@ -3,13 +3,16 @@ import { createClient } from "@/utils/supabase/client";
 
 const supabase = createClient();
 
-export default async function handleMultipleResponses(questionPart: any, questionId: string, partId: string, inputs: any, userEmail: any) {
-  const part: string = questionPart.part;
+export default async function handleMultipleResponses(questionPart: any, username: any) {
+  const questionId: string = questionPart.questionId;
+  const partId: string = questionPart.partId;
   const question: string = questionPart.question;
+  const part: string = questionPart.part;
   const format: string[] = questionPart.format;
+  const inputs: any[] = questionPart.inputs;
   let points: number[] = questionPart.points;
   
-  const res = await supabase.from("Users").select("*").eq("email", userEmail);
+  const res = await supabase.from("Users").select("*").eq("username", username);
   if (res.error) { console.error(res.error); }
   
   const questionsDone = res.data && res.data[0].questions_done;
@@ -35,7 +38,7 @@ export default async function handleMultipleResponses(questionPart: any, questio
         }
         questionDone.parts[index2] = partDone;
         questionsDone[index] = questionDone;
-        const res2 = await supabase.from("Users").update({questions_done: questionsDone}).eq("email", userEmail);
+        const res2 = await supabase.from("Users").update({questions_done: questionsDone}).eq("username", username);
         if (res2.error) { console.error(res2.error); }
       }
     }
@@ -44,7 +47,7 @@ export default async function handleMultipleResponses(questionPart: any, questio
   const data = {
     questionId: questionId,
     partId: partId,
-    userEmail: userEmail,
+    username: username,
     question: question,
     part: part,
     format: format,

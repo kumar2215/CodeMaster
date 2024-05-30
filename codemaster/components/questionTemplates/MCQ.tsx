@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { createClient } from "@/utils/supabase/client";
 import { SubmitButton } from '@/components/buttons/submit-button';
+import placeInCodeBox from '@/components/codeBoxes/codeBox';
 
 export default function MCQ(params: any) {
   
@@ -9,19 +10,19 @@ export default function MCQ(params: any) {
   
   const questionId: string = data.questionId;
   const partId: string = data.partId;
-  const userEmail: string = data.userEmail;
+  const username: string = data.username;
   const question: string = data.question;
   const part: string = data.part;
-  const options: string[] = data.options;
+  const options: any[] = data.options;
   const points: number = data.points;
-  const expected: string = data.expected;
+  const expected: number = data.expected;
   
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   
-  const handleOptionChange = (event: any) => {
+  const handleOptionChange = (event: any, index: number) => {
     if (submitted) { return; }
-    setSelectedOption(event.target.value);
+    setSelectedOption(index);
   };
   
   const handleSubmit = async () => {
@@ -32,7 +33,7 @@ export default function MCQ(params: any) {
     setSubmitted(true);
     const supabase = createClient();
     
-    const res = await supabase.from("Users").select("*").eq("email", userEmail);
+    const res = await supabase.from("Users").select("*").eq("username", username);
     if (res.error) { console.error(res.error); }
 
     const answeredRight: string = selectedOption === expected ? "Correct" : "Incorrect";
@@ -135,7 +136,7 @@ export default function MCQ(params: any) {
       questionsDone.push(questionDone);
     }
       
-    const res5 = await supabase.from("Users").update({ XP: newXP, questions_done: questionsDone }).eq("email", userEmail);
+    const res5 = await supabase.from("Users").update({ XP: newXP, questions_done: questionsDone }).eq("username", username);
     if (res5.error) { console.error(res5.error); }
     else { console.log("User stats updated") };
     
@@ -159,10 +160,13 @@ export default function MCQ(params: any) {
       type="radio"
       name="options"
       value={option}
-      checked={selectedOption === option}
-      onChange={handleOptionChange}
-      />
-      <span className="text-lg font-medium pl-2">{option}</span>
+      checked={selectedOption === index+1}
+      onChange={(event) => handleOptionChange(event, index+1)}
+      >
+      </input>
+      <span className="text-lg font-medium pl-2">{
+        !option.language ? option.value : placeInCodeBox(option.value, option.language)
+      }</span>
       </label>
       </div>
     ))}

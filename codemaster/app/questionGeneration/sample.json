@@ -1,78 +1,99 @@
 {
-    "type": "Code Understanding",
-    "title": "Special Search",
-    "context": "Study the code given below.",
-    "language": "Python",
-    "code": "def specialSearch(arr: list, key: int, low: int, high: int):\n    if not A: return -1\n    if low >= high:\n        if A[low] == x: return low\n        else: return -1\n    mid = low + (high - low) // 2\n    first = specialSearch(arr, x, low, mid)\n    if first != -1: return first\n    second = specialSearch(arr, x, mid + 1, high)\n    return second",
-    "difficulty": "Medium",
-    "source": {
-      "link": false,
-      "src": "NUS CS2040S Midterm 2021"
+  "type": "Code Understanding",
+  "title": "Special Search",
+  "content": [
+    {
+      "value": "Study the code given below.",
+      "category": "text"
     },
-    "parts": [
-      {
-        "part": "a",
-        "question": "What are the outputs for the following inputs? If you think an error will occur for an input, enter 'error' for that input.",
-        "questionType": "Multiple Responses",
-        "format": ["No.", "arr", "key", "low", "high"],
-        "inputs": [
-          {
-            "No.": 1,
-            "arr": [1, 4, 7, 8, 11],
-            "key": 4,
-            "low": 0,
-            "high": 4,
-            "expected": 1
-          },
-          {
-            "No.": 2,
-            "arr": [2, 4, 5, 19, 30, 101, 130],
-            "key": 6,
-            "low": 0,
-            "high": 3,
-            "expected": -1
-          },
-          {
-            "No.": 3,
-            "arr": [-1, -5, -3, 0, 2, 4, 9, 3],
-            "key": 0,
-            "low": 2,
-            "high": 6,
-            "expected": 3
-          },
-          {
-            "No.": 4,
-            "arr": [2, -1, 0, 1, 2, 5, 11],
-            "key": -2,
-            "low": 0,
-            "high": 8,
-            "expected": "error"
-          },
-          {
-            "No.": 5,
-            "arr": [2, -4, 0, 3, 2, 5, 11],
-            "key": 5,
-            "low": 1,
-            "high": 3,
-            "expected": -1
-          }
-        ],
-        "points": [5, 5, 10, 15, 15]
-      },
-      {
-        "part": "b",
-        "question": "Which of the following statements is true about the specialSearch function?",
-        "questionType": "MCQ",
-        "options": [
-          "It may not terminate for certain inputs.",
-          "It may return -1, even if the key is in the sorted input array.",
-          "It may return the wrong index, even if the key is in the sorted input array.",
-          "It may return the wrong index, even if the key is not in the sorted input array.",
-          "If the algorithm is initially invoked with a sorted array that contains the key and low=0 and high=arr.length-1, then it satisfies the following property during every recursive call: arr[low] <= key <= arr[high]",
-          "If the array is not sorted, the algorithm correctly finds the key annd returns its index if it is in the array and returns -1 if the key is not in the arr."
-        ],
-        "points": 20,
-        "expected": "If the array is not sorted, the algorithm correctly finds the key annd returns its index if it is in the array and returns -1 if the key is not in the arr."
-      }
-    ]
-  }
+    {
+      "value": "def specialSearch(arr: list, key: int, low: int, high: int):\n    if not A: return -1\n    if low >= high:\n        if A[low] == x: return low\n        else: return -1\n    mid = low + (high - low) // 2\n    first = specialSearch(arr, x, low, mid)\n    if first != -1: return first\n    second = specialSearch(arr, x, mid + 1, high)\n    return second",
+      "category": "code"
+    }
+  ],
+  "language": "Python",
+  "difficulty": "Medium",
+  "source": {
+    "link": false,
+    "src": "NUS CS2040S Midterm 2021"
+  },
+  "parts": [
+    {
+      "part": "a",
+      "question": "What are the outputs for the following inputs? If you think an error will occur for an input, enter 'error' for that input.",
+      "questionType": "Multiple-Responses",
+      "format": ["arr", "key", "low", "high"],
+      "inputs": [
+        {
+          "arr": [1, 4, 7, 8, 11],
+          "key": 4,
+          "low": 0,
+          "high": 4,
+          "expected": 1
+        },
+        {
+          "arr": [2, 4, 5, 19, 30, 101],
+          "key": 6,
+          "low": 0,
+          "high": 3,
+          "expected": -1
+        },
+        {
+          "arr": [-1, -5, -3, 0, 2, 4, 9, 3],
+          "key": 0,
+          "low": 2,
+          "high": 6,
+          "expected": 3
+        },
+        {
+          "arr": [2, -1, 0, 1, 2, 5, 11],
+          "key": -2,
+          "low": 0,
+          "high": 8,
+          "expected": "error"
+        },
+        {
+          "arr": [2, -4, 0, 3, 2, 5, 11],
+          "key": 5,
+          "low": 1,
+          "high": 3,
+          "expected": -1
+        }
+      ],
+      "points": [5, 5, 10, 15, 15]
+    },
+    {
+      "part": "b",
+      "question": "Which of the following statements is true about the specialSearch function?",
+      "questionType": "MCQ",
+      "options": [
+        {
+          "value": "It may not terminate for certain inputs.",
+          "category": "text"
+        },
+        {
+          "value": "It may return -1, even if the key is in the sorted input array.",
+          "category": "text"
+        },
+        {
+          "value": "It may return the wrong index, even if the key is in the sorted input array.",
+          "category": "text"
+        },
+        {
+          "value": "It may return the wrong index, even if the key is not in the sorted input array.",
+          "category": "text"
+        },
+        {
+          "value": "If the algorithm is initially invoked with a sorted array that contains the key and low=0 and high=arr.length-1, then it satisfies the following property during every recursive call: arr[low] <= key <= arr[high]",
+          "category": "text"
+        },
+        {
+          "value": "If the array is not sorted, the algorithm correctly finds the key annd returns its index if it is in the array and returns -1 if the key is not in the arr.",
+          "category": "text"
+        }
+      ],
+      "points": 20,
+      "expected": 6
+    }
+  ]
+}

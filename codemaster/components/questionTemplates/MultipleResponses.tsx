@@ -9,7 +9,7 @@ export default function MultipleResponses(params: any) {
 
   const questionId: string = data.questionId;
   const partId: string = data.partId;
-  const userEmail: string = data.userEmail;
+  const username: string = data.username;
   const question: string = data.question;
   const part: string = data.part;
   const format: string[] = data.format;
@@ -36,7 +36,7 @@ export default function MultipleResponses(params: any) {
     setSubmitted(true);
     const supabase = createClient();
 
-    const res = await supabase.from("Users").select("*").eq("email", userEmail);
+    const res = await supabase.from("Users").select("*").eq("username", username);
     if (res.error) { console.error(res.error); }
 
     const XP: number = res.data && res.data[0].XP;
@@ -58,7 +58,7 @@ export default function MultipleResponses(params: any) {
     let questionsDone: any[] = res.data && res.data[0].questions_done;
     questionsDone = questionsDone ? questionsDone : [];
 
-    const res2 = await supabase.from("MultipleResponses").select("*").eq("id", partId);
+    const res2 = await supabase.from("Multiple-Responses").select("*").eq("id", partId);
     if (res2.error) { console.error("Can't select from MR table\n" + res2.error); }
 
     let done_by = res2.data && res2.data[0].done_by;
@@ -79,7 +79,8 @@ export default function MultipleResponses(params: any) {
     if (index !== -1) {
       questionDone = questionsDone[index];
       const index2 = questionDone.parts.findIndex((p : any) => p.part === part);
-      if (index2 !== 1) {
+      console.log(questionDone.parts, index2);
+      if (index2 !== -1) {
         partDone = questionDone.parts[index2];
         const status: string[] = partDone.status;
         if (status.every((s: string) => s === "Correct")) {
@@ -119,7 +120,7 @@ export default function MultipleResponses(params: any) {
         partDone = {
           part: part,
           partId: partId,
-          type: "MultipleResponses",
+          type: "Multiple-Responses",
           status: answeredRight,
           pointsAccumulated: total,
           attempts: 1,
@@ -141,7 +142,7 @@ export default function MultipleResponses(params: any) {
           {
             part: part,
             partId: partId,
-            type: "MultipleResponses",
+            type: "Multiple-Responses",
             status: answeredRight,
             pointsAccumulated: total,
             attempts: 1,
@@ -154,11 +155,11 @@ export default function MultipleResponses(params: any) {
       questionsDone.push(questionDone);
     }
 
-    const res5 = await supabase.from("Users").update({questions_done: questionsDone, XP: newXP}).eq("email", userEmail);
+    const res5 = await supabase.from("Users").update({questions_done: questionsDone, XP: newXP}).eq("username", username);
     if (res5.error) { console.error(res5.error); }
     else { console.log("User stats updated") };
     
-    const res6 = await supabase.from("MultipleResponses").update({done_by: done_by, average_score: avg_score}).eq("id", partId);
+    const res6 = await supabase.from("Multiple-Responses").update({done_by: done_by, average_score: avg_score}).eq("id", partId);
     if (res6.error) { console.error("Can't update MR table\n" +res6.error); }
     else { console.log("Multiple Responses stats updated") };
   }  

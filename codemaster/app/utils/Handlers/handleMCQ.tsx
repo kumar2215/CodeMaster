@@ -3,14 +3,16 @@ import { createClient } from "@/utils/supabase/client";
 
 const supabase = createClient();
 
-export default async function handleMCQ(questionPart: any, questionId: string, partId: string, userEmail: any) {
-  const part: string = questionPart.part;
+export default async function handleMCQ(questionPart: any, username: any) {
+  const questionId: string = questionPart.questionId;
+  const partId: string = questionPart.partId;
   const question: string = questionPart.question;
+  const part: string = questionPart.part;
   const options: string[] = questionPart.options;
   const expected: string = questionPart.expected;
   let points: number = questionPart.points;
   
-  const res = await supabase.from("Users").select("*").eq("email", userEmail);
+  const res = await supabase.from("Users").select("*").eq("username", username);
   if (res.error) { console.error(res.error); }
 
   const questionsDone = res.data && res.data[0].questions_done;
@@ -32,7 +34,7 @@ export default async function handleMCQ(questionPart: any, questionId: string, p
             partDone.status = "Too many wrong attempts";
             questionDone.parts[index2] = partDone;
             questionsDone[index] = questionDone;
-            const res2 = await supabase.from("Users").update({questions_done: questionsDone}).eq("email", userEmail);
+            const res2 = await supabase.from("Users").update({questions_done: questionsDone}).eq("username", username);
             if (res2.error) { console.error(res2.error); }
           }
         }
@@ -43,7 +45,7 @@ export default async function handleMCQ(questionPart: any, questionId: string, p
   const data = {
     questionId: questionId,
     partId: partId,
-    userEmail: userEmail,
+    username: username,
     question: question,
     part: part,
     options: options,

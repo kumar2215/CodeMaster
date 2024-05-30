@@ -27,6 +27,7 @@ build/
 coverage/
 
 codemaster/app/questionGeneration/test.py
+codemaster/app/questionGeneration/*.json
 codemaster/.env.local
 
 # npm cache directory

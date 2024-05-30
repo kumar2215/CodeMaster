@@ -40,21 +40,7 @@ export default function SignUp({
       return redirect("/signup?message=Someting went wrong. Please try again.");
     }
 
-    try {
-      alert("Check email to continue sign in process");
-      // return redirect("/signup?message=Check email to continue sign in process"); // mesaage doesn't show, need to fix
-    } catch (error) {
-      console.error(error);
-    } finally {
-      await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-      });
-      const res = await supabase.from("Users").insert([{ username: username, email: email }]);
-      if (res.error) {
-        console.error(res.error);
-      }
-    }
+    return redirect("/signup?message=Check email to continue sign in process");
   };
 
   return (
