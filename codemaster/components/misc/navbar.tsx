@@ -1,7 +1,9 @@
 import PremiumButton from "@/components/buttons/PremiumButton";
 import AuthButton from "@/components/buttons/AuthButton";
 
-export default function Navbar(thisLink: string) {
+export default function Navbar(linkObj: any) {
+
+  const thisLink = linkObj.thisLink;
 
   function createListElement(link: string, title: string) {
 

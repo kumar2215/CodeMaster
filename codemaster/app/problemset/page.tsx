@@ -22,7 +22,7 @@ export default async function ProblemSet() {
 
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
-      {Navbar(thisLink)}
+      <Navbar thisLink={thisLink} />
       <div 
       className="animate-in w-3/4 h-full grid grid-cols-2 grid-rows-2 gap-20 opacity-0 px-3"
       > 

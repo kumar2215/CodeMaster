@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import axios from 'axios';
 
@@ -30,7 +30,7 @@ export default function FreeStyle ({data}: {data: any}) {
         function_name: function_name,
         format: format
       });
-      console.log(response.data.details)
+      // console.log(response.data.details)
       if (response.data.message == 'Some tests failed') {
         setOutput("Some tests failed")
         setFailedTests(response.data.details)

@@ -86,7 +86,7 @@ export default async function upload(question: Question) {
       if (error) { console.error(error); return;}
       const part_id = res && res[0].id;
       parts[i] = {
-        type: "Multiple-Responses",
+        type: "MultipleResponses",
         part_id: part_id
       }
     }

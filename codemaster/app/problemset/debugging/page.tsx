@@ -29,12 +29,12 @@ export default async function Debugging() {
   const { data: questions, error: err2 } = await supabase.from("Questions").select(`*`).eq("type", "Debugging");
   if (err2) { console.error(err2); }
   
-  if (questions) { // need to modify this logic
+  if (questions) { // need to modify this logic // done
     for (let i = 0; i < questions.length; i++) {
       if (questionIdsDoneByUser && questionIdsDoneByUser.includes(questions[i].id)) {
         const question = questionsDoneByUser[questionIdsDoneByUser.indexOf(questions[i].id)];
         questions[i].status = question.status;
-        questions[i].points = question.points;
+        questions[i].points = `${question.pointsAccumulated}/${questions[i].points}`;
       } else {
         questions[i].status = "Not Attempted";
       }
@@ -43,7 +43,7 @@ export default async function Debugging() {
   
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
-    {Navbar(thisLink)}
+    <Navbar thisLink={thisLink} />
     <div className="grid grid-rows-2 max-w-4xl max-h-24">
     <h2 className="text-2xl font-bold">Debugging</h2>
     <p className="text-base leading-7">
@@ -57,6 +57,7 @@ export default async function Debugging() {
     </div>
     <h2 className="max-h-3 leading-3"/>
     {questions && <Table data={questions} />}
+    <br/>
     </div>
   );
 }
