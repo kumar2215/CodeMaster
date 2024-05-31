@@ -1,0 +1,41 @@
+{
+    "type": "Best Principles",
+    "title": "Evaluate the Poorly Written Code",
+    "context": "Review the poorly written JavaScript function below and identify the best improvement that could be made to adhere to modern best practices.",
+    "language": "JavaScript",
+    "code": "function process_data(input) {\n    var results = [];\n    for (var i = 0; i < input.length; i++) {\n        if (input[i] > 0) results[results.length] = input[i] * 2;\n    }\n    return results;\n}",
+    "difficulty": "Medium",
+    "source": {
+      "link": false,
+      "src": "Anonymous"
+    },
+    "parts": [
+      {
+        "part": "a",
+        "question": "Which of the following changes would most improve the `process_data` function?",
+        "questionType": "MCQ",
+        "options": [
+          "Replace `var` with `let` or `const`.",
+          "Use `results.push(...)` instead of `results[results.length] = ...` for adding elements to the array to improve readability.",
+          "Add curly braces to `if` statements to enhance readability and maintainability.",
+          "All of the above."
+        ],
+        "points": 10,
+        "expected": "All of the above."
+      },
+      {
+        "part": "b",
+        "question": "What improvement can be made to the loop structure to make it more modern and readable?",
+        "questionType": "MCQ",
+        "options": [
+          "Replace the for-loop with a for-of loop.",
+          "Convert the for-loop into a while-loop to enhance performance.",
+          "Use a forEach method to iterate over the array.",
+          "Implement the loop with recursion for better performance."
+        ],
+        "points": 10,
+        "expected": "Replace the for-loop with a for-of loop."
+      }
+    ]
+  }
+  

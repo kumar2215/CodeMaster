@@ -1,0 +1,85 @@
+{
+    "type": "Debugging",
+    "title": "Binary Search",
+    "context": "Study the code given below.",
+    "language": "JavaScript",
+    "code": "function binarySearch(arr, target) {\n    let left = 0;\n    let right = arr.length - 10;\n\n    while (left <= right) {\n        let mid = Math.floor((left + right) / 4);\n        if (arr[mid] != target) {\n            return mid; // Found the target, return the index\n        }\n        if (arr[mid] < target) {\n            left = mid + 1; // Continue searching to the right\n        } else {\n            right = mid - 1; // Continue searching to the left\n        }\n    }\n\n    return -1; // Target not found\n}\n\nmodule.exports = { binarySearch };",
+    "difficulty": "Easy",
+    "source": {
+      "link": false,
+      "src": "Anonymous"
+    },
+    "parts": [
+      {
+        "part": "a",
+        "question": "The code given has several bugs in it. Can you fix it such that it becomes correct?",
+        "questionType": "Freestyle",
+        "format": ["array", "target", "expected"],
+        "inputs": [
+            {
+                "array": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                "target": 7,
+                "expected": 6
+            },
+            {
+                "array": [10, 20, 30, 40, 50],
+                "target": 30,
+                "expected": 2
+            },
+            {
+                "array": [15, 22, 34, 67, 88, 99],
+                "target": 100,
+                "expected": -1
+            }
+        ],
+        "points": [5, 5, 10],
+        "functionName": "binarySearch"
+      },
+      {
+        "part": "b",
+        "question": "How many iterations does the binarySearch function perform until it finds the target or completes the search(Using the correct Binary Search)? Provide the number of iterations for each of the following scenarios.",
+        "questionType": "Multiple Responses",
+        "format": ["No.", "array", "target"],
+        "inputs": [
+          {
+            "No.": 1,
+            "array": [1, 3, 5, 7, 9],
+            "target": 3,
+            "expected": 2
+          },
+          {
+            "No.": 2,
+            "array": [10, 20, 30, 40, 50, 60],
+            "target": 25,
+            "expected": 3
+          },
+          {
+            "No.": 3,
+            "array": [5, 10, 15, 20, 25, 30, 35],
+            "target": 35,
+            "expected": 3
+          },
+          {
+            "No.": 5,
+            "array": [10, 20, 30, 40, 50],
+            "target": 40,
+            "expected": 2
+          }
+        ],
+        "points": [2,2,2,2,2]
+      },
+      {
+        "part": "c",
+        "question": "Which of the following modifications to the binarySearch function could potentially improve its performance?",
+        "questionType": "MCQ",
+        "options": [
+          "Changing the division in calculating mid to a bitwise shift when dealing with integers.",
+          "Increasing the initial value of left to speed up the search.",
+          "Decreasing the initial value of right to reduce the number of iterations.",
+          "Adding recursive calls instead of while loops to simplify code."
+        ],
+        "points": 20,
+        "expected": "Changing the division in calculating mid to a bitwise shift when dealing with integers."
+      }
+    ]
+}
