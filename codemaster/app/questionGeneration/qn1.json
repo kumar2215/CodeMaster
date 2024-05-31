@@ -26,7 +26,7 @@
       {
         "part": "b",
         "question": "Which of the following data structures cannot replace the dictionary used in the `isValid` function to map closing brackets to their corresponding opening brackets? Select all that apply.",
-        "questionType": "MRQ",
+        "questionType": "MCQ",
         "options": [
             "List of tuples, where each tuple contains a pair of matching opening and closing brackets.",
             "Set of tuples, where each tuple contains a pair of matching opening and closing brackets.",
@@ -42,7 +42,7 @@
       {
         "part": "c",
         "question": "Modify the function to return the position of the first incorrect bracket if the string is invalid or -1 if the string is valid.",
-        "questionType": "MRQ",
+        "questionType": "Freestyle",
         "format": ["string", "expected"],
         "inputs": [
           {
