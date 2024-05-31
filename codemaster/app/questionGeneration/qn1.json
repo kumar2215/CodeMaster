@@ -1,9 +1,17 @@
 {
     "type": "Code Understanding",
     "title": "Valid Parentheses Checker",
-    "context": "Analyze the provided function designed to check the validity of a string containing just the characters '(', ')', '{', '}', '[' and ']'. Enhance the function to provide more detailed output.",
+    "content": [
+      {
+        "value": "Analyze the provided function designed to check the validity of a string containing just the characters '(', ')', '{', '}', '[' and ']'. Enhance the function to provide more detailed output.",
+        "cateogory": "text"
+      },
+      {
+        "value": "function isValid(s) {\n    let stack = [];\n    let mapping = { ')': '(', '}': '{', ']': '[' };\n    for (let char of s) {\n        if (char in mapping) {\n            let topElement = stack.length > 0 ? stack.pop() : '#';\n            if (mapping[char] !== topElement) {\n                return false;\n            }\n        } else {\n            stack.push(char);\n        }\n    }\n    return stack.length === 0;\n}",
+        "cateogory": "code"
+      }
+    ],
     "language": "Javascript",
-    "code": "function isValid(s) {\n    let stack = [];\n    let mapping = { ')': '(', '}': '{', ']': '[' };\n    for (let char of s) {\n        if (char in mapping) {\n            let topElement = stack.length > 0 ? stack.pop() : '#';\n            if (mapping[char] !== topElement) {\n                return false;\n            }\n        } else {\n            stack.push(char);\n        }\n    }\n    return stack.length === 0;\n}",
     "difficulty": "Easy",
     "source": {
       "link": "https://leetcode.com/problems/valid-parentheses/description/",
@@ -28,15 +36,26 @@
         "question": "Which of the following data structures cannot replace the dictionary used in the `isValid` function to map closing brackets to their corresponding opening brackets? Select all that apply.",
         "questionType": "MCQ",
         "options": [
-            "List of tuples, where each tuple contains a pair of matching opening and closing brackets.",
-            "Set of tuples, where each tuple contains a pair of matching opening and closing brackets.",
-            "Two arrays, one for opening brackets and one for closing brackets, where indices of matching brackets correspond.",
-            "A single array containing only opening brackets, relying on their order to match with closing brackets in the code."
+          {
+            "value" : "List of tuples, where each tuple contains a pair of matching opening and closing brackets.",
+            "category" : "text"
+          },
+          {
+            "value" : "Set of tuples, where each tuple contains a pair of matching opening and closing brackets.",
+            "category" : "text"
+          },
+          {
+            "value" : "Two arrays, one for opening brackets and one for closing brackets, where indices of matching brackets correspond.",
+            "category" : "text"
+          },
+          {
+            "value" : "A single array containing only opening brackets, relying on their order to match with closing brackets in the code.",
+            "category" : "text"
+          }
+
         ],
         "points": 5,
-        "expected": [
-            "A single array containing only opening brackets, relying on their order to match with closing brackets in the code."
-        ]
+        "expected": 4
     }
     ,
       {
@@ -63,7 +82,9 @@
           }
         ],
         "points": [2,2,2,2],
-        "functionName" : "isValid"
+        "functionName" : "isValid",
+        "code": "function isValid(s) {\n    let stack = [];\n    let mapping = { ')': '(', '}': '{', ']': '[' };\n    for (let char of s) {\n        if (char in mapping) {\n            let topElement = stack.length > 0 ? stack.pop() : '#';\n            if (mapping[char] !== topElement) {\n                return false;\n            }\n        } else {\n            stack.push(char);\n        }\n    }\n    return stack.length === 0;\n}"
+
       }
     ]
 }

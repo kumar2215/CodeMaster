@@ -1,9 +1,18 @@
 {
     "type": "Debugging",
     "title": "Binary Search",
-    "context": "Study the code given below.",
+    "content": [
+      {
+        "value": "Study the code given below.",
+        "category": "text"
+
+      },
+      {
+        "value": "function binarySearch(arr, target) {\n    let left = 0;\n    let right = arr.length - 10;\n\n    while (left <= right) {\n        let mid = Math.floor((left + right) / 4);\n        if (arr[mid] != target) {\n            return mid; // Found the target, return the index\n        }\n        if (arr[mid] < target) {\n            left = mid + 1; // Continue searching to the right\n        } else {\n            right = mid - 1; // Continue searching to the left\n        }\n    }\n\n    return -1; // Target not found\n}\n\nmodule.exports = { binarySearch };",
+        "category": "code"
+      }
+    ],
     "language": "JavaScript",
-    "code": "function binarySearch(arr, target) {\n    let left = 0;\n    let right = arr.length - 10;\n\n    while (left <= right) {\n        let mid = Math.floor((left + right) / 4);\n        if (arr[mid] != target) {\n            return mid; // Found the target, return the index\n        }\n        if (arr[mid] < target) {\n            left = mid + 1; // Continue searching to the right\n        } else {\n            right = mid - 1; // Continue searching to the left\n        }\n    }\n\n    return -1; // Target not found\n}\n\nmodule.exports = { binarySearch };",
     "difficulty": "Easy",
     "source": {
       "link": false,
@@ -33,7 +42,8 @@
             }
         ],
         "points": [5, 5, 10],
-        "functionName": "binarySearch"
+        "functionName": "binarySearch",
+        "code": "function binarySearch(arr, target) {\n    let left = 0;\n    let right = arr.length - 10;\n\n    while (left <= right) {\n        let mid = Math.floor((left + right) / 4);\n        if (arr[mid] != target) {\n            return mid; // Found the target, return the index\n        }\n        if (arr[mid] < target) {\n            left = mid + 1; // Continue searching to the right\n        } else {\n            right = mid - 1; // Continue searching to the left\n        }\n    }\n\n    return -1; // Target not found\n}\n\nmodule.exports = { binarySearch };"
       },
       {
         "part": "b",
@@ -67,19 +77,6 @@
           }
         ],
         "points": [2,2,2,2,2]
-      },
-      {
-        "part": "c",
-        "question": "Which of the following modifications to the binarySearch function could potentially improve its performance?",
-        "questionType": "MCQ",
-        "options": [
-          "Changing the division in calculating mid to a bitwise shift when dealing with integers.",
-          "Increasing the initial value of left to speed up the search.",
-          "Decreasing the initial value of right to reduce the number of iterations.",
-          "Adding recursive calls instead of while loops to simplify code."
-        ],
-        "points": 20,
-        "expected": "Changing the division in calculating mid to a bitwise shift when dealing with integers."
       }
     ]
 }
