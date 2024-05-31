@@ -14,8 +14,8 @@
     "language": "Javascript",
     "difficulty": "Easy",
     "source": {
-      "link": "https://leetcode.com/problems/valid-parentheses/description/",
-      "src": "leetcode"
+      "link": true,
+      "src": "https://leetcode.com/problems/valid-parentheses/description/"
     },
     "parts": [
       {
@@ -23,10 +23,26 @@
         "question": "Which of the following best describes the function's method for validating parentheses?",
         "questionType": "MCQ",
         "options": [
-          "The function iterates through the string and removes all parentheses to see if any remain.",
-          "The function uses a queue to add each character and then dequeues them to check for validity.",
-          "The function uses a stack to manage opening brackets and checks matching closing brackets against the top of the stack.",
-          "The function recursively replaces adjacent pairs of valid brackets until no more can be replaced."
+          {
+            "value" : "The function iterates through the string and removes all parentheses to see if any remain.",
+
+            "category" : "text"
+          },
+          {
+            "value" :  "The function uses a queue to add each character and then dequeues them to check for validity.",
+
+            "category" : "text"
+          },
+          {
+            "value" :  "The function uses a stack to manage opening brackets and checks matching closing brackets against the top of the stack.",
+
+            "category" : "text"
+          },
+          {
+            "value" : "The function recursively replaces adjacent pairs of valid brackets until no more can be replaced.",
+            "category" : "text"
+          }
+
         ],
         "points": 5,
         "expected": "The function uses a stack to manage opening brackets and checks matching closing brackets against the top of the stack."
@@ -65,25 +81,25 @@
         "format": ["string", "expected"],
         "inputs": [
           {
-            "Input String": "()[]{}",
+            "string": "()[]{}",
             "expected": -1
           },
           {
-            "Input String": "(]",
+            "string": "(]",
             "expected": 1
           },
           {
-            "Input String": "([)]",
+            "string": "([)]",
             "expected": 2
           },
           {
-            "Input String": "{[()]}",
+            "string": "{[()]}",
             "expected": -1
           }
         ],
         "points": [2,2,2,2],
         "functionName" : "isValid",
-        "code": "function isValid(s) {\n    let stack = [];\n    let mapping = { ')': '(', '}': '{', ']': '[' };\n    for (let char of s) {\n        if (char in mapping) {\n            let topElement = stack.length > 0 ? stack.pop() : '#';\n            if (mapping[char] !== topElement) {\n                return false;\n            }\n        } else {\n            stack.push(char);\n        }\n    }\n    return stack.length === 0;\n}"
+        "code": "function isValid(string) {\n    let stack = [];\n    let mapping = { ')': '(', '}': '{', ']': '[' };\n    for (let char of s) {\n        if (char in mapping) {\n            let topElement = stack.length > 0 ? stack.pop() : '#';\n            if (mapping[char] !== topElement) {\n                return false;\n            }\n        } else {\n            stack.push(char);\n        }\n    }\n    return stack.length === 0;\n}"
 
       }
     ]

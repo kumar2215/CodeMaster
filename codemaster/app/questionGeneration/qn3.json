@@ -25,22 +25,18 @@
         "options": [
           {
             "value" :  "Replace `var` with `let` or `const`.",
-
             "category" : "text"
           },
           {
             "value" : "Use `results.push(...)` instead of `results[results.length] = ...` for adding elements to the array to improve readability.",
-
             "category" : "text"
           },
           {
             "value" : "Add curly braces to `if` statements to enhance readability and maintainability.",
-
             "category" : "text"
           },
           {
             "value" : "All of the above.",
-
             "category" : "text"
           }
 
@@ -55,7 +51,6 @@
         "options": [
           {
             "value" :  "Replace the for-loop with a for-of loop.",
-
             "category" : "text"
           },
           {
@@ -64,12 +59,10 @@
           },
           {
             "value" :  "Use a forEach method to iterate over the array.",
-
             "category" : "text"
           },
           {
             "value" :  "Implement the loop with recursion for better performance.",
-
             "category" : "text"
           }
 
