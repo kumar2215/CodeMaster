@@ -1,14 +1,18 @@
-import Parser from "@/app/utils/parser";
+import Parser from "@/app/utils/Parsers/parser";
 
 function placeInCodeBox(code: string, language: string) {
-  const indents = code.split("\n");
-  
+  const lines = code.split("\n");
+  let lastLine = lines.length - 1;
+  while (lines[lastLine].trim() === "") lastLine--;
+  const overflow = lines.some((line) => line.length > 105) ? "overflow-x-scroll" : "";
+
   return (
-    <div className="flex bg-gray-100 p-2 m-2 rounded-lg shadow-md font-mono leading-loose">
+    <div className={`flex w-full max-w-4xl bg-gray-100 p-2 m-2 rounded-lg shadow-md font-mono ${overflow}`}>
     {/* Line Numbers */}
     <div className="flex flex-col items-end pr-2 border-r border-gray-300 text-gray-500">
-    {indents.map((indent: string, index: number) => (
-      <span key={index} className="text-base text-end leading-loose">
+    {lines.map((line: string, index: number) => (
+      index <= lastLine &&
+      <span key={index} className="text-base text-end">
       {index+1}
       </span>
     ))}

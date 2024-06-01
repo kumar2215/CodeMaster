@@ -15,8 +15,9 @@ export default function MultipleResponses(params: any) {
   const format: string[] = data.format;
   const inputs: any[] = data.inputs;
   const points: number[] = data.points;
+  const source = data.source;
 
-  const inputStates: any[] = inputs.map((input: any) => {return useState("");});
+  const inputStates: any[] = inputs.map((input: any) => useState(""));
   const [submitted, setSubmitted] = useState(false);
   const [additionalPoints, setAdditionalPoints] = useState(0);
   const answeredRight: string[] = Array(inputs.length).fill("Incorrect");
@@ -65,7 +66,7 @@ export default function MultipleResponses(params: any) {
     let avg_score = res2.data && res2.data[0].average_score;
 
     const index = questionsDone.findIndex(
-      (question: { id: string; partId: string}) => question.id === questionId);
+      (question: { id: string }) => question.id === questionId);
 
     let questionDone: any = {};
     let partDone: any = {};
@@ -79,7 +80,6 @@ export default function MultipleResponses(params: any) {
     if (index !== -1) {
       questionDone = questionsDone[index];
       const index2 = questionDone.parts.findIndex((p : any) => p.part === part);
-      console.log(questionDone.parts, index2);
       if (index2 !== -1) {
         partDone = questionDone.parts[index2];
         const status: string[] = partDone.status;
@@ -152,6 +152,16 @@ export default function MultipleResponses(params: any) {
       }
       avg_score = (avg_score * done_by + total) / (done_by + 1);
       done_by += 1;
+      if (partsAvailable === 1 && answeredRight.every((s: string) => s === "Correct")) {
+        questionDone.status = "Completed";
+        let completed_by = questionData.completed_by;
+        let q_avg_score = questionData.average_score;
+        q_avg_score = (q_avg_score * completed_by + total) / (completed_by + 1);
+        completed_by += 1;
+        const res4 = await supabase.from("Questions")
+        .update({ completed_by: completed_by, average_score: q_avg_score }).eq("id", questionId);
+        if (res4.error) { console.error(res4.error); }
+      }
       questionsDone.push(questionDone);
     }
 
@@ -160,16 +170,21 @@ export default function MultipleResponses(params: any) {
     else { console.log("User stats updated") };
     
     const res6 = await supabase.from("Multiple-Responses").update({done_by: done_by, average_score: avg_score}).eq("id", partId);
-    if (res6.error) { console.error("Can't update MR table\n" +res6.error); }
+    if (res6.error) { console.error(res6.error); }
     else { console.log("Multiple Responses stats updated") };
   }  
   return (
-    <div className="w-full max-w-5xl flex flex-col bg-slate-50 p-3 border-4">
+    <div className={!source ? "w-full max-w-5xl bg-slate-50 p-3 border-4" : ""}>
     <form>
+    {part !== "null"
+    ? (
     <div className="flex flex-row p-2">
-    <span className="text-lg font-bold pr-2">{`(${part})`}</span>
-    <p className="text-lg font-medium">{question}</p>
-    </div>
+      <span className="text-lg font-bold pr-2">{`(${part})`}</span>
+      <p className="text-lg font-medium">{question}</p>
+    </div>)
+    : (
+    <div className="text-lg text-gray-500 min-h-10">{question}</div>
+    )}
     <div 
     style={{
       display: "grid",
@@ -242,6 +257,21 @@ export default function MultipleResponses(params: any) {
         )
       })}
       </div>
+      { source 
+      ? source.link
+      ? <div className="text-lg font-medium leading-10">
+      <p>source: 
+      <a 
+      href={source.src}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:text-blue-500 hover:underline cursor-pointer px-2"
+      >{source.src}</a>
+      </p>
+      </div>
+      : <div className="text-lg font-medium leading-10">source: {source.src}</div>
+      : <></>
+      }
       <div className="flex flex-row justify-between p-2 pl-4 m-2 mb-0">
       <SubmitButton
         formAction={handleSubmit}

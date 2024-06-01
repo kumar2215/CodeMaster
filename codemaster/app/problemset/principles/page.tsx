@@ -26,7 +26,7 @@ export default async function Debugging() {
   const questionsDoneByUser = userData && userData[0].questions_done;
   const questionIdsDoneByUser = questionsDoneByUser && questionsDoneByUser.map((question: { id: any; }) => question.id);
   
-  const { data: questions, error: err2 } = await supabase.from("Questions").select(`*`).eq("type", "Debugging");
+  const { data: questions, error: err2 } = await supabase.from("Questions").select(`*`).eq("type", "Code Principles");
   if (err2) { console.error(err2); }
   
   if (questions) {
@@ -45,14 +45,11 @@ export default async function Debugging() {
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
     <Navbar thisLink={thisLink} />
     <div className="grid grid-rows-2 max-w-4xl max-h-24">
-    <h2 className="text-2xl font-bold">Debugging</h2>
+    <h2 className="text-2xl font-bold">Good Code Principles</h2>
     <p className="text-base leading-7">
-    Debugging is the process of finding and fixing errors in a computer
-    program. It is a crucial step in the development process, as even small
-    errors can cause a program to behave unexpectedly or crash. In this
-    section, the programming problems provided are code snippets that
-    contain bugs and require you to identify and fix the bugs in the
-    code to make the program work correctly.
+    Good code principles are a set of guidelines that help developers write clean, maintainable, and efficient code. 
+    By following these principles, developers can create code that is easy to read, understand, and modify. 
+    In this section, you will learn about some of the most important code principles and how to apply them in your own projects.
     </p>
     </div>
     <h2 className="max-h-3 leading-3"/>

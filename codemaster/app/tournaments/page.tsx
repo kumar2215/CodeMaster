@@ -17,7 +17,7 @@ export default async function TournamentsPage() {
 
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
-      {Navbar(thisLink)}
+      <Navbar thisLink={thisLink} />
       <div className="text-xl font-bold">
         <h1>Not implemented yet</h1>
       </div>

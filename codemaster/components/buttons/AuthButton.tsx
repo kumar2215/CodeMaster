@@ -12,11 +12,13 @@ export default async function AuthButton() {
   } = await supabase.auth.getUser();
 
   const username = user?.user_metadata.username;
-  const res = await supabase.from("Users").select('*').eq("username", username);
-  if (res.error) { console.error(res.error); }
-  if (res.data?.length === 0) {
-    const res2 = await supabase.from("Users").insert({username: username, email: user?.email});
-    if (res2.error) { console.error(res2.error); }
+  if (username) {
+    const res = await supabase.from("Users").select('*').eq("username", username);
+    if (res.error) { console.error(res.error); }
+    if (res.data?.length === 0) {
+      const res2 = await supabase.from("Users").insert({username: username, email: user?.email});
+      if (res2.error) { console.error(res2.error); }
+    }
   }
 
   const signOut = async () => {

@@ -11,15 +11,21 @@ const execPromise = promisify(exec);
 export async function POST(req) {
     try {
         const data = await req.json();
-        console.log('Received data:', data);
-        const { code, questionId, testcases, function_name, format } = data;
+        // console.log('Received data:', data);
+        const { code, questionId, tests, function_name, format } = data;
+
+        const testcases = [];
+        for (let i = 0; i < tests.length; i++) {
+            testcases.push(tests[i].input);
+        }
+        // console.log("Testcases: ", testcases);
 
         if (!code) {
-            console.log('Code not provided');
+            // console.log('Code not provided');
             return NextResponse.json({ message: 'Code not provided' }, { status: 400 });
         }
         const currentDirectory = process.cwd();
-        console.log(testcases, "hello")
+        // console.log(testcases, "hello")
 
         const completeCode = `${code}\nmodule.exports = { ${function_name} };`;
         const codeStoragePath = path.resolve(currentDirectory, 'userCodeStorage', `${questionId}.js`);
@@ -27,9 +33,7 @@ export async function POST(req) {
 
         // Write the code written by user into a js file
         await writeFile(codeStoragePath, completeCode);
-
         await writeFile(testcasesPath, JSON.stringify(testcases), 'utf8');
-
 
         // Ensure the paths are correct
         // console.log('Code storage path:', codeStoragePath);
@@ -77,7 +81,7 @@ export async function POST(req) {
             }, { status: 200 });
         }
     } catch (error) {
-        console.log('Caught error:', error.message, "hellokid");
+        console.log('Caught error:', error.message);
         //Hide several sensitive infomation
         const cleanedError = error.message.replace(/\/usr\/src\/app\/[^\s]*/g, '[hidden path]')
         .replace(/Command failed:.*/g, '[hidden command]');

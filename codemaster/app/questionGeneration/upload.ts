@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import fs from "fs";
-import question from "./sample2.json";
+import question from "./sample3.json";
 
 const envFile = fs.readFileSync("../../.env.local").toString();
 const lines = envFile.split("\n");
@@ -74,7 +74,7 @@ export default async function upload(question: any) {
       }
     }
 
-    if (questionType === "Freestyle") {
+    else if (questionType === "Freestyle") {
       const code = part.code;
       const format: string[] = part.format;
       const inputs = part.inputs;
@@ -106,7 +106,7 @@ export default async function upload(question: any) {
       }
     }
 
-    if (questionType === "MCQ") {
+    else if (questionType === "MCQ") {
       const options = part.options;
       const points = part.points;
       total_points += points;
@@ -118,6 +118,22 @@ export default async function upload(question: any) {
       const part_id = res && res[0].id;
       parts[i] = {
         type: "MCQ",
+        part_id: part_id
+      }
+    }
+
+    else if (questionType === "MRQ") {
+      const options = part.options;
+      const points = part.points;
+      total_points += points;
+      const expected = part.expected;
+      const { data: res, error } = await supabase.from("MRQ").insert({
+        part: partValue, question: question, options: options, points: points, expected: expected
+      }).select();
+      if (error) { console.error(error); return; }
+      const part_id = res && res[0].id;
+      parts[i] = {
+        type: "MRQ",
         part_id: part_id
       }
     }

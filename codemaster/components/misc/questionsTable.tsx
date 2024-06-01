@@ -1,12 +1,40 @@
+"use client";
 import Link  from "next/link";
+import { useState } from "react";
 import completedLogo from "@/assets/completed-mark.jpg";
 import attemptedLogo from "@/assets/attempted-mark.jpg";
 
 export default function Table(data: any) {
   const questions = data.data;
+
+  const pythonQuestions = questions.filter((question: { language: string; }) => question.language === "Python");
+  const javaQuestions = questions.filter((question: { language: string; }) => question.language === "Java");
+  const cppQuestions = questions.filter((question: { language: string; }) => question.language === "C++");
+  const jsQuestions = questions.filter((question: { language: string; }) => question.language === "JavaScript");
+  const [filteredQuestions, setFilteredQuestions] = useState(pythonQuestions);
+  const [selectedLanguage, setSelectedLanguage] = useState("Python");
+
+  function createListElement(language: string, questions: any[]) {
+    return (
+    <li 
+      className={`${selectedLanguage === language ? "bg-red-200" : "bg-gray-300"} flex flex-col border-black p-1 rounded-t-lg`} 
+      style={{borderWidth: "1px", borderBottom: "none"}}
+      onClick={() => selectedLanguage !== language && (setFilteredQuestions(questions), setSelectedLanguage(language))}
+      >
+        <button className="text-lg align-middle font-semibold pt-1 px-1">{language}</button>
+    </li>
+    );
+  }
   
   return (
-    <div className="flex flex-col w-full max-w-4xl border-2 border-gray-400">
+    <div className="flex flex-col w-full max-w-4xl gap-0">
+    <ul className="flex flex-row">
+      {createListElement("Python", pythonQuestions)}
+      {createListElement("C++", cppQuestions)}
+      {createListElement("Java", javaQuestions)}
+      {createListElement("JavaScript", jsQuestions)}
+    </ul> 
+    <div className="border-2 border-gray-400">
     <div
     style={{
       display: 'grid',
@@ -27,7 +55,7 @@ export default function Table(data: any) {
     <div>Points</div>
     </div>
     
-    {questions.map((entry: any, index: number) => {
+    {filteredQuestions.map((entry: any, index: number) => {
       const color = entry.difficulty === "Easy" 
       ? "text-green-500" 
       : entry.difficulty === "Medium" 
@@ -74,6 +102,7 @@ export default function Table(data: any) {
     <div>{entry.points}</div>
     </div>
   })}
+  </div>
   </div>
 );
 };
