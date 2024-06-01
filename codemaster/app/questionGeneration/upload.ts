@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import fs from "fs";
-import question from "./sample3.json";
+import question from "./sample2.json";
 
 const envFile = fs.readFileSync("../../.env.local").toString();
 const lines = envFile.split("\n");
