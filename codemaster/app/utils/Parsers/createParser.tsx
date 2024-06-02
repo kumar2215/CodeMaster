@@ -1,24 +1,6 @@
 "use client";
 import React from "react";
 
-function interceptKeys(evt: any) {
-  evt = evt || window.event; // IE support
-  const c = evt.keyCode;
-  const ctrlDown = evt.ctrlKey || evt.metaKey; // Mac support
-
-  if (ctrlDown && evt.altKey) return true;
-
-  // Check for ctrl+c, v and x
-  if (ctrlDown && (c === 67 || c === 86 || c === 88)) {
-    alert("No cheating allowed!");
-    evt.preventDefault();
-    return false;
-  }
-
-  // Otherwise allow
-  return true;
-}
-
 class createParser {
 
   blueKeywords: string[];
@@ -43,7 +25,7 @@ class createParser {
     while (lines[lastLine].trim() === "") lastLine--;
 
     return (
-      <div className="pl-4 text-base" onKeyDown={interceptKeys} onContextMenu={() => false}>
+      <div className="pl-4 text-base" onContextMenu={() => false}>
       {lines.map((line: string, index: number) => {
       let indent = 0;
       if (line === "" && index < lastLine) return <div key={index} className="flex flex-row"><br /></div>;

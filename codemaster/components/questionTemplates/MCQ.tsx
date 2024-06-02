@@ -80,21 +80,6 @@ export default function MCQ(params: any) {
         partDone.pointsAccumulated = additionalPoints;
         questionDone.parts[index2] = partDone;
         avg_score = (avg_score * done_by + additionalPoints) / done_by;
-        const Total = questionDone.parts.reduce((acc: number, p: any) => acc + p.pointsAccumulated, 0);
-        questionDone.pointsAccumulated = Total;
-        if (partsAvailable === questionDone.parts.length) {
-          if (questionDone.parts.every((p: any) => p.status === "Correct" || p.status.every((s: string) => s === "Correct"))) {
-            questionDone.status = "Completed";
-            let completed_by = questionData.completed_by;
-            let q_avg_score = questionData.average_score;
-            q_avg_score = (q_avg_score * completed_by + Total) / (completed_by + 1);
-            completed_by += 1;
-            const res4 = await supabase.from("Questions")
-            .update({ completed_by: completed_by, average_score: q_avg_score }).eq("id", questionId);
-            if (res4.error) { console.error(res4.error);
-            }
-          }
-        }
         partDone.attempts += 1;
       } 
       
@@ -108,7 +93,7 @@ export default function MCQ(params: any) {
           attempts: 1
         };
         avg_score = (avg_score * done_by + additionalPoints) / (done_by + 1);
-        done_by += 1;
+        done_by += 1
         questionDone.parts.push(partDone);
         questionDone.pointsAccumulated = questionDone.parts.reduce((acc: number, p: any) => acc + p.pointsAccumulated, 0);
       }
@@ -134,16 +119,23 @@ export default function MCQ(params: any) {
       };
       avg_score = (avg_score * done_by + additionalPoints) / (done_by + 1);
       done_by += 1;
-      if (partsAvailable === 1 && selectedOption === expected) {
+      questionsDone.push(questionDone);
+    }
+
+    const Total = questionDone.parts.reduce((acc: number, p: any) => acc + p.pointsAccumulated, 0);
+    questionDone.pointsAccumulated = Total;
+    if (partsAvailable === questionDone.parts.length) {
+      if (questionDone.parts.every((p: any) => p.status === "Correct" || p.status.every((s: string) => s === "Correct"))) {
+        questionDone.status = "Completed";
         let completed_by = questionData.completed_by;
         let q_avg_score = questionData.average_score;
-        q_avg_score = (q_avg_score * completed_by + additionalPoints) / (completed_by + 1);
+        q_avg_score = (q_avg_score * completed_by + Total) / (completed_by + 1);
         completed_by += 1;
         const res4 = await supabase.from("Questions")
         .update({ completed_by: completed_by, average_score: q_avg_score }).eq("id", questionId);
-        if (res4.error) { console.error(res4.error); }
+        if (res4.error) { console.error(res4.error);
+        }
       }
-      questionsDone.push(questionDone);
     }
       
     const res5 = await supabase.from("Users").update({ XP: newXP, questions_done: questionsDone }).eq("username", username);

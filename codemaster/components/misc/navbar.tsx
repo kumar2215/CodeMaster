@@ -1,5 +1,6 @@
 import PremiumButton from "@/components/buttons/PremiumButton";
 import AuthButton from "@/components/buttons/AuthButton";
+import React from "react";
 
 export default function Navbar(linkObj: any) {
 
