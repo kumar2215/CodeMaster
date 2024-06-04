@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { createClient } from "@/utils/supabase/client";
 import { SubmitButton } from '@/components/buttons/submit-button';
+import {toast} from "react-toastify";
 
 export default function MultipleResponses(params: any) {
 
@@ -30,7 +31,7 @@ export default function MultipleResponses(params: any) {
 
   const handleSubmit = async () => {
     if (inputStates.some((inputState: any) => inputState[0] === "")) { 
-      alert("Please fill in all the inputs before submitting.");
+      toast("Please fill in all the inputs before submitting.", {type: "warning", autoClose: 3000});
       return; 
     }
 
@@ -84,10 +85,10 @@ export default function MultipleResponses(params: any) {
         partDone = questionDone.parts[index2];
         const status: string[] = partDone.status;
         if (status.every((s: string) => s === "Correct")) {
-          alert("You have already answered this part correctly."); 
+          toast("You have already answered this part correctly.", {type: "info", autoClose: 3000});
           return; 
         } else if (status.every((s: string) => s === "Too many wrong attempts")) {
-          alert("You have already attempted this part too many times.");
+          toast("You have already attempted this part too many times.", {type: "info", autoClose: 3000});
           return;
         }
         const prevScore = partDone.pointsAccumulated;

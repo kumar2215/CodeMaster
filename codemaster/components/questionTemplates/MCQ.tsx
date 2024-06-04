@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { createClient } from "@/utils/supabase/client";
 import { SubmitButton } from '@/components/buttons/submit-button';
-import placeInCodeBox from '@/components/codeBoxes/codeBox';
+import placeInCodeBox from '@/components/codeBoxes/CodeBox';
+import {toast} from "react-toastify";
 
 export default function MCQ(params: any) {
   
@@ -28,7 +29,7 @@ export default function MCQ(params: any) {
   
   const handleSubmit = async () => {
     if (!selectedOption) {
-      alert("Please select an option before submitting.");
+      toast("Please select an option before submitting.", {type: "warning", autoClose: 3000});
       return;
     }
     setSubmitted(true);
@@ -70,10 +71,10 @@ export default function MCQ(params: any) {
         partDone = questionDone.parts[index2];
         const status: string = partDone.status;
         if (status === "Correct") {
-          alert("You have already answered this part correctly."); 
+          toast("You have already answered this part correctly.", {type: "info", autoClose: 3000});
           return; 
         } else if (status === "Too many wrong attempts") {
-          alert("You have wrongly answered this part too many times.");
+          toast("You have wrongly answered this part too many times.", {type: "info", autoClose: 3000});
           return;
         }
         partDone.status = answeredRight;

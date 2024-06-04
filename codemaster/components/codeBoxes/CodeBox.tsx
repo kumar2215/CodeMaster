@@ -1,4 +1,4 @@
-import Parser from "@/app/utils/Parsers/parser";
+import CodeBlock from "@/components/codeBoxes/CodeBlock";
 
 function placeInCodeBox(code: string, language: string) {
   const lines = code.split("\n");
@@ -19,7 +19,7 @@ function placeInCodeBox(code: string, language: string) {
     </div>
     
     {/* Code Snippet */}
-    <Parser code={code} language={language} />
+    <CodeBlock language={language.toLowerCase()} value={code} />
     </div>
   );
 }

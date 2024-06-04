@@ -1,5 +1,5 @@
 import Navbar from "@/components/misc/navbar";
-import placeInCodeBox from "@/components/codeBoxes/codeBox";
+import placeInCodeBox from "@/components/codeBoxes/CodeBox";
 import handler from "@/app/utils/Handlers/handler";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
@@ -78,7 +78,7 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
       )
     }
     <div className="text-base h-fit text-black p-2">
-    {questionData.parts.length === 1 && handlePart(questionData, questionData.parts[0], true)}
+    {questionData.parts.length === 1 && await handlePart(questionData, questionData.parts[0], true)}
     </div>
     </div>
     {questionData.parts.length > 1

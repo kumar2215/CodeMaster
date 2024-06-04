@@ -1,6 +1,8 @@
 import { GeistSans } from "geist/font/sans";
 import logo from "../assets/CodeMaster-logo.jpg";
 import "./globals.css";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -24,6 +26,7 @@ export default function RootLayout({
         <main className="min-h-screen flex flex-col items-center">
           {children}
         </main>
+        <ToastContainer />
       </body>
     </html>
   );

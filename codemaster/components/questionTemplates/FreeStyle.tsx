@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import axios from 'axios';
 import _ from 'lodash';
+import {toast} from "react-toastify";
 
 const CodeEditor = dynamic(() => import('@/components/codeBoxes/CodeEditor'), { ssr: false });
 
@@ -125,7 +126,7 @@ export default function FreeStyle ({data}: {data: any}) {
         partDone = questionDone.parts[index2];
         const status: string[] = partDone.status;
         if (status.every((s: string) => s === "Correct")) {
-          alert("You have already answered this correctly."); 
+          toast("You have already answered this correctly.", {type: "info", autoClose: 3000});
           return; 
         } 
         const prevScore = partDone.pointsAccumulated;
