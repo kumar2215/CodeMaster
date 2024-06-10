@@ -4,7 +4,7 @@ import { useState } from "react";
 import completedLogo from "@/assets/completed-mark.jpg";
 import attemptedLogo from "@/assets/attempted-mark.jpg";
 
-export default function Table(data: any) {
+export default function QuestionsTable(data: any) {
   const questions = data.data;
 
   const pythonQuestions = questions.filter((question: { language: string; }) => question.language === "Python");

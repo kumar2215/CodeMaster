@@ -1,4 +1,4 @@
-import logo from "../assets/CodeMaster-logo.jpg";
+import logo from "@/assets/CodeMaster-logo.jpg";
 
 export default function Body() {
   return (

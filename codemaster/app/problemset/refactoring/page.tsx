@@ -1,5 +1,5 @@
 import Navbar from "@/components/misc/navbar";
-import Table  from "@/components/misc/questionsTable";
+import QuestionsTable  from "@/components/misc/questionsTable";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
@@ -55,7 +55,7 @@ export default async function Debugging() {
     </p>
     </div>
     <h2 className="max-h-3 leading-3 pt-8"/>
-    {questions && <Table data={questions} />}
+    {questions && <QuestionsTable data={questions} />}
     <br/>
     </div>
   );

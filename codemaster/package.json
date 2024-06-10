@@ -19,6 +19,7 @@
     "jshint": "^2.13.6",
     "next": "latest",
     "postcss": "8.4.33",
+    "quill": "^2.0.2",
     "react": "18.2.0",
     "react-codemirror2": "^8.0.0",
     "react-dom": "18.2.0",
