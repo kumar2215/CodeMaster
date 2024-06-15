@@ -54,11 +54,11 @@ export async function POST(req) {
         }
 
         // stdout contains the console.log JSON output from runner.js
-        console.log(`Docker command output:\n${stdout}`);  // Log the raw output
+        console.log(`Docker command output:\n${stdout}`);  
 
         let results;
         try {
-            results = JSON.parse(stdout); // Parse the JSON output
+            results = JSON.parse(stdout); 
             console.log('Parsed results:', results);
         } catch (parseError) {
             console.log('Failed to parse test results:', parseError.message);
