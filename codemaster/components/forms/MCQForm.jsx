@@ -19,8 +19,6 @@ export const MCQForm = ({ control, register, parentIndex, removeQuestion, watch,
     const points = watch(`questions.${qnNum-1}.parts.${parentIndex}.points`);
     const expected = watch(`questions.${qnNum-1}.parts.${parentIndex}.expected`);
 
-
-
     const addOption = (type) => {
         append({ category: type, value: "" });
     };

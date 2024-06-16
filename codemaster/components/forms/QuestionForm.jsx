@@ -20,7 +20,6 @@ function QuestionForm({ control, register, errors, remove, watch, index }) {
         "Freestyle": FreestyleForm,
         "MRQ": MRQForm 
     };
-    
 
     const { fields, append, remove: removeParts } = useFieldArray({
         control,
