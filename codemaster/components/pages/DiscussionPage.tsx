@@ -14,7 +14,6 @@ export default function CommentSection(params: any) {
   const title = params.title;
   const posts = params.posts;
   const commentData = params.commentData;
-  const indent = params.indent;
 
   const commentId = commentData.id;
   const written_by = commentData.written_by;
@@ -53,8 +52,6 @@ export default function CommentSection(params: any) {
     if (res3.error) { console.error(res.error) }
   }
 
-  const display = (x: any) => { console.log(x); return x; }
-
   const showComments = () => {
     setShowReplies(!showReplies);
     setRepliesBtn(showReplies ? unhighlightedCommentBtn.src : highlightedCommentBtn.src);
@@ -65,8 +62,7 @@ export default function CommentSection(params: any) {
         const res = await supabase.from("Comments").select().eq("id", replyId);
         if (res.error) { console.error(res.error) }
         const reply = res.data && res.data[0];
-        console.log(reply);
-        return <CommentSection discussionId={discussionId} commentData={reply} username={username} title={null} key={index} indent={indent+1} />}
+        return <CommentSection discussionId={discussionId} commentData={reply} username={username} title={null} key={index} />}
       )}
       </div>
     );

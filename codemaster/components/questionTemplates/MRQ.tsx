@@ -64,7 +64,7 @@ export default function MRQ(params: any) {
     }
     total = Math.round(total);
     answeredRight = answeredRightIndividual.every((s: string) => s === "Correct") ? "Correct" : "Incorrect";
-    console.log(answeredRight);
+
     setAdditionalPoints(total);
     let newXP: number = XP;
     let questionsDone: any[] = res.data && res.data[0].questions_done;
@@ -160,7 +160,7 @@ export default function MRQ(params: any) {
     const Total = questionDone.parts.reduce((acc: number, p: any) => acc + p.pointsAccumulated, 0);
     questionDone.pointsAccumulated = Total;
     if (partsAvailable === questionDone.parts.length) {
-        if (questionDone.parts.every((p: any) => p.status === "Correct" || p.status.every((s: string) => s === "Correct"))) {
+        if (questionDone.parts.every((p: any) => p.status === "Correct" || (typeof p.status === "object" && p.status.every((s: string) => s === "Correct")))) {
             questionDone.status = "Completed";
             let completed_by = questionData.completed_by;
             let q_avg_score = questionData.average_score;
