@@ -1,14 +1,13 @@
 import { createClient } from "@supabase/supabase-js";
 import fs from "fs";
-import question from "./sample2.json";
-import { Verified } from "@mui/icons-material";
+// import question from "./sample2.json";
 
-// const envFile = fs.readFileSync("./.env.local").toString();
-// const lines = envFile.split("\n");
-const NEXT_PUBLIC_SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
-const NEXT_PUBLIC_SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-// const EMAIL = lines[2].split("=")[1];
-// const PASSWORD = lines[3].split("=")[1];
+const envFile = fs.readFileSync("./.env.local").toString();
+const lines = envFile.split("\n");
+const NEXT_PUBLIC_SUPABASE_URL = lines[0].split("=")[1];
+const NEXT_PUBLIC_SUPABASE_ANON_KEY = lines[1].split("=")[1];
+const EMAIL = lines[2].split("=")[1];
+const PASSWORD = lines[3].split("=")[1];
 
 const supabase = createClient(
   NEXT_PUBLIC_SUPABASE_URL,
@@ -18,8 +17,8 @@ const supabase = createClient(
 export default async function upload(question: any, isVerified : boolean = true) {
 
   const { data, error: err } = await supabase.auth.signInWithPassword({
-    email: process.env.EMAIL,
-    password: process.env.PASSWORD
+    email: EMAIL,
+    password: PASSWORD
   });
   if (err) { console.error(err); }
 

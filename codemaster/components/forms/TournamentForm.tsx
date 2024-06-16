@@ -1,7 +1,6 @@
 "use client";
 import React from 'react';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
-import dynamic from 'next/dynamic';
 import QuestionForm from './QuestionForm';
 import { uploadTournament } from '@/app/questionGeneration/uploadTournament';
 
@@ -28,7 +27,7 @@ const TournamentForm = () => {
   //Questions -> array of questions 
   //Question is format something like 
   //codeContent, defaultValues,difficulty, parts,questionContent,title,type. line 67
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     console.log(processFormData(data))
     if (data.deadline) {
       const deadlineTimestamp = new Date(data.deadline).getTime();
@@ -41,9 +40,9 @@ const TournamentForm = () => {
     }
 
   //Process to format form data for submission to database
-  function processFormData(formData) {
+  function processFormData(formData: any) {
     const processedData = { ...formData };
-    processedData.questions = processedData.questions.map(question => {
+    processedData.questions = processedData.questions.map((question: any) => {
       const content = [];
       if (question.questionContent) {
         content.push({ value: question.questionContent, category: "text" });
@@ -58,19 +57,19 @@ const TournamentForm = () => {
       return {
         ...question,
         content,
-        parts: question.parts.map(part => {
+        parts: question.parts.map((part: any) => {
           if (part.questionType === "Multiple-Responses") {
             const pointsArray = part.points.split(',').map(Number); // Convert to numbers
-            const formatArray = part.format.split(',').filter(f => f.trim() !== '');
+            const formatArray = part.format.split(',').filter((f: string) => f.trim() !== '');
         
             // Function to handle textfield data of any type
-            const processTextField = (inputs) => {
+            const processTextField = (inputs: any[]) => {
                 const newInputs = inputs.map(input => {
                     const value = input.textField;
                     const valuesArray = value.split('|');
-                    const newInput = {};
+                    const newInput: any = {};
         
-                    formatArray.forEach((key, index) => {
+                    formatArray.forEach((key: string, index: number) => {
                       let parsedValue;
                       try {
                         parsedValue = JSON.parse(valuesArray[index]);
@@ -109,9 +108,6 @@ const TournamentForm = () => {
 
     return processedData;
   }
-  
-  
-  
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='w-full'>
