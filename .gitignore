@@ -26,7 +26,6 @@ build/
 # Coverage directory
 coverage/
 
-codemaster/app/questionGeneration/*
 codemaster/.env.local
 
 # npm cache directory
