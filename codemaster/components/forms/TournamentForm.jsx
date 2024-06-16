@@ -27,7 +27,7 @@ const TournamentForm = () => {
   //Questions -> array of questions 
   //Question is format something like 
   //codeContent, defaultValues,difficulty, parts,questionContent,title,type. line 67
-  const onSubmit = async (data: any) => {
+  const onSubmit = async data => {
     console.log(processFormData(data))
     if (data.deadline) {
       const deadlineTimestamp = new Date(data.deadline).getTime();
@@ -40,9 +40,9 @@ const TournamentForm = () => {
     }
 
   //Process to format form data for submission to database
-  function processFormData(formData: any) {
+  function processFormData(formData) {
     const processedData = { ...formData };
-    processedData.questions = processedData.questions.map((question: any) => {
+    processedData.questions = processedData.questions.map((question) => {
       const content = [];
       if (question.questionContent) {
         content.push({ value: question.questionContent, category: "text" });
@@ -57,19 +57,19 @@ const TournamentForm = () => {
       return {
         ...question,
         content,
-        parts: question.parts.map((part: any) => {
+        parts: question.parts.map((part) => {
           if (part.questionType === "Multiple-Responses") {
             const pointsArray = part.points.split(',').map(Number); // Convert to numbers
-            const formatArray = part.format.split(',').filter((f: string) => f.trim() !== '');
+            const formatArray = part.format.split(',').filter(f => f.trim() !== '');
         
             // Function to handle textfield data of any type
-            const processTextField = (inputs: any[]) => {
+            const processTextField = (inputs) => {
                 const newInputs = inputs.map(input => {
                     const value = input.textField;
                     const valuesArray = value.split('|');
-                    const newInput: any = {};
+                    const newInput = {};
         
-                    formatArray.forEach((key: string, index: number) => {
+                    formatArray.forEach((key, index) => {
                       let parsedValue;
                       try {
                         parsedValue = JSON.parse(valuesArray[index]);

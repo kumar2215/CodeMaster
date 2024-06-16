@@ -1,4 +1,4 @@
-import Navbar from "../../components/misc/navbar";
+import Navbar from "@/components/misc/navbar";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import TournamentForm from "@/components/forms/TournamentForm";

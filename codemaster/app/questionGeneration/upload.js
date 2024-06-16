@@ -1,24 +1,22 @@
 import { createClient } from "@supabase/supabase-js";
-import fs from "fs";
-// import question from "./sample2.json";
 
-const envFile = fs.readFileSync("./.env.local").toString();
-const lines = envFile.split("\n");
-const NEXT_PUBLIC_SUPABASE_URL = lines[0].split("=")[1];
-const NEXT_PUBLIC_SUPABASE_ANON_KEY = lines[1].split("=")[1];
-const EMAIL = lines[2].split("=")[1];
-const PASSWORD = lines[3].split("=")[1];
+// const envFile = fs.readFileSync("./.env.local").toString();
+// const lines = envFile.split("\n");
+const NEXT_PUBLIC_SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
+const NEXT_PUBLIC_SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+// const EMAIL = lines[2].split("=")[1];
+// const PASSWORD = lines[3].split("=")[1];
 
 const supabase = createClient(
   NEXT_PUBLIC_SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
-export default async function upload(question: any, isVerified : boolean = true) {
+export default async function upload(question, isVerified = true) {
 
   const { data, error: err } = await supabase.auth.signInWithPassword({
-    email: EMAIL,
-    password: PASSWORD
+    email: process.env.EMAIL,
+    password: process.env.PASSWORD
   });
   if (err) { console.error(err); }
 
@@ -45,10 +43,10 @@ export default async function upload(question: any, isVerified : boolean = true)
     const questionType = part.questionType;
 
     if (questionType === "Multiple-Responses") {
-      const format: string[] = part.format;
+      const format = part.format;
       const inputs = part.inputs;
       for (let j = 0; j < inputs.length; j++) {
-        const data: any = inputs[j];
+        const data = inputs[j];
         for (let k = 0; k < format.length; k++) {
           if (data[format[k]] === undefined) {
             console.error("Testcase format does not match the format of the question");
@@ -61,8 +59,8 @@ export default async function upload(question: any, isVerified : boolean = true)
         const testcase_id =  res && res[0].id;
         inputs[j] = testcase_id;
       }
-      const points: number[] = part.points;
-      total_points += points.reduce((a: number, b: number) => a + b, 0);
+      const points = part.points;
+      total_points += points.reduce((a, b) => a + b, 0);
       const { data: res, error } = await supabase.from("Multiple-Responses").insert({
         part: partValue, question: question, format: format, inputs: inputs, points: points
       }).select();
@@ -76,10 +74,10 @@ export default async function upload(question: any, isVerified : boolean = true)
 
     else if (questionType === "Freestyle") {
       const code = part.code;
-      const format: string[] = part.format;
+      const format = part.format;
       const inputs = part.inputs;
       for (let j = 0; j < inputs.length; j++) {
-        const data: any = inputs[j];
+        const data = inputs[j];
         for (let k = 0; k < format.length; k++) {
           if (data[format[k]] === undefined) {
             console.error("Testcase format does not match the format of the question");
@@ -92,8 +90,8 @@ export default async function upload(question: any, isVerified : boolean = true)
         const testcase_id =  res && res[0].id;
         inputs[j] = testcase_id;
       }
-      const points: number[] = part.points;
-      total_points += points.reduce((a: number, b: number) => a + b, 0);
+      const points = part.points;
+      total_points += points.reduce((a, b) => a + b, 0);
       const { data: res, error } = await supabase.from("Freestyle").insert({
         part: partValue, question: question, code: code, format: format, inputs: inputs, 
         points: points, function_name: part.functionName
