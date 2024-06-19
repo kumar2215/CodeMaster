@@ -61,8 +61,10 @@ export default function FreeStyle ({data}: {data: any}) {
         questionId: id,
         tests: tests,
         function_name: function_name,
-        format: format
+        format: format,
+        language: language
       });
+      console.log(response.data, 'responseData')
       if (response.data.message == 'Some tests failed') {
         setOutput("Some tests failed");
         setFailedTests(response.data.details);

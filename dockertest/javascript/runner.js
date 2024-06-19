@@ -1,12 +1,15 @@
 const fs = require('fs');
+const userCode = require('./userCode');
 
 // Dynamically import user's JavaScript file
-const userCode = require('./userCode');
 
 const testCaseFileName = process.env.TESTCASE_FILENAME;
 const functionName = process.env.FUNCTION_NAME;
 const formatString = process.env.FORMAT;
 const format = formatString.split(',')
+
+console.log("Running JavaScript script...");
+
 
 // Load and parse the test cases JSON file
 fs.readFile(`./${testCaseFileName}`, 'utf-8', (err, data) => {

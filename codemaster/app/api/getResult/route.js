@@ -5,14 +5,14 @@ import path from 'path';
 import { promisify } from 'util';
 
 // Convert callback-based functions to Promises
-const writeFile = promisify(fs.writeFile);
-const execPromise = promisify(exec);
+// const writeFile = promisify(fs.writeFile);
+// const execPromise = promisify(exec);
 
 export async function POST(req) {
     try {
         const data = await req.json();
         // console.log('Received data:', data);
-        const { code, questionId, tests, function_name, format } = data;
+        const { code, questionId, tests, function_name, format, language } = data;
 
         const testcases = [];
         for (let i = 0; i < tests.length; i++) {
@@ -24,46 +24,57 @@ export async function POST(req) {
             // console.log('Code not provided');
             return NextResponse.json({ message: 'Code not provided' }, { status: 400 });
         }
-        const currentDirectory = process.cwd();
+
+        let apiUrl
+
+        if (language == 'python') {
+            apiUrl = `${process.env.PYTHON_DOCKER_URL}/run-tests`;
+        } else {
+            apiUrl = `${process.env.JAVASCRIPT_DOCKER_URL}/run-tests`;
+
+        }
+
+
+        const dataToSend = {
+            usercode: code,
+            testCases: tests,
+            functionName: function_name,
+            format: format
+        }
+        console.log(dataToSend)
+
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataToSend),
+        });
+        // const currentDirectory = process.cwd();
         // console.log(testcases, "hello")
 
-        const completeCode = `${code}\nmodule.exports = { ${function_name} };`;
-        const codeStoragePath = path.resolve(currentDirectory, 'userCodeStorage', `${questionId}.js`);
-        const testcasesPath = path.resolve(currentDirectory, 'app', 'testcases', `${questionId}.json`);
+        // const codeStoragePath = path.resolve(currentDirectory, 'userCodeStorage', `${questionId}.js`);
+        // const testcasesPath = path.resolve(currentDirectory, 'app', 'testcases', `${questionId}.json`);
 
         // Write the code written by user into a js file
-        await writeFile(codeStoragePath, completeCode);
-        await writeFile(testcasesPath, JSON.stringify(testcases), 'utf8');
+        // await writeFile(codeStoragePath, completeCode);
+        // await writeFile(testcasesPath, JSON.stringify(testcases), 'utf8');
 
-        // Ensure the paths are correct
-        // console.log('Code storage path:', codeStoragePath);
-        // console.log('Test case path:', testcasesPath);
 
         // Define the Docker command
         //Build docker as "usercode"
-        const formatData = format.join(',')
-        const dockerCommand = `docker run --rm -e FORMAT=${formatData} -e FUNCTION_NAME=${function_name} -e TESTCASE_FILENAME=${questionId}.json -v "${codeStoragePath.replace(/\\/g, '/')}:/usr/src/app/userCode.js" -v "${testcasesPath.replace(/\\/g, '/')}:/usr/src/app/${questionId}.json" usercode node /usr/src/app/runner.js`;
+        // const dockerCommand = `docker run --rm -e FORMAT=${formatData} -e FUNCTION_NAME=${function_name} -e TESTCASE_FILENAME=${questionId}.json -v "${codeStoragePath.replace(/\\/g, '/')}:/usr/src/app/userCode.js" -v "${testcasesPath.replace(/\\/g, '/')}:/usr/src/app/${questionId}.json" usercode node /usr/src/app/runner.js`;
 
-        console.log('Executing Docker command:', dockerCommand);
         // Execute the Docker command
-        const { stdout, stderr } = await execPromise(dockerCommand);
+        // const { stdout, stderr } = await execPromise(dockerCommand);
 
-        if (stderr) {
-            console.log('Docker stderr:', stderr);
-            return NextResponse.json({ message: 'Docker error', error: stderr }, { status: 500 });
+        if (!response.ok) {
+            throw new Error(`Error with fetching data from docker! Status: ${response.status} ${response.error}`);
         }
 
-        // stdout contains the console.log JSON output from runner.js
-        console.log(`Docker command output:\n${stdout}`);  
 
-        let results;
-        try {
-            results = JSON.parse(stdout); 
-            console.log('Parsed results:', results);
-        } catch (parseError) {
-            console.log('Failed to parse test results:', parseError.message);
-            return NextResponse.json({ message: 'Failed to parse test results', error: parseError.message }, { status: 500 });
-        }
+        const results = await response.json();
+
 
         // Check for any failed tests
         const failedTests = results.filter(result => !result.passed);
