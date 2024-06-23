@@ -7,12 +7,12 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
-export async function uploadData(data, createdBy, type) {
+export async function uploadData(formData, createdBy, type) {
 
-  const name = data.name;
-  const questions = data.questions;
-  const deadlineEpoch = data.deadline;
-  const points = data.points;
+  const name = formData.name;
+  const questions = formData.questions;
+  const deadlineEpoch = formData.deadline;
+  const points = formData.points;
 
   const { data, error: err } = await supabase.auth.signInWithPassword({
     email: process.env.EMAIL,
