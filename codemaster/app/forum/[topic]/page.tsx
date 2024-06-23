@@ -1,7 +1,7 @@
 import {createClient} from "@/utils/supabase/server";
 import {redirect} from "next/navigation";
 import Navbar from "@/components/misc/navbar";
-import DiscussionsTable from "@/components/misc/discussionsTable";
+import DiscussionsTable from "@/components/tables/discussionsTable";
 
 const thisLink = "/forum";
 
@@ -18,7 +18,7 @@ export default async function Discussions({params: {topic}}: {params: {topic: st
 
   const res = await supabase.from("Discussions").select("*").eq("type", topic);
   if (res.error) { console.error(res.error) }
-  let discussions: any = res.data;
+  const discussions: any = res.data;
 
   return (
       <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
@@ -31,7 +31,7 @@ export default async function Discussions({params: {topic}}: {params: {topic: st
             </button>
           </a>
         </div>
-        <DiscussionsTable discussions={discussions} username={user.user_metadata.username} />
+        <DiscussionsTable discussions={discussions} />
         <br/>
       </div>
   );

@@ -1,185 +1,241 @@
 "use client";
 import React from 'react';
-import { useForm,Controller, useFieldArray, FormProvider  } from 'react-hook-form';
+import { Controller, useFieldArray } from 'react-hook-form';
 import dynamic from 'next/dynamic';
-import upload from '@/app/questionGeneration/upload';
 import MultipleResponseForm from './MultipleResponseForm';
-import {MRQForm }from './MRQForm';
-import { MCQForm } from './MCQForm';
-import { FreestyleForm } from './FreestyleForm';
+import MRQForm from './MRQForm';
+import MCQForm from './MCQForm';
+import FreestyleForm from './FreestyleForm';
 
 const CodeEditor = dynamic(
-    () => import('../codeBoxes/CodeEditor'),
-    { ssr: false }  
-  );
-function QuestionForm({ control, register, errors, remove, watch, index }) {
-    
-    const QUESTION_COMPONENTS = {
-        "Multiple-Responses": MultipleResponseForm,
-        "MCQ": MCQForm,
-        "Freestyle": FreestyleForm,
-        "MRQ": MRQForm 
-    };
+  () => import('../codeBoxes/CodeEditor'),
+  { ssr: false }  
+);
 
-    const { fields, append, remove: removeParts } = useFieldArray({
-        control,
-        name: `questions.${index}.parts`
-    });
+function QuestionForm({ control, register, remove, watch, index, single }) {
+  
+  const QUESTION_COMPONENTS = {
+    "Multiple-Responses": MultipleResponseForm,
+    "MCQ": MCQForm,
+    "Freestyle": FreestyleForm,
+    "MRQ": MRQForm 
+  };
+  
+  const { fields: parts, append: appendPart, remove: removePart } = useFieldArray({
+    control,
+    name: `questions.${index}.parts`
+  });
 
-    const language = watch(`questions.${index}.language`);
-    const qnNum = index + 1
+  const { fields: contents, append: appendContent, remove: removeContent } = useFieldArray({
+    control,
+    name: `questions.${index}.contents`
+  })
 
+  const addContent = (type) => {
+    appendContent({ category: type, value: "" });
+  };
+  
+  const language = watch(`questions.${index}.language`);
+  const qnNum = !single ? index + 1 : '';
+  
+  return (
+    <form className='w-full flex flex-col gap-5'>
 
-    return (
-        <form className='w-full'>
-            <h1 className='text-5xl text-center text-green-600'>{`Question ${index + 1}`}</h1>
-                <div className='w-full'>
-                    <div className='w-full flex items-center justify-center'>
+      <div className='flex flex-row gap-3'>
+        {remove !== null && <button 
+          className='bg-white border-black w-6 h-6 my-1' style={{borderWidth: "1px"}}
+          onClick={() => remove(index)}
+        >
+          - 
+        </button>}
+        <h1 className='text-3xl text-left text-blue-600'>{`Question ${qnNum}`}</h1>
+      </div>
 
-                        <div className='flex flex-col'>
-                            <label className="input input-bordered flex items-center gap-2 mr-4">
-                                <input className='input-info' {...register(`questions.${index}.title`, {
-                                    validate: value => value !== "" || "Title is required"
-                                })} placeholder="Title" />
-                            </label>
-                            {errors.title && <p className='text-center text-red-600'>{errors.title.message}</p>}
-                        </div>
+      <div>
+        <div className='flex flex-col gap-4'>
 
-                        <div className='flex flex-col'>
+          <div className='flex flex-row gap-2'>
+            <p className='text-lg pt-1'>Title:</p>
+            <label className="leading-5" style={{borderWidth: "1.5px"}}>
+            <input className='input-info h-8 pl-2' {...register(`questions.${index}.title`)} />
+            </label>
+          </div>
+          
+          <div className='flex flex-row gap-2'>
+            <p className='text-lg pt-1'>Question Type:</p>
+            <label className="leading-5" style={{borderWidth: "1.5px"}}>
+              <select {...register(`questions.${index}.type`)}
+                className='input-info h-8'  
+              >
+                <option value=""></option>
+                <option value="Debugging">Debugging</option>
+                <option value="Code Understanding">Code Understanding</option>
+                <option value="Code Principles">Code Principles</option>
+                <option value="Refactoring">Refactoring</option>
+              </select>
+            </label>
+          </div>
+          
+          <div className='flex flex-row gap-2'>
+            <p className='text-lg pt-1'>Difficulty:</p>
+            <label className="leading-5" style={{borderWidth: "1.5px"}}>
+              <select {...register(`questions.${index}.difficulty`)}
+                className='input-info h-8'
+              >
+                <option value=""></option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+            </label>
+          </div>
+          
+          <div className='flex flex-row gap-2'>
+            <p className='text-lg pt-1'>Language:</p>
+            <label className="leading-5" style={{borderWidth: "1.5px"}}>
+              <select {...register(`questions.${index}.language`)}
+                className='input-info h-8'
+              >
+                <option value=""></option>
+                <option value="Python">Python</option>
+                <option value="JavaScript">JavaScript</option>
+                <option value="Java">Java</option>
+                <option value="C++">C++</option>
+              </select>
+            </label>
+          </div>
 
-                        <label className="input input-bordered flex items-center gap-2 mr-4 ">
-                            <select className='' {...register(`questions.${index}.type`, {
-                                validate: value => value !== "" || "Type must be selected"
-                            })}>
-                                <option value="">Select Question Type</option>
-                                <option value="MCQ">Code Understanding</option>
-                                <option value="Debugging">Debugging</option>
-                                <option value="Code Understanding">Code Understanding</option>
-                                <option value="Code Principles">Code Principles</option>
-                            </select>
-                        </label>
-                        {errors.type && <p className='text-center text-red-600'>{errors.type.message}</p>}
-                        </div>
+          <div className='flex flex-col gap-2'>
+            <p className='text-lg'>Source:</p>
+            <p className='text-sm'>
+              The source here refers to the who or what you want to give credit to for the question.
+              It can be a link or just a brief description. If it is your own work, enter your name 
+              or enter "Anonymous" if you do not want to be known.
+            </p>
+            <label className="w-fit leading-5" style={{borderWidth: "1.5px"}}>
+              <input className='input-info h-8 pl-2' {...register(`questions.${index}.source.src`)} />
+            </label>
+          </div>
+        </div>
+            
+        <div className='flex flex-col'>
 
-                        <div className='flex flex-col'>
-                            <label className="input input-bordered flex items-center gap-2 mr-4 ">
-                                <select className='' {...register(`questions.${index}.difficulty`, {
-                                    validate: value => value !== "" || "Difficulty must be selected"
-                                })}>
-                                    <option value="">Select Question difficulty</option>
-                                    <option value="Easy">Easy</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="Hard">Hard</option>
-                                </select>
-                            </label>
-                            {errors.difficulty && <p className='text-center text-red-600'>{errors.difficulty.message}</p>}
-                        </div>
+          <p className='text-lg my-5' >Question Content:</p>
 
-                        <div className='flex flex-col'>
-                            <label className="input input-bordered flex items-center gap-2 mr-4">
-                                <select className='' {...register(`questions.${index}.language`, {
-                                    validate: value => value !== "" || "Language must be selected"
-                                })}>
-                                    <option value="">Select Language</option>
-                                    <option value="Python">Python</option>
-                                    <option value="JavaScript">JavaScript</option>
-                                    <option value="Java">Java</option>
-                                    <option value="C++">C++</option>
-                                </select>
-                            </label>
-                            {errors.language && <p className='text-center text-red-600'>{errors.language.message}</p>}
-                        </div>
+          {contents.map((item, idx) => (
+            <div key={idx} className='flex flex-row gap-2 my-2'>
+              <button 
+                className='bg-white border-black w-6 h-6 my-1' style={{borderWidth: "1px"}}
+                onClick={() => removeContent(idx)}
+              >
+                  - 
+              </button>
+              <div className='w-full'>
+                {item.category === "text" ? (
+                  <textarea {...register(`questions.${index}.contents.${idx}.value`)} 
+                  className='w-full textarea-bordered h-8 leading-4 pl-2 pt-2'
+                  placeholder={`Enter text`} />
+                ) : (
+                  <Controller
+                    name={`questions.${index}.contents.${idx}.value`}
+                    control={control}
+                    defaultValue=""
+                    render={({ field }) => {
+                      return <CodeEditor
+                          language={language}  // Assuming the language is static, adjust if dynamic
+                          code={field.value}
+                          setCode={field.onChange} 
+                      />
+                    }}
+                  />
+                )}
+              </div>
 
-
-                    </div>
-                    <textarea className='w-full mt-4' {...register(`questions.${index}.questionContent`, {
-                        validate: value => value !== "" || "Question content is required"
-                    })} placeholder="Question Content" />
-                    {errors.questionContent && <p className='text-center text-red-600'>{errors.questionContent.message}</p>}
-                    <h2>Input your question's code</h2>
-                    <Controller
-                        name={`questions.${index}.codeContent`}
-                        control={control}
-                        defaultValue=""  
-                        render={({ field }) => (
-                            <CodeEditor
-                                language={language != "" ? language?.toLowerCase() : 'javascript'}  
-                                code={field.value}
-                                setCode={field.onChange} 
-                            />
-                        )}
-                    />
-                    {fields.map((field, index) => {
-                        const QuestionComponent = QUESTION_COMPONENTS[field.questionType] || MCQForm; 
-                        return (
-                            <div key={field.id}>
-                                <QuestionComponent
-                                    control={control}
-                                    register={register}
-                                    parentIndex={index}
-                                    remove={removeParts}
-                                    watch={watch}
-                                    errors={errors}
-                                    qnNum={qnNum}
-                                    language= {language}
-                                />
-                                <button className="btn btn-error mt-4" type="button" onClick={() => removeParts(index)}>
-                                    Remove Part
-                                </button>
-                            </div>
-                        );
-                    })}
-
-
-                </div>
-                <button className="btn btn-info mt-4 mr-2 mb-2" type="button" onClick={() => append({
-                    part: '',
-                    questionType: "Multiple-Responses", 
-                    question: '',
-                    format: '',
-                    inputs: [],
-                    points: ''
-
-                })}>Add Multiple Responses Part</button>
-
-                <button className="btn btn-info mt-4 mr-2 mb-2" type="button" onClick={() => append({
-                    part: '',
-                    questionType: "MRQ", 
-                    question: '',
-                    options: [],
-                    expected: '',
-                    points: 0
-                })}>Add MRQ Part</button>
-                
-                <button className="btn btn-info mt-4 mr-2 mb-2" type="button" onClick={() => append({
-                    part: '',
-                    questionType: "MCQ",
-                    question: '',
-                    options: [],
-                    expected: 0,
-                    points: 0
-                })}>Add MCQ Part</button>
-
-                <button className="btn btn-info mt-4 mr-2 mb-2" type="button" onClick={() => append({
-                    part: '',
-                    questionType: "Freestyle",
-                    question: '',
-                    format: '',
-                    inputs: [],
-                    points: '',
-                    code: ''
-                })}>Add Freestyle Part</button>
-            <button className="btn btn-error mt-4" type="button" onClick={() => remove(index)}>
-                Remove Question
+            </div>
+          ))}
+          
+          <div className='w-full flex flex-row gap-x-3 mt-2 justify-evenly'>
+            <button className="btn btn-info" type="button" onClick={() => addContent('text')}>
+              Add text content
             </button>
+            <button className="btn btn-info" type="button" onClick={() => addContent('code')}>
+              Add code content
+            </button>
+          </div>
 
-        </form>
-    );
+        </div>
+
+      </div>
+      
+      <div className='flex flex-col gap-4'>
+        <p className='text-lg my-3' >Question Parts:</p>
+
+        {parts.map((field, idx) => {
+          const QuestionComponent = QUESTION_COMPONENTS[field.questionType] || MCQForm; 
+          const part = String.fromCharCode(idx + 65).toLowerCase();
+          field.part = part;
+          return (
+            <div key={field.id} className='mb-2'>
+            <QuestionComponent
+            {...field}
+            control={control}
+            register={register}
+            parentIndex={idx}
+            removePart={removePart}
+            watch={watch}
+            qnNum={!single ? qnNum : 1}
+            language={language}
+            />
+            </div>
+          );
+        })}
+
+        <div className='flex flex-row gap-x-3 justify-between'>
+          <button className="btn btn-info" type="button" onClick={() => appendPart({
+            part: '',
+            questionType: "Multiple-Responses", 
+            question: '',
+            format: '',
+            inputs: [],
+            points: []
+            
+          })}>Add Multiple Responses</button>
+          
+          <button className="btn btn-info" type="button" onClick={() => appendPart({
+            part: '',
+            questionType: "MRQ", 
+            question: '',
+            options: [],
+            expected: '',
+            points: 0
+          })}>Add MRQ</button>
+          
+          <button className="btn btn-info" type="button" onClick={() => appendPart({
+            part: '',
+            questionType: "MCQ",
+            question: '',
+            options: [],
+            expected: 0,
+            points: 0
+          })}>Add MCQ</button>
+          
+          <button className="btn btn-info" type="button" onClick={() => appendPart({
+            part: '',
+            questionType: "Freestyle",
+            question: '',
+            format: '',
+            inputs: [],
+            points: [],
+            precode: '',
+            code: '',
+            postcode: '',
+            functionName: ''
+          })}>Add Freestyle</button>
+
+        </div>
+      </div>
+    </form>
+  );
 }
 
 export default QuestionForm;
-
-
-// function isNumeric(str) {
-//     return !isNaN(+str);
-// }

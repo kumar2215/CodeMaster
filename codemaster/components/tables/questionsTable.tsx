@@ -85,8 +85,8 @@ export default function QuestionsTable(data: any) {
       ? <img src={completedLogo.src} alt="Completed" width={0.6 * completedLogo.width}/>
       : entry.status === "Attempted" 
       ? <img src={attemptedLogo.src} alt="Attempted" width={0.6 * attemptedLogo.width}/>
-      : <div className="text-gray-400">-</div>
-    }</div>
+      : <div className="text-gray-400">-</div>}
+      </div>
     <div 
     className="hover:text-blue-500 hover:leading-8 hover:font-medium cursor-pointer"
     style={{ 

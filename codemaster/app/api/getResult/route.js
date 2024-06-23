@@ -14,6 +14,8 @@ export async function POST(req) {
         // console.log('Received data:', data);
         const { code, questionId, tests, function_name, format } = data;
 
+        // console.log("Code: ", code);
+
         const testcases = [];
         for (let i = 0; i < tests.length; i++) {
             testcases.push(tests[i].input);

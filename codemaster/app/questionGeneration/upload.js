@@ -1,24 +1,20 @@
 import { createClient } from "@supabase/supabase-js";
-// import fs from "fs";
-// import question from "./sample.json";
 
-// const envFile = fs.readFileSync("./.env.local").toString();
-// const lines = envFile.split("\n");
-const NEXT_PUBLIC_SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
-const NEXT_PUBLIC_SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-// const EMAIL = lines[2].split("=")[1];
-// const PASSWORD = lines[3].split("=")[1];
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const EMAIL = process.env.NEXT_PUBLIC_EMAIL;
+const PASSWORD = process.env.NEXT_PUBLIC_PASSWORD;
 
 const supabase = createClient(
-  NEXT_PUBLIC_SUPABASE_URL,
-  NEXT_PUBLIC_SUPABASE_ANON_KEY
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
 );
 
-export default async function upload(question, isVerified = true) {
+export default async function upload(question, purpose, isVerified = true) {
 
   const { data, error: err } = await supabase.auth.signInWithPassword({
-    email: process.env.EMAIL,
-    password: process.env.PASSWORD
+    email: EMAIL,
+    password: PASSWORD
   });
   if (err) { console.error(err); }
 
@@ -75,7 +71,7 @@ export default async function upload(question, isVerified = true) {
     }
 
     else if (questionType === "Freestyle") {
-      const code = part.code;
+      
       const format = part.format;
       const inputs = part.inputs;
       for (let j = 0; j < inputs.length; j++) {
@@ -95,8 +91,8 @@ export default async function upload(question, isVerified = true) {
       const points = part.points;
       total_points += points.reduce((a, b) => a + b, 0);
       const { data: res, error } = await supabase.from("Freestyle").insert({
-        part: partValue, question: question, code: code, format: format, inputs: inputs, 
-        points: points, function_name: part.functionName
+        question: question, format: format, inputs: inputs, points: points, part: partValue,
+        code: part.code, pre_code: part.pre_code, post_code: part.post_code, function_name: part.function_name
       }).select();
       if (error) { console.error(error); return;}
       const part_id = res && res[0].id;
@@ -140,13 +136,16 @@ export default async function upload(question, isVerified = true) {
   }
 
   const { data: res, error } = await supabase.from("Questions").insert({
-    type: type, title: title, content: content, language: language, 
-    difficulty: difficulty, source: source, parts: parts, points: total_points, verified: isVerified ? true : false
+    type: type, title: title, content: content, language: language, difficulty: difficulty, 
+    source: source, parts: parts, points: total_points, verified: isVerified, purpose: purpose
   }).select();
+
   if (error) { console.error(error); return; }
+
   const question_id = res && res[0].id;
   console.log("Question with id: " + question_id + " uploaded successfully!");
-  return question_id
+
+  return question_id;
 }
 
 // upload(question);

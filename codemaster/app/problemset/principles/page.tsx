@@ -1,5 +1,5 @@
 import Navbar from "@/components/misc/navbar";
-import QuestionsTable  from "@/components/misc/questionsTable";
+import QuestionsTable  from "@/components/tables/questionsTable";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 

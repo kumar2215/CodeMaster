@@ -2,14 +2,14 @@
 import React from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import QuestionForm from './QuestionForm';
-import processAndValidateFormData from '@/app/utils/Misc/processForm';
+import processAndValidateFormData from '@/app/utils/Misc/processForm'
 import submitForm from '@/app/utils/ServerActions/submitForm';
 
-export default function TournamentForm() {
+export default function ContestForm() {
 
   const { register, handleSubmit, control, watch } = useForm({
     defaultValues: {
-      name: '',
+      contestName: '',
       questions: [],
       points: 0,
       deadline: null // Initialize deadline field
@@ -22,8 +22,8 @@ export default function TournamentForm() {
   });
 
   async function onSubmit(data) {
-    // console.log(data);
-    const processedData = processAndValidateFormData(data, "Tournament");
+    console.log(data);
+    const processedData = processAndValidateFormData(data);
     if (!processedData || processedData.questions.some(q => !q) || processedData.questions.some(question => question.parts.some(p => !p))) return;
     const successful = await submitForm(data, "Tournaments");     
     if (successful) {
@@ -36,9 +36,9 @@ export default function TournamentForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='w-full flex flex-col bg-gray-200 rounded-lg p-5 ml-6 gap-5'>
           <div className='flex flex-row gap-4'>
-            <p className='text-xl pt-1'>Tournament name:</p>
+            <p className='text-xl pt-1'>Contest name:</p>
             <label className="leading-5" style={{borderWidth: "1.5px"}}>
-              <input className='input-info h-8 pl-2' {...register('name')} />
+              <input className='input-info h-8 pl-2' {...register('contestName')} />
             </label>
           </div>
 
@@ -90,7 +90,7 @@ export default function TournamentForm() {
             Add Question
           </button>
 
-          <button className='btn btn-success' type="submit" disabled={!fields.length}>Submit Tournament</button>
+          <button className='btn btn-success' type="submit" disabled={!fields.length}>Submit Contest</button>
         </div>
       </form>
     </div>

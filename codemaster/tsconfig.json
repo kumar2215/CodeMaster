@@ -28,6 +28,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/questionGeneration/upload.js", "components/forms/TournamentForm.jsx", "app/questionGeneration/uploadTournament.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/questionGeneration/upload.js", "components/forms/TournamentForm.jsx", "app/questionGeneration/uploadTournament.js", "app/utils/ServerActions/submitForm.js", "app/utils/Misc/processForm.js"],
   "exclude": ["node_modules"]
 }

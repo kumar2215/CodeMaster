@@ -1,5 +1,5 @@
 import Navbar from "@/components/misc/navbar";
-import QuestionsTable  from "@/components/misc/questionsTable";
+import QuestionsTable  from "@/components/tables/questionsTable";
 import React from 'react';
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
@@ -19,11 +19,12 @@ export default async function CodeUnderstanding() {
   
   const { data: userData, error: err } = 
   await supabase
-  .from("Users")
-  .select(`*`)
-  .eq("username", user.user_metadata.username);
+    .from("Users")
+    .select(`*`)
+    .eq("username", user.user_metadata.username);
   
   if (err) { console.error(err); }
+  
   const questionsDoneByUser = userData && userData[0].questions_done;
   const questionIdsDoneByUser = questionsDoneByUser && questionsDoneByUser.map((question: { id: any; }) => question.id);
   

@@ -2,7 +2,7 @@
 import {SubmitButton} from "@/components/buttons/submit-button";
 import submitToDB from "@/app/utils/ServerActions/savePostToDB";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+// import { useState } from "react";
 import { toast } from "react-toastify";
 
 const Toolbar = dynamic(() => import('@/components/misc/toolbar'), { ssr: false });

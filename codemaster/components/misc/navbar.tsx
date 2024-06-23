@@ -9,12 +9,15 @@ export default function Navbar(linkObj: any) {
   function createListElement(link: string, title: string) {
 
     const className = link === thisLink
-      ? "relative flex items-center text-xl cursor-pointer font-medium py-4" 
-      : "relative flex items-center hover:text-xl cursor-pointer hover:font-medium";
+      ? "w-full flex flex-row items-center text-xl cursor-pointer font-medium py-4" 
+      : "w-full flex items-center hover:text-xl cursor-pointer hover:font-medium";
   
     return (
-      <li className="relative flex h-full items-center text-base">
-        <a className={className} style={link == thisLink ? {borderBottom: "2px solid black"} : {}} href={link}>{title}</a>
+      <li 
+      className="w-full flex flex-row h-full items-center text-base gap-2" 
+      style={link == thisLink ? {borderBottom: "2px solid black"} : {}}
+      >
+        <a className={className} href={link}>{title}</a>
       </li>
     );
   }
@@ -34,7 +37,9 @@ export default function Navbar(linkObj: any) {
     {createListElement("/problemset", "Problems")}
     {createListElement("/contests", "Contests")}
     {createListElement("/tournaments", "Tournaments")}
+    {createListElement("/leaderboards", "Leaderboards")}
     {createListElement("/forum", "Forum")}
+    {createListElement("/others", "Others")}
     </ul>
     </div>
     <div className="w-full max-w-4xl flex justify-end gap-3 p-3 text-sm">

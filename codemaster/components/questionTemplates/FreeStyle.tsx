@@ -67,6 +67,7 @@ export default function FreeStyle ({data}: {data: any}) {
         setOutput("Some tests failed");
         setFailedTests(response.data.details);
         const failedTests = response.data.details;
+        console.log(failedTests);
         for (let i = 0; i < failedTests.length; i++) {
           const idx = tests.findIndex(test => _.isEqual(test.input, failedTests[i].test));
           if (idx !== -1) {
@@ -206,6 +207,7 @@ export default function FreeStyle ({data}: {data: any}) {
 
     setIsLoading(false);
   };
+  
   return (
     <div className={!source ? "w-full max-w-5xl bg-slate-50 p-3 border-4" : ""}>
     {part !== "null"
