@@ -20,7 +20,7 @@ export default function ContestsTable(data: any) {
         <div
             style={{
               display: 'grid',
-              gridTemplateColumns: '1fr 5.2fr 1.2fr 1fr',
+              gridTemplateColumns: '1fr 5.2fr 1.8fr 1fr',
               width: '100%',
               maxWidth: '56rem',
               minHeight: '2rem',
@@ -43,7 +43,7 @@ export default function ContestsTable(data: any) {
               key={index}
               style={{
                 display: 'grid',
-                gridTemplateColumns: '1.8fr 5.2fr 1.2fr 1fr 1fr',
+                gridTemplateColumns: '1fr 5.2fr 1.8fr 1fr',
                 width: '100%',
                 maxWidth: '56rem',
                 minHeight: '2rem',

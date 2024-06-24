@@ -75,7 +75,12 @@ export default function processAndValidateQuestion(question, idx) {
     },
     parts: question.parts.map((part, index) => {
 
-      const partValue = String.fromCharCode(index + 65).toLowerCase();
+      let partValue;
+      if (question.parts.length === 1) {
+        partValue = "null";
+      } else {
+        partValue = String.fromCharCode(index + 65).toLowerCase();
+      }
 
       if (part.question === '') {
         toast.error(`Question ${i} part ${partValue} has no question`, {autoClose: 3000});
@@ -111,6 +116,10 @@ export default function processAndValidateQuestion(question, idx) {
               return false;
             }
           }
+          if (input.expected === '' || input.expected === undefined) {
+            toast.error(`Question ${i} part ${partValue} input ${j+1} has no expected field`, {autoClose: 3000});
+            return false;
+          }
         }
 
         if (part.questionType === "Freestyle") {
@@ -120,15 +129,15 @@ export default function processAndValidateQuestion(question, idx) {
             return false;
           }
 
-          // check if user code has main function name
-          if (!part.code.includes(part.functionName)) {
-            toast.error(`Question ${i} part ${partValue}'s usercode needs to contain the main function name`, {autoClose: 3000})
-            return false;
-          }
-
           // check if function name is present
           if (part.functionName === '') {
             toast.error(`Question ${i} part ${partValue} needs to have a main function name`, {autoClose: 3000})
+            return false;
+          }
+
+          // check if user code has main function name
+          if (!part.code.includes(part.functionName)) {
+            toast.error(`Question ${i} part ${partValue}'s usercode needs to contain the main function name`, {autoClose: 3000})
             return false;
           }
 

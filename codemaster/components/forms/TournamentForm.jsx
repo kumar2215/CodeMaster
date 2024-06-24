@@ -4,6 +4,7 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import QuestionForm from './QuestionForm';
 import processAndValidateFormData from '@/app/utils/Misc/processForm';
 import submitForm from '@/app/utils/ServerActions/submitForm';
+import { toast } from 'react-toastify';
 
 export default function TournamentForm() {
 
@@ -22,10 +23,9 @@ export default function TournamentForm() {
   });
 
   async function onSubmit(data) {
-    // console.log(data);
     const processedData = processAndValidateFormData(data, "Tournament");
     if (!processedData || processedData.questions.some(q => !q) || processedData.questions.some(question => question.parts.some(p => !p))) return;
-    const successful = await submitForm(data, "Tournaments");     
+    const successful = await submitForm(processedData, "Tournaments");     
     if (successful) {
       toast.success("Tournament created successfully! Currently awaiting for verification.", {autoClose: 3000});
     }

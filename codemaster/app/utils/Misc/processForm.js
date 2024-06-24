@@ -2,6 +2,8 @@ import processAndValidateQuestion from './processQuestion';
 import { toast } from 'react-toastify';
 
 export default function processAndValidateFormData(data, type) {
+  console.log(data);
+  console.log(type);
   const processedData = { ...data };
 
   // check if name is set
@@ -16,7 +18,7 @@ export default function processAndValidateFormData(data, type) {
     return false;
   }
   
-  // check if there are any questions
+  // check if there are enough questions
   if (processedData.questions.length < 5) {
     toast.error(`${type}s need to have at least 5 questions`, {autoClose: 3000})
     return false;

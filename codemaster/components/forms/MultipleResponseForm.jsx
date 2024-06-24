@@ -88,6 +88,17 @@ const MultipleResponseForm = ({ part, control, register, parentIndex, removePart
             </div>
           )})}
           <div className='flex flex-row gap-2 my-2 ml-10'>
+            <p>expected:</p>
+            <label className="leading-5" style={{borderWidth: "1.5px"}}>
+              <input
+              {...register(`questions.${qnNum-1}.parts.${parentIndex}.inputs.${index}.expected`, 
+              { required: "Input is required" }
+              )}
+              className='input-info h-6 pl-2'
+              />
+            </label>
+          </div>
+          <div className='flex flex-row gap-2 my-2 ml-10'>
             <p>Points:</p>
             <label className="leading-5" style={{borderWidth: "1.5px"}}>
               <input

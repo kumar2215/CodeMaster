@@ -9,10 +9,14 @@ import 'codemirror/theme/material.css';
 import 'codemirror/addon/lint/lint.css';
 import 'codemirror/addon/hint/show-hint.css';
 import 'codemirror/mode/javascript/javascript.js';
+import 'codemirror/mode/python/python.js';
+import 'codemirror/mode/clike/clike.js';
 import 'codemirror/addon/lint/javascript-lint';
 import 'codemirror/addon/lint/lint.js';
 import 'codemirror/addon/hint/javascript-hint';
 import { JSHINT } from 'jshint';
+
+// when adding a new language, make sure to add the corresponding import statement
 
 declare global {
   interface Window {

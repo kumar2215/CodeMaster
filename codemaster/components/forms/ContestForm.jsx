@@ -4,12 +4,13 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import QuestionForm from './QuestionForm';
 import processAndValidateFormData from '@/app/utils/Misc/processForm'
 import submitForm from '@/app/utils/ServerActions/submitForm';
+import { toast } from 'react-toastify';
 
 export default function ContestForm() {
 
   const { register, handleSubmit, control, watch } = useForm({
     defaultValues: {
-      contestName: '',
+      name: '',
       questions: [],
       points: 0,
       deadline: null // Initialize deadline field
@@ -22,12 +23,11 @@ export default function ContestForm() {
   });
 
   async function onSubmit(data) {
-    console.log(data);
-    const processedData = processAndValidateFormData(data);
+    const processedData = processAndValidateFormData(data, "Contest");
     if (!processedData || processedData.questions.some(q => !q) || processedData.questions.some(question => question.parts.some(p => !p))) return;
-    const successful = await submitForm(data, "Tournaments");     
+    const successful = await submitForm(processedData, "Contests");     
     if (successful) {
-      toast.success("Tournament created successfully! Currently awaiting for verification.", {autoClose: 3000});
+      toast.success("Contest created successfully!", {autoClose: 3000});
     }
   }
 
@@ -38,7 +38,7 @@ export default function ContestForm() {
           <div className='flex flex-row gap-4'>
             <p className='text-xl pt-1'>Contest name:</p>
             <label className="leading-5" style={{borderWidth: "1.5px"}}>
-              <input className='input-info h-8 pl-2' {...register('contestName')} />
+              <input className='input-info h-8 pl-2' {...register('name')} />
             </label>
           </div>
 

@@ -2,10 +2,7 @@
 import { createClient } from '@/utils/supabase/server';
 import upload from '@/app/questionGeneration/upload';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL, 
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+const supabase = createClient();
 
 export async function uploadData(formData, createdBy, type) {
 
@@ -13,12 +10,6 @@ export async function uploadData(formData, createdBy, type) {
   const questions = formData.questions;
   const deadlineEpoch = formData.deadline;
   const points = formData.points;
-
-  const { data, error: err } = await supabase.auth.signInWithPassword({
-    email: process.env.EMAIL,
-    password: process.env.PASSWORD
-  });
-  if (err) { console.error(err); return false; }
 
   try {
   
@@ -56,9 +47,7 @@ export async function uploadData(formData, createdBy, type) {
 }
 
 
-export default async function submitForm(data, type) {
-
-  const supabase = createClient();
+export default async function submitForm(result, type) {
 
   const {
     data: {user},
@@ -73,13 +62,9 @@ export default async function submitForm(data, type) {
   let total_points = 0;
   result.questions.forEach((question) => {
     total_points += question.points;
-    // console.log('Question:', question);
-    // question.parts.forEach((part) => {
-    //   console.log('Part:', part);
-    // });
   });
   result.points = total_points;
-  // console.log('processed form: ', result);
+
   return await uploadData(result, username, type);
 }
 

@@ -1,22 +1,17 @@
-import { createClient } from "@supabase/supabase-js";
-
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-const EMAIL = process.env.NEXT_PUBLIC_EMAIL;
-const PASSWORD = process.env.NEXT_PUBLIC_PASSWORD;
-
-const supabase = createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
+"use server";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function upload(question, purpose, isVerified = true) {
 
-  const { data, error: err } = await supabase.auth.signInWithPassword({
-    email: EMAIL,
-    password: PASSWORD
-  });
-  if (err) { console.error(err); }
+  const supabase = createClient();
+
+  const {
+    data: {user},
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return redirect("/login");
+  }
 
   const type = question.type;
   const title = question.title;

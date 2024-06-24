@@ -142,7 +142,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
                     defaultValue=""
                     render={({ field }) => {
                       return <CodeEditor
-                          language={language}  // Assuming the language is static, adjust if dynamic
+                          language={language.toLowerCase()}  // Assuming the language is static, adjust if dynamic
                           code={field.value}
                           setCode={field.onChange} 
                       />
@@ -184,7 +184,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
             removePart={removePart}
             watch={watch}
             qnNum={!single ? qnNum : 1}
-            language={language}
+            language={language.toLowerCase()}
             />
             </div>
           );
