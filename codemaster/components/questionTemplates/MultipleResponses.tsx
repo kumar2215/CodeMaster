@@ -16,7 +16,7 @@ export default function MultipleResponses(params: any) {
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition;
 
-  let inputStates;
+  let inputStates: any[];
 
   if (partOfCompetition && data.savedInputs !== undefined) {
     inputStates = data.savedInputs.map((savedInput: any) => useState(savedInput));

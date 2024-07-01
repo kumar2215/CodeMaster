@@ -16,7 +16,7 @@ export default function MRQ(params: any) {
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition;
 
-  let selectedOptions;
+  let selectedOptions : any[];
 
   if (partOfCompetition && data.selectedOptions !== undefined) {
     selectedOptions = data.selectedOptions.map((optionSelected: boolean) => useState(optionSelected));

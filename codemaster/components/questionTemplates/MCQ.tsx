@@ -19,7 +19,7 @@ export default function MCQ(params: any) {
   
   const [submitted, setSubmitted] = useState(false);
 
-  let selectedOption, setSelectedOption;
+  let selectedOption: any, setSelectedOption: any;
 
   if (partOfCompetition && data.selectedOption !== undefined) {
     [selectedOption, setSelectedOption] = useState(data.selectedOption);
