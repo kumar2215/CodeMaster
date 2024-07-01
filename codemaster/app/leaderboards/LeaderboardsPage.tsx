@@ -14,7 +14,7 @@ export const LeaderboardsPage = ({sortedByContestXP, sortedByTotalXP, sortedByTo
     function renderLeaderboardsTable() {
         switch (leaderboardType) {
           case 'codemasters':
-            return <LeaderboardsTable data={sortedByTotalXP} header={"Total XP"} xpType={"XP"}/>;
+            return <LeaderboardsTable data={sortedByTotalXP} header={"Total XP"} xpType={"total_XP"}/>;
           case 'tournament':
             return <LeaderboardsTable data={sortedByTournamentXP} header={"Total Tournament XP"} xpType={"tournament_XP"}/>;
           case 'contest':

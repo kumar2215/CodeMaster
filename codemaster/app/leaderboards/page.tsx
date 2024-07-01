@@ -37,12 +37,11 @@ export default async function ContestsPage() {
     sortedByContestXP.sort((a, b) => (b.contest_XP) - (a.contest_XP));
 
     sortedByTotalXP = [...userData];
-    sortedByTotalXP.sort((a, b) => {
-      const totalXP_A = (a.XP) + (a.tournament_XP) + (a.contest_XP);
-      const totalXP_B = (b.XP) + (b.tournament_XP) + (b.contest_XP);
-      
-      return totalXP_B - totalXP_A;
+    sortedByTotalXP.forEach((obj) => {
+      obj.total_XP = obj.XP + obj.tournament_XP + obj.contest_XP;
     });
+    
+    sortedByTotalXP.sort((a, b) => b.total_XP - a.total_XP);
 
   }
 
