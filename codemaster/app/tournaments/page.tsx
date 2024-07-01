@@ -36,8 +36,10 @@ export default async function TournamentsPage() {
     for (let i = 0; i < tournaments.length; i++) {
       if (tournamentsIdsDoneByUser && tournamentsIdsDoneByUser.includes(tournaments[i].id)) {
         const tournament = tournamentsDoneByUser[tournamentsIdsDoneByUser.indexOf(tournaments[i].id)];
-        tournaments[i].status = tournament.status;
-        tournaments[i].points = `${tournament.pointsAccumulated}/${tournaments[i].points}`;
+        tournaments[i].status = tournament.status ? tournament.status : "Not Attempted";
+        tournaments[i].points = tournament.pointsAccumulated 
+          ? `${tournament.pointsAccumulated}/${tournaments[i].points}` 
+          : tournaments[i].points;
       } else {
         tournaments[i].status = "Not Attempted";
       }

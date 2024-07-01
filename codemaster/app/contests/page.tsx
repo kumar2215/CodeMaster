@@ -35,8 +35,10 @@ export default async function ContestsPage() {
     for (let i = 0; i < contests.length; i++) {
       if (contestsIdsDoneByUser && contestsIdsDoneByUser.includes(contests[i].id)) {
         const contest = contestsDoneByUser[contestsIdsDoneByUser.indexOf(contests[i].id)];
-        contests[i].status = contest.status;
-        contests[i].points = `${contest.pointsAccumulated}/${contests[i].points}`;
+        contests[i].status = contest.status ? contest.status : "Not Attempted";
+        contests[i].points = contest.pointsAccumulated 
+          ? `${contest.pointsAccumulated}/${contests[i].points}` 
+          : contests[i].points;
       } else {
         contests[i].status = "Not Attempted";
       }

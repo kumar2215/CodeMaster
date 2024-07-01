@@ -1,7 +1,7 @@
 "use client";
 import { useForm } from 'react-hook-form';
 import QuestionForm from './QuestionForm';
-import processAndValidateQuestion from '@/app/utils/Misc/processQuestion';
+import processAndValidateQuestion from '@/app/utils/Processing/processQuestion';
 import upload from '@/app/questionGeneration/upload';
 import { toast } from 'react-toastify';
 
@@ -13,9 +13,7 @@ export default function IndividualQuestionForm({ user_data }) {
 
   async function onSubmit(data) {
     const question = data.questions[0];
-    console.log(question);
     const processedQuestion = processAndValidateQuestion(question, null); 
-    console.log(processedQuestion);
     if (!processedQuestion || processedQuestion.parts.some(q => !q)) return;
     const successful = await upload(processedQuestion, "general", verified); 
     if (successful) {

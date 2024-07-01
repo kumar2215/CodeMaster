@@ -8,14 +8,17 @@ export default async function handleFreestyle(questionPart: any, username: any) 
   const questionId: string = questionPart.questionId;
   const partId: string = questionPart.partId;
   const question: string = questionPart.question;
+  const precode = questionPart.pre_code;
   const code = questionPart.code;
+  const postcode = questionPart.post_code;
   const language = questionPart.language;
-  const part: string = questionPart.part;
-  const format: string[] = questionPart.format;
+  const part: string = questionPart.part; 
+  const parameters: any = questionPart.parameters; 
   const inputs: any[] = questionPart.inputs;
   let points: number[] = questionPart.points;
   const function_name: string = questionPart.function_name;
   const source = questionPart.source;
+  const partOfCompetition: any = questionPart.partOfCompetition;
   
   const res = await supabase.from("Users").select("*").eq("username", username);
   if (res.error) { console.error(res.error); }
@@ -48,12 +51,16 @@ export default async function handleFreestyle(questionPart: any, username: any) 
     question: question,
     part: part,
     code: code,
+    precode: precode ? precode : "",
+    postcode: postcode ? postcode : "",
     language: language.toLowerCase(),
-    format: format,
+    parameters: parameters,
     inputs: inputs,
     points: points,
     source: source,
-    function_name: function_name
+    function_name: function_name,
+    partOfCompetition: partOfCompetition,
+    savedCode: questionPart.savedCode
   }
 
   return <FreeStyle data={data}></FreeStyle>;

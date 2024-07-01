@@ -2,18 +2,12 @@
 import Link from "next/link";
 import completedLogo from "@/assets/completed-mark.jpg";
 import attemptedLogo from "@/assets/attempted-mark.jpg";
+import convertDate from "@/app/utils/dateConversion/convertDateV1";
 
 export default function TournamentsTable(data: any) {
 
   const tournaments: any[] = data.tournaments;
   tournaments.sort((d1, d2) => new Date(d2.created_at).getTime() - new Date(d1.created_at).getTime());
-
-  const convertDate = (timeString: string) => {
-    const date: string = new Date(timeString).toLocaleDateString();
-    let time: string = new Date(timeString).toLocaleTimeString();
-    time = time.split(":").slice(0, 2).join(":") + " " + time.split(" ")[1].toLowerCase();
-    return date + ", " + time;
-  }
 
   return (
       <div className="w-full max-w-4xl border-2 border-gray-400" suppressHydrationWarning={true}>
@@ -33,8 +27,8 @@ export default function TournamentsTable(data: any) {
             }}>
           <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Status</div>
           <div style={{borderRight: '1px solid rgb(156 163 175)', textAlign: 'left', paddingLeft: '1rem'}}>Tournament</div>
-          <div style={{borderRight: '1px solid rgb(156 163 175)'}}>Created By</div>
-          <div style={{borderRight: '1px solid rgb(156 163 175)'}}>Deadline</div>
+          <div style={{borderRight: '1px solid rgb(156 163 175)'}}>Created by</div>
+          <div style={{borderRight: '1px solid rgb(156 163 175)'}}>Closes by</div>
           <div>Points</div>
         </div>
 

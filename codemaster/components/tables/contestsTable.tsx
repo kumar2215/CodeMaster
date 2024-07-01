@@ -1,19 +1,13 @@
 "use client";
 import completedLogo from "@/assets/completed-mark.jpg";
 import attemptedLogo from "@/assets/attempted-mark.jpg";
+import convertDate from "@/app/utils/dateConversion/convertDateV1";
 import Link from "next/link";
 
 export default function ContestsTable(data: any) {
 
   const contests: any[] = data.contests;
   contests.sort((d1, d2) => new Date(d2.created_at).getTime() - new Date(d1.created_at).getTime());
-
-  const convertDate = (timeString: string) => {
-    const date: string = new Date(timeString).toLocaleDateString();
-    let time: string = new Date(timeString).toLocaleTimeString();
-    time = time.split(":").slice(0, 2).join(":") + " " + time.split(" ")[1].toLowerCase();
-    return date + ", " + time;
-  }
 
   return (
       <div className="w-full max-w-4xl border-2 border-gray-400" suppressHydrationWarning={true}>
@@ -33,12 +27,12 @@ export default function ContestsTable(data: any) {
             }}>
           <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Status</div>
           <div style={{borderRight: '1px solid rgb(156 163 175)', textAlign: 'left', paddingLeft: '1rem'}}>Contest</div>
-          <div style={{borderRight: '1px solid rgb(156 163 175)'}}>Deadline</div>
+          <div style={{borderRight: '1px solid rgb(156 163 175)'}}>Closes by</div>
           <div>Points</div>
         </div>
 
         {contests.map((entry: any, index: number) => {
-          const link = `/forum/discussion/${entry.id}` // TODO: change this
+          const link = `/questions/contest/${entry.id}`
           return <div
               key={index}
               style={{

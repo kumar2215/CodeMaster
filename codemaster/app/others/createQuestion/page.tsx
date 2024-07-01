@@ -28,7 +28,7 @@ export default async function CreateQuestionsPage() {
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
       <Navbar thisLink={thisLink} />
-        <h2 className="text-4xl pt-8">Design a question</h2>
+        <h2 className="text-4xl pt-8">Create a question</h2>
         <IndividualQuestionForm user_data={data} />
       <br/>
     </div>

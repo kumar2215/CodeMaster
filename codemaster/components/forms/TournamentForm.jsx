@@ -2,9 +2,7 @@
 import React from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import QuestionForm from './QuestionForm';
-import processAndValidateFormData from '@/app/utils/Misc/processForm';
-import submitForm from '@/app/utils/ServerActions/submitForm';
-import { toast } from 'react-toastify';
+import submitTournamentForm from '@/app/utils/Submissions/submitTournamentForm';
 
 export default function TournamentForm() {
 
@@ -22,19 +20,11 @@ export default function TournamentForm() {
     name: 'questions'
   });
 
-  async function onSubmit(data) {
-    const processedData = processAndValidateFormData(data, "Tournament");
-    if (!processedData || processedData.questions.some(q => !q) || processedData.questions.some(question => question.parts.some(p => !p))) return;
-    const successful = await submitForm(processedData, "Tournaments");     
-    if (successful) {
-      toast.success("Tournament created successfully! Currently awaiting for verification.", {autoClose: 3000});
-    }
-  }
-
   return (
     <div className="w-full max-w-5xl">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(submitTournamentForm)}>
         <div className='w-full flex flex-col bg-gray-200 rounded-lg p-5 ml-6 gap-5'>
+          {/* Tournament name field */}
           <div className='flex flex-row gap-4'>
             <p className='text-xl pt-1'>Tournament name:</p>
             <label className="leading-5" style={{borderWidth: "1.5px"}}>
@@ -42,6 +32,7 @@ export default function TournamentForm() {
             </label>
           </div>
 
+          {/* Deadline field */}
           <div className='flex flex-row gap-4 h-10'>
             <p className='text-xl pt-2'>Deadline:</p>
             <label className="items-center gap-2">
@@ -57,7 +48,8 @@ export default function TournamentForm() {
         </div>
 
         <br/>
-      
+
+        {/* Question fields */}
         {fields.length > 0 &&
           fields.map((field, index) => (
             <>
@@ -78,6 +70,7 @@ export default function TournamentForm() {
         }
 
         <div className='w-full flex flex-row gap-3 p-5 ml-6'>
+          {/* Button to add Questions*/}
           <button className="btn btn-info bg-blue-600" type="button" onClick={() => append(
             {
               type: '',
@@ -90,6 +83,7 @@ export default function TournamentForm() {
             Add Question
           </button>
 
+          {/* Button to submit Tournament */}
           <button className='btn btn-success' type="submit" disabled={!fields.length}>Submit Tournament</button>
         </div>
       </form>

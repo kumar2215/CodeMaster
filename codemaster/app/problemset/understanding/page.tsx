@@ -28,7 +28,12 @@ export default async function CodeUnderstanding() {
   const questionsDoneByUser = userData && userData[0].questions_done;
   const questionIdsDoneByUser = questionsDoneByUser && questionsDoneByUser.map((question: { id: any; }) => question.id);
   
-  const { data: questions, error: err2 } = await supabase.from("Questions").select(`*`).eq("type", "Code Understanding");
+  const { data: questions, error: err2 } = await supabase
+    .from("Questions")
+    .select(`*`)
+    .eq("type", "Code Understanding")
+    .eq("purpose", "general");
+  
   if (err2) { console.error(err2); }
 
   if (questions) { // need to modify this logic

@@ -12,6 +12,7 @@ export default async function handleMCQ(questionPart: any, username: any) {
   const expected: number = questionPart.expected;
   let points: number = questionPart.points;
   const source: any = questionPart.source;
+  const partOfCompetition: any = questionPart.partOfCompetition;
   
   const res = await supabase.from("Users").select("*").eq("username", username);
   if (res.error) { console.error(res.error); }
@@ -52,7 +53,9 @@ export default async function handleMCQ(questionPart: any, username: any) {
     options: options,
     points: points,
     expected: expected,
-    source: source
+    source: source,
+    partOfCompetition: partOfCompetition,
+    selectedOption: questionPart.selectedOption
   }
   
   return <MCQ data={data} />;

@@ -1,5 +1,5 @@
 "use client";
-import { useForm, useFieldArray, Controller } from 'react-hook-form';
+import { useFieldArray, Controller } from 'react-hook-form';
 import dynamic from 'next/dynamic';
 
 const CodeEditor = dynamic(
@@ -7,13 +7,20 @@ const CodeEditor = dynamic(
   { ssr: false }  // This component will only be imported on the client-side
 );
 
-export default function FreestyleForm({ part, control, register, parentIndex, removePart, watch, errors, qnNum, language}) {
-  const { fields, append, remove } = useFieldArray({
+export default function FreestyleForm({ part, control, register, parentIndex, removePart, watch, qnNum, language}) {
+
+  const { fields: testcases, append: appendTestcase, remove: removeTestcase } = useFieldArray({
     control,
     name: `questions.${qnNum-1}.parts.${parentIndex}.inputs`
   });
+
+  const { fields: parameters, append: appendParameter, remove: removeParameter } = useFieldArray({
+    control,
+    name: `questions.${qnNum-1}.parts.${parentIndex}.parameters`
+  });
   
-  const format = watch(`questions.${qnNum-1}.parts.${parentIndex}.format`, '');
+  const params = watch(`questions.${qnNum-1}.parts.${parentIndex}.parameters`, []);
+  const allowedTypes = ['int', 'double','boolean', 'string', 'int[]', 'double[]', 'boolean[]', 'string[]'];
   
   return (
     <div className='w-full flex flex-col gap-y-4'>
@@ -30,10 +37,10 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
       </div>
 
       <div>
-        The Freestyle part consists of only code and inputs/testcases to test the code. The format field is used to 
-        specify the name of the parameters used in the main function. The inputs are the values of the arguments themselves.
-        This part should only be used for the Debugging and Refactoring question types. For Debugging, there should be inputs
-        that the code fails on. For Refactoring, the code should pass all inputs. The code part consists of 3 parts:
+        The Freestyle part consists of only code and inputs/testcases to test the code. The parameters field is used to 
+        specify the name of the parameters used in the main function. The testcases are the values of the arguments themselves.
+        This part should only be used for the Debugging and Refactoring question types. For Debugging, there should be testcases
+        that the given code fails on. For Refactoring, the code should pass all testcases. The code part consists of 3 parts:
         precode, usercode, and postcode. The precode and postcode are optional. The usercode is the code that the user sees and
         modifies and should contain the main function. The precode is the code that comes before the usercode and the postcode 
         is the code that comes after the usercode.
@@ -53,10 +60,6 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
         <h2>Question:</h2>
         <textarea 
           className='w-full h-8 mt-2 pl-2 pt-1' {...register(`questions.${qnNum-1}.parts.${parentIndex}.question`)} />
-        {/* {errors.questions?.[qnNum-1]?.parts?.[parentIndex]?.question && 
-          (<p className="error text-red-600 text-center">
-          {errors.questions[qnNum-1].parts[parentIndex].question.message}
-          </p>)} */}
       </div>
       
       <section className='flex flex-col gap-2'>
@@ -81,7 +84,6 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
         name={`questions.${qnNum-1}.parts.${parentIndex}.code`}
         control={control}
         defaultValue=""
-        // rules={{ required: "Code is required" }}
         render={({ field }) => (
           <CodeEditor
           language={language}
@@ -121,43 +123,73 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
       )}
       />
 
-      <Controller
-      name={`questions.${qnNum-1}.parts.${parentIndex}.format`}
-      control={control}
-      render={({ field }) => (
-        <div className='flex flex-col gap-2'>
-          <h2>Format (enter as a comma-separated list) :</h2>
-          <label className="leading-5" style={{borderWidth: "1.5px"}}>
-            <input className='w-full h-8 pl-2' {...field} required={true} />
-          </label>
-        </div>
-      )}
-      />
+      {/* Parameters field */}
+      <h2>Main function parameters:</h2>
+      <div className='w-5/12 flex flex-row justify-evenly'>
+        <h2 className='pb-1 border-b-2'>Name</h2>
+        <h2 className='pb-1 border-b-2'> Type</h2>  
+      </div>
+      {parameters.length > 0
+      ? parameters.map((p, i) => {
+          return (
+          <div key={i} className='flex flex-row gap-4'>
+            <button 
+            className='bg-white border-black w-6 h-6' style={{borderWidth: "1px"}}
+            onClick={() => removeParameter(i)} 
+            >
+            - 
+            </button>
+            <label className="w-44 leading-5" style={{borderWidth: "1.5px"}}>
+              <input
+              className='w-full pl-1'
+              {...register(`questions.${qnNum-1}.parts.${parentIndex}.parameters.${i}.name`)}
+              >
+              </input>
+            </label>
+            <label className="leading-5" style={{borderWidth: "1.5px"}}>
+              <select
+              {...register(`questions.${qnNum-1}.parts.${parentIndex}.parameters.${i}.type`)}
+              >
+              {allowedTypes.map((type, i) => (
+                <option key={i} value={type}>{type}</option>
+              ))}
+              </select>
+            </label>
+          </div>
+        )})
+      : null}
+
+      <button className="btn btn-info mt-4 mr-2 mb-2" type="button" onClick={() => {
+        appendParameter({ name: '', type: '' });
+      }}>
+      Add Parameter
+      </button>
       
-      {/*Inputs field */}
-      {format.length > 0
-      ? fields.map((item, index) => (
+      {/* Testcases field */}
+      <h2>Testcases:</h2>
+      {params.length > 0
+      ? testcases.map((item, index) => (
         <div key={item.id} >
           <div className='flex flex-row gap-2'>
             <button 
               className='bg-white border-black w-6 h-6 my-1' style={{borderWidth: "1px"}}
-              onClick={() => remove(index)}
+              onClick={() => removeTestcase(index)}
             >
               - 
             </button>
-            <h2 className='pt-1'>Input {index+1}</h2>
+            <h2 className='pt-1'>Testcase {index+1}</h2>
           </div>
-          {format.split(',').map((f, i) => {
+          {params.map((p, i) => {
             return (
-            f.trim() !== '' &&
+            p.name.trim() !== '' &&
             <div key={i} className='flex flex-row gap-2 my-2 ml-10'>
-              <p>{f.trim()}:</p>
+              <p>{p.name}:</p>
               <label className="leading-5" style={{borderWidth: "1.5px"}}>
                 <input
-                {...register(`questions.${qnNum-1}.parts.${parentIndex}.inputs.${index}.${f.trim()}`, 
+                {...register(`questions.${qnNum-1}.parts.${parentIndex}.inputs.${index}.${p.name}`, 
                 { required: "Input is required" }
                 )}
-                className='input-info h-6 pl-2'
+                className='input-info h-6 pl-1'
                 />
               </label>
             </div>
@@ -169,7 +201,7 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
               {...register(`questions.${qnNum-1}.parts.${parentIndex}.inputs.${index}.expected`, 
               { required: "Input is required" }
               )}
-              className='input-info h-6 pl-2'
+              className='input-info h-6 pl-1'
               />
             </label>
           </div>
@@ -182,24 +214,24 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
                 validate: value => value >= 0 || "Points cannot be negative"
               })}
               type='number'
-              className='input-info h-6 pl-2'
+              className='input-info h-6 pl-1'
               />
             </label>
           </div>
         </div>
       ))
-      : fields.length > 0
-      ? <p className='text-red-600'>Please enter a format first.</p>
+      : testcases.length > 0
+      ? <p className='text-red-600'>Please enter the parameters first.</p>
       : null}
       
       <button className="btn btn-info mt-4 mr-2 mb-2" type="button" onClick={() => {
         const obj = {};
-        format.split(',').forEach((f, i) => {
-          if (f.trim() !== '') obj[f.trim()] = '';
+        params.forEach((p, i) => {
+          if (p.name.trim() !== '') obj[p.name.trim()] = '';
         });
-        append(obj);
+        appendTestcase(obj);
       }}>
-      Add Input
+      Add Testcase
       </button>
       
     </div>

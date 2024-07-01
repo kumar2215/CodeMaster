@@ -223,7 +223,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
             part: '',
             questionType: "Freestyle",
             question: '',
-            format: '',
+            parameters: '',
             inputs: [],
             points: [],
             precode: '',

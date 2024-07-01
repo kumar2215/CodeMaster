@@ -24,6 +24,7 @@ const MultipleResponseForm = ({ part, control, register, parentIndex, removePart
         <p className='text-xl pt-2'>Multiple-Responses</p>
       </div>
 
+      {/* Description for Multiple-Response */}
       <div>
         The Multiple-Response part consists of multiple inputs that are used as arguments to the main function
         specified in the question's content. The format field is used to specify the name of the parameters used 
@@ -41,12 +42,14 @@ const MultipleResponseForm = ({ part, control, register, parentIndex, removePart
         </p>
       </div>
 
+      {/* Question field */}
       <div>
         <h2>Question:</h2>
         <textarea 
           className='w-full h-8 mt-2 pl-2 pt-1' {...register(`questions.${qnNum-1}.parts.${parentIndex}.question`)} />
       </div>
       
+      {/* Format field */}
       <Controller
       name={`questions.${qnNum-1}.parts.${parentIndex}.format`}
       control={control}
@@ -64,6 +67,7 @@ const MultipleResponseForm = ({ part, control, register, parentIndex, removePart
       ? fields.map((item, index) => (
         <div key={item.id} >
           <div className='flex flex-row gap-2'>
+            {/* Button to remove input */}
             <button 
               className='bg-white border-black w-6 h-6 my-1' style={{borderWidth: "1px"}}
               onClick={() => remove(index)}
@@ -72,6 +76,8 @@ const MultipleResponseForm = ({ part, control, register, parentIndex, removePart
             </button>
             <h2 className='pt-1'>Input {index+1}</h2>
           </div>
+
+          {/* Input fields */}
           {format.split(',').map((f, i) => {
             return (
             f.trim() !== '' &&
@@ -117,6 +123,7 @@ const MultipleResponseForm = ({ part, control, register, parentIndex, removePart
       ? <p className='text-red-600'>Please enter a format first.</p>
       : null}
       
+      {/* Button to add input */}
       <button className="btn btn-info mt-4 mr-2 mb-2" type="button" onClick={() => {
         const obj = {};
         format.split(',').forEach((f, i) => {

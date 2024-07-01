@@ -1,5 +1,6 @@
 "use client";
 import {createClient} from "@/utils/supabase/client";
+import convertDate from "@/app/utils/dateConversion/convertDateV1";
 import Link from "next/link";
 
 export default function DiscussionsTable(data: any) {
@@ -16,13 +17,6 @@ export default function DiscussionsTable(data: any) {
         .eq("id", discussions[index].id)
 
     if (res.error) { console.error(res.error) }
-  }
-
-  const convertDate = (timeString: string) => {
-    const date: string = new Date(timeString).toLocaleDateString();
-    let time: string = new Date(timeString).toLocaleTimeString();
-    time = time.split(":").slice(0, 2).join(":") + " " + time.split(" ")[1].toLowerCase();
-    return date + ", " + time;
   }
 
   return (

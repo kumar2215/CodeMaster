@@ -5,6 +5,7 @@ import ReplyButton from "@/components/buttons/ReplyButton";
 import { SubmitButton } from "@/components/buttons/submit-button";
 import unhighlightedCommentBtn from "@/assets/unhighlighted_replies_button.jpg";
 import highlightedCommentBtn from "@/assets/highlighted_replies_button.jpg";
+import convertDate from "@/app/utils/dateConversion/convertDateV2";
 import { useState } from "react";
 
 export default function CommentSection(params: any) {
@@ -26,13 +27,6 @@ export default function CommentSection(params: any) {
   const [showReplies, setShowReplies] = useState(false);
   const [repliesBtn, setRepliesBtn] = useState(unhighlightedCommentBtn.src);
   const [repliesLoaded, setRepliesLoaded] = useState(<div></div>);
-
-  const convertDate = (timeString: string) => {
-    const date: string = new Date(timeString).toDateString();
-    let time: string = new Date(timeString).toLocaleTimeString();
-    time = time.split(":").slice(0, 2).join(":") + " " + time.split(" ")[1].toLowerCase();
-    return date + ", " + time;
-  }
 
   const submitReply = async (formData: FormData) => {
     

@@ -2,8 +2,6 @@ import processAndValidateQuestion from './processQuestion';
 import { toast } from 'react-toastify';
 
 export default function processAndValidateFormData(data, type) {
-  console.log(data);
-  console.log(type);
   const processedData = { ...data };
 
   // check if name is set

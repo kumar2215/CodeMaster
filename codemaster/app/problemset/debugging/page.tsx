@@ -26,7 +26,12 @@ export default async function Debugging() {
   const questionsDoneByUser = userData && userData[0].questions_done;
   const questionIdsDoneByUser = questionsDoneByUser && questionsDoneByUser.map((question: { id: any; }) => question.id);
   
-  const { data: questions, error: err2 } = await supabase.from("Questions").select(`*`).eq("type", "Debugging");
+  const { data: questions, error: err2 } = await supabase
+    .from("Questions")
+    .select(`*`)
+    .eq("type", "Debugging")
+    .eq("purpose", "general");
+  
   if (err2) { console.error(err2); }
   
   if (questions) {

@@ -12,6 +12,7 @@ export default async function handleMultipleResponses(questionPart: any, usernam
   const inputs: any[] = questionPart.inputs;
   let points: number[] = questionPart.points;
   const source: any = questionPart.source;
+  const partOfCompetition: any = questionPart.partOfCompetition;
   
   const res = await supabase.from("Users").select("*").eq("username", username);
   if (res.error) { console.error(res.error); }
@@ -54,7 +55,9 @@ export default async function handleMultipleResponses(questionPart: any, usernam
     format: format,
     inputs: inputs,
     points: points,
-    source: source
+    source: source,
+    partOfCompetition: partOfCompetition,
+    savedInputs: questionPart.savedInputs
   }
 
   return <MultipleResponses data={data} />;

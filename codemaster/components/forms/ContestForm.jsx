@@ -2,9 +2,7 @@
 import React from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import QuestionForm from './QuestionForm';
-import processAndValidateFormData from '@/app/utils/Misc/processForm'
-import submitForm from '@/app/utils/ServerActions/submitForm';
-import { toast } from 'react-toastify';
+import submitContestForm from '@/app/utils/Submissions/submitContestForm';
 
 export default function ContestForm() {
 
@@ -22,18 +20,9 @@ export default function ContestForm() {
     name: 'questions'
   });
 
-  async function onSubmit(data) {
-    const processedData = processAndValidateFormData(data, "Contest");
-    if (!processedData || processedData.questions.some(q => !q) || processedData.questions.some(question => question.parts.some(p => !p))) return;
-    const successful = await submitForm(processedData, "Contests");     
-    if (successful) {
-      toast.success("Contest created successfully!", {autoClose: 3000});
-    }
-  }
-
   return (
     <div className="w-full max-w-5xl">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(submitContestForm)}>
         <div className='w-full flex flex-col bg-gray-200 rounded-lg p-5 ml-6 gap-5'>
           <div className='flex flex-row gap-4'>
             <p className='text-xl pt-1'>Contest name:</p>

@@ -67,16 +67,11 @@ export default async function upload(question, purpose, isVerified = true) {
 
     else if (questionType === "Freestyle") {
       
-      const format = part.format;
+      // TODO: need to change this
+      const parameters = part.parameters;
       const inputs = part.inputs;
       for (let j = 0; j < inputs.length; j++) {
         const data = inputs[j];
-        for (let k = 0; k < format.length; k++) {
-          if (data[format[k]] === undefined) {
-            console.error("Testcase format does not match the format of the question");
-            return;
-          }
-        }
         const { data: res, error } = await supabase.from("Testcases").insert({data: data}).select();
         if (error) { console.error(error); return; }
 
@@ -86,7 +81,7 @@ export default async function upload(question, purpose, isVerified = true) {
       const points = part.points;
       total_points += points.reduce((a, b) => a + b, 0);
       const { data: res, error } = await supabase.from("Freestyle").insert({
-        question: question, format: format, inputs: inputs, points: points, part: partValue,
+        question: question, parameters: parameters, inputs: inputs, points: points, part: partValue,
         code: part.code, pre_code: part.pre_code, post_code: part.post_code, function_name: part.function_name
       }).select();
       if (error) { console.error(error); return;}

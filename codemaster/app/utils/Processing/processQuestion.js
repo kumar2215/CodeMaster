@@ -77,92 +77,125 @@ export default function processAndValidateQuestion(question, idx) {
 
       let partValue;
       if (question.parts.length === 1) {
-        partValue = "null";
+        partValue = "";
       } else {
-        partValue = String.fromCharCode(index + 65).toLowerCase();
+        partValue = "part " + String.fromCharCode(index + 65).toLowerCase();
       }
-
+      
+      // check if there is a question
       if (part.question === '') {
-        toast.error(`Question ${i} part ${partValue} has no question`, {autoClose: 3000});
+        toast.error(`Question ${i} ${partValue} has no question`, {autoClose: 3000});
         return false;
       }
 
       if (part.questionType === "Multiple-Responses" || part.questionType === "Freestyle") {
-
+        
+        // check if points are valid
         const pointsArray = part.points.map(point => Number(point));
         pointsArray.forEach(points => {
           if (points <= 0) {
-            toast.error(`Question ${i} part ${partValue} has non-positive points`, {autoClose: 3000});
+            toast.error(`Question ${i} ${partValue} has non-positive points`, {autoClose: 3000});
             return false;
           }
         })
+        
+        if (part.questionType === "Multiple-Responses") {
 
-        if (part.format === '') {
-          toast.error(`Question ${i} part ${partValue} has an empty format`, {autoClose: 3000});
-          return false;
-        }
-        const formatArray = part.format.split(',').map(f => f.trim() !== '' ? f.trim() : '').filter(f => f !== '');
+          // check if format is not empty
+          if (part.format === '') {
+            toast.error(`Question ${i} ${partValue} has an empty format`, {autoClose: 3000});
+            return false;
+          }
+          const formatArray = part.format.split(',').map(f => f.trim() !== '' ? f.trim() : '').filter(f => f !== '');
 
-        if (part.inputs.length === 0) {
-          toast.error(`Question ${i} part ${partValue} has no inputs`, {autoClose: 3000});
-          return false;
-        }
-
-        for (let j = 0; j < part.inputs.length; j++) {
-          const input = part.inputs[j];
-          for (let k = 0; k < formatArray.length; k++) {
-            if (input[formatArray[k]] === undefined) {
-              toast.error(`Question ${i} part ${partValue} input ${j+1} has missing field ${formatArray[k]}`, {autoClose: 3000});
+          // check if inputs are not empty
+          if (part.inputs.length === 0) {
+            toast.error(`Question ${i} ${partValue} has no inputs`, {autoClose: 3000});
+            return false;
+          }
+          
+          // check if inputs are valid
+          for (let j = 0; j < part.inputs.length; j++) {
+            const input = part.inputs[j];
+            for (let k = 0; k < formatArray.length; k++) {
+              if (input[formatArray[k]] === undefined) {
+                toast.error(`Question ${i} ${partValue} input ${j+1} has missing field ${formatArray[k]}`, {autoClose: 3000});
+                return false;
+              }
+            }
+            if (input.expected === '' || input.expected === undefined) {
+              toast.error(`Question ${i} ${partValue} input ${j+1} has no expected field`, {autoClose: 3000});
               return false;
             }
-          }
-          if (input.expected === '' || input.expected === undefined) {
-            toast.error(`Question ${i} part ${partValue} input ${j+1} has no expected field`, {autoClose: 3000});
-            return false;
           }
         }
 
         if (part.questionType === "Freestyle") {
           // check if user code is present
           if (part.code === '') {
-            toast.error(`Question ${i} part ${partValue} needs to have usercode`, {autoClose: 3000})
+            toast.error(`Question ${i} ${partValue} needs to have usercode`, {autoClose: 3000})
             return false;
           }
 
           // check if function name is present
           if (part.functionName === '') {
-            toast.error(`Question ${i} part ${partValue} needs to have a main function name`, {autoClose: 3000})
+            toast.error(`Question ${i} ${partValue} needs to have a main function name`, {autoClose: 3000})
             return false;
           }
 
           // check if user code has main function name
           if (!part.code.includes(part.functionName)) {
-            toast.error(`Question ${i} part ${partValue}'s usercode needs to contain the main function name`, {autoClose: 3000})
+            toast.error(`Question ${i} ${partValue}'s usercode needs to contain the main function name`, {autoClose: 3000})
             return false;
+          }
+
+          // check if given parameters are not empty
+          if (part.parameters.length === 0) {
+            toast.error(`Question ${i} ${partValue} has no parameters`, {autoClose: 3000});
+            return false;
+          }
+
+          // check if given parameters are valid
+          for (let j = 0; j < part.parameters.length; j++) {
+            const parameter = part.parameters[j];
+            if (parameter.name === '') {
+              toast.error(`Question ${i} ${partValue} parameter ${j+1} has empty name`, {autoClose: 3000});
+              return false;
+            }
+            if (parameter.type === '') {
+              toast.error(`Question ${i} ${partValue} parameter ${j+1} has empty type`, {autoClose: 3000});
+              return false;
+            }
           }
 
           const pre_code = part.precode;
           const post_code = part.postcode;
           const refactoring = question.type === "Refactoring";
 
-          return { ...part, part: partValue, points: pointsArray, format: formatArray, pre_code, post_code, refactoring, function_name: part.functionName };
+          return { ...part, part: partValue ? partValue.split(" ")[1] : "null", points: pointsArray, pre_code, post_code, refactoring, function_name: part.functionName };
         }
 
-        return { ...part, part: partValue, points: pointsArray, format: formatArray };
+        return { ...part, part: partValue ? partValue.split(" ")[1] : "null", points: pointsArray, format: formatArray };
       }
 
       if (part.questionType === "MCQ" || part.questionType === "MRQ") {
 
         // check if there are options
         if (!part.options || part.options.length === 0) {
-          toast.error(`Question ${i} part ${partValue} has no options`, {autoClose: 3000});
+          toast.error(`Question ${i} ${partValue} has no options`, {autoClose: 3000});
+          return false;
+        }
+
+        // check if there is more than one option
+        if (part.options.length < 2) {
+          toast.error(`Question ${i} ${partValue} needs more than 1 option`, {autoClose: 3000});
           return false;
         }
         
         // check if options are not empty
         for (let k = 0; k < part.options.length; k++) {
           if (part.options[k].value.trim() === "") {
-            toast.error(`Question ${i} part ${partValue} option ${k+1} is empty`, {autoClose: 3000});
+            toast.error(`Question ${i} ${partValue} option ${k+1} is empty`, {autoClose: 3000});
             return false;
           }
         }
@@ -170,14 +203,19 @@ export default function processAndValidateQuestion(question, idx) {
         // check if options contain duplicates
         const optionValues = part.options.map(option => option.value);
         if (new Set(optionValues).size !== optionValues.length) {
-          toast.error(`Question ${i} part ${partValue} has duplicate options`, {autoClose: 3000});
+          toast.error(`Question ${i} ${partValue} has duplicate options`, {autoClose: 3000});
           return false;
         }
+
+        // add language to options
+        part.options = part.options.map(
+          option => option.category === "code" ? { ...option, language: question.language } : option
+        );
 
         const points = Number(part.points);
         // check if points is positive
         if (points <= 0) {
-          toast.error(`Question ${i} part ${partValue} has non-positive points`, {autoClose: 3000});
+          toast.error(`Question ${i} ${partValue} has non-positive points`, {autoClose: 3000});
           return false;
         }
 
@@ -186,21 +224,21 @@ export default function processAndValidateQuestion(question, idx) {
         if (part.questionType === "MCQ") {
           part.expected = Number(part.expected);
           if (part.expected <= 0 || part.expected > L) {
-            toast.error(`Question ${i} part ${partValue}'s right option has to be within the option numbers`, {autoClose: 3000});
+            toast.error(`Question ${i} ${partValue}'s right option has to be within the option numbers`, {autoClose: 3000});
             return false;
           }
-          return { ...part, part: partValue, expected: part.expected, points };
+          return { ...part, part: partValue ? partValue.split(" ")[1] : "null", expected: part.expected, points };
         }
 
         if (part.questionType === "MRQ") {
           const expectedArray = part.expected.split(',').map(val => Number(val.trim()));
           for (let k = 0; k < part.expected.length; k++) {
             if (expectedArray[k] <= 0 || expectedArray > L) {
-              toast.error(`Question ${i} part ${partValue}\n Right option has to be within the option numbers`, {autoClose: 3000});
+              toast.error(`Question ${i} ${partValue}\n Right option has to be within the option numbers`, {autoClose: 3000});
               return false;
             }
           }
-          return { ...part, part: partValue, expected: expectedArray, points };
+          return { ...part, part: partValue ? partValue.split(" ")[1] : "null", expected: expectedArray, points };
         }
       }
 
