@@ -1,12 +1,11 @@
 import React from 'react'
 
 export const LeaderboardsRow = ({data, index, xpType}) => {
-    console.log(data, xpType)
     return (
         <tr
         className={`border-l border-r border-t border-gray-800 bg-gray-100 text-gray-600 ${index == 0 ? "" : "border-t"}  transition duration-300 ease-in-out hover:bg-neutral-300`}
             key={index}
-            aria-label={`${data.itemName}`}>
+            aria-label={``}>
             <td
                 className={`text-sm  font-semibold px-2 py-4 whitespace-nowrap text-center`}
             >

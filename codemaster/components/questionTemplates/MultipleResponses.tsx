@@ -16,12 +16,21 @@ export default function MultipleResponses(params: any) {
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition;
 
-  let inputStates: any[];
+  let inputStates: any[] = inputs.map(() => useState(""));
+  let status: string = "Not Attempted";
 
-  if (partOfCompetition && data.savedInputs !== undefined) {
-    inputStates = data.savedInputs.map((savedInput: any) => useState(savedInput));
-  } else {
-    inputStates = inputs.map(() => useState(""));
+  if (partOfCompetition) {
+    status = partOfCompetition.status;
+    if (status === "Attempted" && partOfCompetition.data[part]) {
+      inputStates = partOfCompetition.data[part].savedInputs.map((savedInput: any) => useState(savedInput));
+    } else if (status === "Completed") {
+      inputStates = partOfCompetition.data[part].answered.map((savedInput: any, i: number) => {
+        let value = partOfCompetition.data[part].status[i] === "Correct"
+          ? `${points[i]}/${points[i]} ✅`
+          : `0/${points[i]} ❌`;
+        return useState(value);
+      });
+    }
   }
 
   const [submitted, setSubmitted] = useState(false);
@@ -141,21 +150,30 @@ export default function MultipleResponses(params: any) {
       : <></>
       }
       <div className="flex flex-row justify-between p-2 pl-4 m-2 mb-0">
+      {status !== "Completed" &&
       <SubmitButton
-        formAction={partOfCompetition ? handleSave : handleSubmit}
-        className="text-lg font-medium bg-blue-500 text-white p-2 rounded-lg"
-        pendingText={partOfCompetition ? "Saving..." : "Submitting..."}
-        >
-        {partOfCompetition ? "Save" : "Submit"}
+      formAction={partOfCompetition ? handleSave : handleSubmit}
+      className="text-lg font-medium bg-blue-500 text-white p-2 rounded-lg"
+      pendingText={partOfCompetition ? "Saving..." : "Submitting..."}
+      >
+      {partOfCompetition ? "Save" : "Submit"}
       </SubmitButton>
-      <span className="text-lg font-medium pr-5 pt-2">{
+      }
+      {status !== "Completed" 
+       ? <span className="text-lg font-medium pr-5 pt-2">{
         !submitted || !inputStates.every((inputState: any) => inputState[0] !== "")
         ? `[${totalPoints} points]` 
         : additionalPoints === totalPoints && submitted
         ? `${totalPoints} / ${totalPoints} ✅`
         : `${additionalPoints} / ${totalPoints}❌`
+        }</span>
+       : <span className="text-lg font-medium pr-5 pt-2">{
+        partOfCompetition.data[part].pointsAccumulated === totalPoints
+        ? `${totalPoints} / ${totalPoints} ✅`
+        : `${partOfCompetition.data[part].pointsAccumulated} / ${totalPoints} ❌`
+        }</span>
       }
-      </span>
+      
       </div>
       </form>
       </div>

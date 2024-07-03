@@ -1,7 +1,8 @@
 import Navbar from "@/components/misc/navbar";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import convertDate from "@/app/utils/dateConversion/convertDateV2";
+import Link from "next/link";
+import convertDate from "@/app/utils/dateConversion/convertDateV1";
 import contestIcon from "@/assets/contest-icon.jpg"
 const thisLink = "/contests";
 
@@ -55,6 +56,11 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
 
   const questions = contestData.questions;
   const link = `/questions/contest-${contestData.id}[1-${questions.length}]${questions.join("^")}`;
+  const btnText = contestData.status === "Not Attempted" 
+    ? "Start contest" 
+    : contestData.status === "Attempted"
+    ? "Resume contest"
+    : "View results";
 
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
@@ -90,7 +96,7 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
             className="bg-green-300 text-base font-medium p-2 rounded-2xl hover:bg-green-400 cursor-pointer hover:font-semibold" 
             style={{border: "1px solid black"}}
             >
-              <a href={link}>Start Contest</a>
+              <Link href={link}>{btnText}</Link>
             </button>
           </div>
 

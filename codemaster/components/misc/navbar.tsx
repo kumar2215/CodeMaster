@@ -36,7 +36,7 @@ export default function Navbar(linkObj: any) {
     {createListElement("/tournaments", "Tournaments")}
     {createListElement("/leaderboards", "Leaderboards")}
     {createListElement("/forum", "Forum")}
-    {createListElement("/others", "Others")}
+    {createListElement("/profile", "Profile")}
     </ul>
     </div>
     <div className="w-full max-w-4xl flex justify-end gap-3 p-3 text-sm">

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 import submitFreestyle from '@/app/utils/Submissions/submitFreestyle';
 import saveFreestyle from '@/app/utils/Saving/saveFreestyle';
 import dropdownBtn from "@/assets/dropdown-btn.jpg"
@@ -20,17 +21,34 @@ export default function FreeStyle ({data}: {data: any}) {
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition; 
 
-  if (partOfCompetition && data.savedCode !== undefined) {
-    codeData = data.savedCode;
-  }
-
-  const [code, setCode] = useState(codeData);
-  const [error, setError] = useState('');
-  const results = Array(inputs.length).fill('').map(x => useState({
+  
+  let results: any[] = Array(inputs.length).fill('').map(x => useState({
     actual: '',
     expected: '',
     error: ''
   }));
+  let status: string = "Not Attempted";
+
+  if (partOfCompetition) {
+    status = partOfCompetition.status;
+    if (status === "Attempted" && partOfCompetition.data[part]) {
+      codeData = partOfCompetition.data[part].savedCode;      
+    } else if (status === "Completed") {
+      codeData = partOfCompetition.data[part].answered;
+      results = Array(inputs.length).fill('').map((x: any, i: number) => {
+        let value = partOfCompetition.data[part].status[i];
+        value = value === "Correct" ? `${points[i]}/${points[i]}` : `0/${points[i]}`;
+        return useState({
+          actual: value,
+          expected: value,
+          error: ''
+        });
+      });
+    }
+  } 
+
+  const [code, setCode] = useState(codeData);
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [accPoints, setAccPoints] = useState(0);
@@ -40,9 +58,10 @@ export default function FreeStyle ({data}: {data: any}) {
     totalPoints += points[i];
   }
   const [showTestCases, setShowTestCases] = useState(false);
+  const router = useRouter();
 
   const runCodeAndSumbit = async () => {
-    await submitFreestyle(data, code, results, setIsLoading, setSubmitted, setAccPoints, setError);
+    return await submitFreestyle(data, code, results, setIsLoading, setSubmitted, setAccPoints, setError);
   };
 
   const handleSave = async () => {
@@ -177,12 +196,10 @@ export default function FreeStyle ({data}: {data: any}) {
                 {typeof results[idx][0].actual === "object" 
                 ? JSON.stringify(results[idx][0].actual).split(",").join(", ")
                 : results[idx][0].actual !== ''
-                ? results[idx][0].actual === results[idx][0].expected 
+                ? results[idx][0].actual === results[idx][0].expected
                 ? `${results[idx][0].actual} ✅` 
                 : `${results[idx][0].actual} ❌`
                 : results[idx][0].error
-                ? results[idx][0].error
-                : ''
                 }
               </div>
             </div>
@@ -198,19 +215,31 @@ export default function FreeStyle ({data}: {data: any}) {
     <br/>
      
     <div className="flex flex-row justify-between p-2 pl-4 mb-0">
-      <button className="text-lg font-medium bg-blue-500 text-white p-2 rounded-lg" onClick={partOfCompetition ? handleSave : runCodeAndSumbit}>
+      {status !== "Completed" && 
+      <button 
+      className="text-lg font-medium bg-blue-500 text-white p-2 rounded-lg" 
+      onClick={async () => partOfCompetition ? await handleSave() : await runCodeAndSumbit() && router.refresh()}>
       { isLoading 
         ? <span className="loading loading-spinner w-10"></span>
         : <div className='flex justify-center'>{partOfCompetition ? "Save" : "Submit"}</div>
       }
-      </button> 
-      <span className="text-lg font-medium pr-5 pt-2">{
+      </button>
+      }
+      {status !== "Completed"
+       ? <span className="text-lg font-medium pr-5 pt-2">{
         !submitted || isLoading
         ? `[${points.reduce((a: number, b: number) => a + b, 0)} points]`
         :  accPoints === totalPoints && submitted && !isLoading
         ? `${totalPoints} / ${totalPoints} ✅` 
         : `${accPoints} / ${totalPoints} ❌`
-      }</span>
+        }</span>
+       : <span className="text-lg font-medium pr-5 pt-2">{
+        partOfCompetition.data[part].pointsAccumulated === totalPoints
+        ? `${totalPoints} / ${totalPoints} ✅`
+        : `${partOfCompetition.data[part].pointsAccumulated} / ${totalPoints} ❌`
+        }</span>
+      }
+      
     </div>            
     </div>
   );

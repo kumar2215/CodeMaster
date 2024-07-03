@@ -1,6 +1,7 @@
 import Navbar from "@/components/misc/navbar";
 import placeInCodeBox from "@/components/codeBoxes/CodeBox";
 import handler from "@/app/utils/Handlers/handler";
+import Pagination from "@/components/misc/pagination";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
@@ -49,49 +50,7 @@ async function handlePart(questionData: any, part: any, singlePart: boolean = fa
     partData.inputs = inputs;
   }
 
-  // retrieve any saved data
-  if (questionData.partOfCompetition) {
-    const type = questionData.partOfCompetition.type;
-    const id = questionData.partOfCompetition.id;
-    
-    partData.partOfCompetition = questionData.partOfCompetition;
-
-    const field = type === "Contests" ? "contests_done" : "tournaments_done";
-    const res = await supabase.from("Users").select(`${field}`).eq("username", username).single();
-    if (res.error) { console.error(res.error); }
-
-    let competitionsDone = res.data && res.data[field];
-    competitionsDone = competitionsDone ? competitionsDone : [];
-
-    const index = competitionsDone.findIndex((competition: any) => competition.id === id);
-    if (index !== -1) {
-      const competitionDone = competitionsDone[index];
-      const index2 = competitionDone.questions.findIndex((q: any) => q.id === questionData.id);
-      if (index2 !== -1) {
-        const questionDone = competitionDone.questions[index2];
-        const index3 = questionDone.parts.findIndex((p: any) => p.partId === partId);
-        if (index3 !== -1) {
-          const partDone = questionDone.parts[index3];
-          if (partDone.status !== undefined) {
-            switch (questionType) {
-              case "MCQ":
-                partData.selectedOption = partDone.selectedOption;
-                break;
-              case "MRQ":
-                partData.selectedOptions = partDone.selectedOptions;
-                break;
-              case "Multiple-Responses":
-                partData.savedInputs = partDone.savedInputs;
-                break;
-              case "Freestyle":
-                partData.savedCode = partDone.savedCode;
-                break;
-            }
-          }
-        }
-      }
-    }
-  }
+  partData.partOfCompetition = questionData.partOfCompetition;
 
   return handler(questionType, partData, username);
 }
@@ -106,6 +65,8 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
     return redirect("/login");
   }
 
+  const username = user.user_metadata.username;
+
   let ID = id;
   id  = id.replaceAll("%5E", "^");
   id = id.replace("%5B", "[");
@@ -116,7 +77,7 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
   let prevText: string = "";
   let nextId: string = "";
   let nextText: string = "";
-  let type, Id, current;
+  let type: any, Id: any, current: any, totalQuestions: any;
 
   if (!single) {
     const regex = /(.*)\[(\d+)\-(\d+)\](.*)/;
@@ -127,16 +88,14 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
       type = competitionInfo[0];
       Id = competitionInfo.slice(1).join("-");
       current = parseInt(match[2]);
-      const total = parseInt(match[3]);
+      totalQuestions = parseInt(match[3]);
       const ids = match[4].split("^");
-      if (current < total) {
-        nextId = `${competition}[${current+1}-${total}]${ids.join("^")}`
+      if (current < totalQuestions) {
+        nextId = `${competition}[${current+1}-${totalQuestions}]${ids.join("^")}`
         nextText = "Next question";
-      } else {
-        nextText = "Submit contest";
       }
       if (current > 1) {
-        prevId = `${competition}[${current-1}-${total}]${ids.join("^")}`;
+        prevId = `${competition}[${current-1}-${totalQuestions}]${ids.join("^")}`;
         prevText = "Previous question";
       } else {
         prevId = `${type}/${Id}`;
@@ -150,16 +109,50 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
   if (err) { console.error(err); }
   const questionData = question && question[0];
 
-  if (questionData.purpose !== "general" && single) { 
+  // prevent users from accessing questions that are not part of a competition
+  if (questionData === null || (questionData.purpose !== "general" && single)) { 
     return redirect("/problemset");
   }
+
+  const res = await supabase.from("Users").select(`*`).eq("username", username).single();
+  if (res.error) { console.error(res.error); }
+
+  let competitionsDone: any;
+  if (type === "contest") {
+    competitionsDone = res.data && res.data.contests_done;
+  } else if (type === "tournament") {
+    competitionsDone = res.data && res.data.tournaments_done;
+  }
+
+  competitionsDone = competitionsDone ? competitionsDone : [];
+  const index = competitionsDone.findIndex((competition: any) => competition.id === Id);
+  const competitionDone = index !== -1 ? competitionsDone[index] : {};
 
   questionData.partOfCompetition = single
   ? false
   : {
     type: type === "contest" ? "Contests" : "Tournaments",
-    id: Id
-  }; // need to retrieve this in the handler
+    id: Id,
+    questionNumber: current,
+    totalQuestions,
+    data: (competitionDone.questions && competitionDone.questions[current-1]) || {},
+    status: competitionDone.status || "Not Attempted"
+  };
+
+  if (!single && competitionDone.status === "Completed" && current === totalQuestions) {
+    nextId = `${type}/${Id}`;
+    nextText = "Go back to start page";
+  }
+
+  const paginationData = {
+    type,
+    id: Id,
+    username,
+    prevId,
+    prevText,
+    nextId,
+    nextText
+  };
 
   const color = questionData.difficulty === "Easy" 
     ? "text-green-500" 
@@ -179,7 +172,7 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
     <div className="flex-1 w-full flex flex-col gap-8 items-center" style={{backgroundColor: "#80bfff"}}>
       <Navbar thisLink={thisLink} />
       <div className="w-full max-w-5xl bg-slate-50 p-3 border-4">
-        <div className="text-2xl font-bold min-h-10">Question: {questionData.title}</div>
+        <div className="text-2xl font-bold min-h-10">{`Question ${current ? current : ""}: ${questionData.title}`}</div>
 
         <div className="flex flex-row gap-2">
           <div className="text-lg font-medium min-h-10">Difficulty:</div>
@@ -218,30 +211,8 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
         handlePart(questionData, part)
       )}
 
-      {!single &&
-        <div className="w-full max-w-5xl flex flex-row justify-between">
-        {prevId && 
-          <button 
-          className="bg-green-300 text-base font-medium p-3 rounded-lg hover:bg-green-400 cursor-pointer hover:font-semibold"
-          style={{border: "1px solid black"}}
-          >
-            <a href={`/questions/${prevId}`}>{prevText}</a>
-          </button>
-        }
-        {nextId &&
-          <button 
-          className="bg-green-300 text-base font-medium p-3 rounded-lg hover:bg-green-400 cursor-pointer hover:font-semibold"
-          style={{border: "1px solid black"}}
-          // onClick={() => nextId === ''}
-          >
-            {nextId
-              ? <a href={`/questions/${nextId}`}>{nextText}</a>
-              : nextText
-            }
-          </button>
-        }
-        </div>
-      }
+      {/* pagination */}
+      {!single && <Pagination paginationData={paginationData} />}
       <br/>
     </div>
   );

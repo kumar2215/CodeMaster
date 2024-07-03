@@ -5,16 +5,15 @@ export default async function saveMCQ(
   data: any, 
   selectedOption: number
 ) {
-
-  const questionId: string = data.questionId;
-  const partId: string = data.partId;
-  const username: string = data.username;
   const part: string = data.part;
+  const username: string = data.username;
   const partOfCompetition: any = data.partOfCompetition;
 
   let competition: string = partOfCompetition.type;
   let competitionId: string = partOfCompetition.id;
-
+  const questionNumber: number = partOfCompetition.questionNumber;
+  const totalQuestions: number = partOfCompetition.totalQuestions;
+  
   if (!selectedOption) {
     toast(`Please select an option before saving.`, {type: "warning", autoClose: 3000});
     return;
@@ -36,77 +35,26 @@ export default async function saveMCQ(
   
   const index = competitionsDone.findIndex(
     (competition: { id: string }) => competition.id === competitionId);
-    
-  let competitionDone: any = {};
-  let questionDone: any = {};
-  let partDone: any = {};
 
   if (index !== -1) {
-    competitionDone = competitionsDone[index];
-    console.log(competitionDone);
-    const index2 = competitionDone.questions.findIndex((q : any) => q.id === questionId);
-    if (index2 !== -1) {
-      const questionDone = competitionDone.questions[index2];
-      const index3 = questionDone.parts.findIndex((p: any) => p.partId === partId);
-      if (index3 !== -1) {
-        const partDone = questionDone.parts[index3];
-        partDone.selectedOption = selectedOption;
-
-        questionDone.parts[index3] = partDone;
-      } 
-    
-      else {
-        partDone = {
-          part: part,
-          partId: partId,
-          type: "MCQ",
-          selectedOption: selectedOption,
-          status: "Attempted"
-        };
-        questionDone.parts.push(partDone);
-      }
-
-      competitionDone.questions[index2] = questionDone;
+    competitionsDone[index].questions[questionNumber - 1][part] = {
+      type: "MCQ",
+      selectedOption,
+      status: "Attempted"
     }
-  
-    else {
-      questionDone = {
-        id: questionId,
-        parts: [
-          {
-            part: part,
-            partId: partId,
-            type: "MCQ",
-            selectedOption: selectedOption,
-            status: "Attempted"
-          }
-        ]
-      };
-      competitionDone.questions.push(questionDone);
-    }
-
-    competitionsDone[index] = competitionDone;
   }
 
   else {
-    competitionDone = {
+    const competitionDone: any = {
       id: competitionId,
-      questions: [
-        {
-          id: questionId,
-          parts: [
-            {
-              part: part,
-              partId: partId,
-              type: "MCQ",
-              selectedOption: selectedOption,
-              status: "Attempted"
-            }
-          ]
-        }
-      ],
+      questions: Array.from({length: totalQuestions}, () => ({})),
       status: "Attempted"
     };
+    competitionDone.questions[questionNumber - 1][part] = {
+      type: "MCQ",
+      selectedOption,
+      status: "Attempted"
+    }
     competitionsDone.push(competitionDone);
   }
     

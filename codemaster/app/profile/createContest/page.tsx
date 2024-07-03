@@ -1,10 +1,11 @@
 import Navbar from "@/components/misc/navbar";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import IndividualQuestionForm from "@/components/forms/IndividualQuestionForm"
-const thisLink = "/others";
+import ContestForm from "@/components/forms/ContestForm";
 
-export default async function CreateQuestionsPage() {
+const thisLink = "/profile";
+
+export default async function CreateContestsPage() {
   const supabase = createClient();
 
   const {
@@ -23,13 +24,14 @@ export default async function CreateQuestionsPage() {
 
   if (error) { console.error(error); }
   
-  // const verified = data.user_type.includes("admin"); // to tell whether to submit immediately or wait for verification
+  const verified = data.user_type.includes("admin");
 
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
       <Navbar thisLink={thisLink} />
-        <h2 className="text-4xl pt-8">Create a question</h2>
-        <IndividualQuestionForm user_data={data} />
+        <h2 className="text-4xl pt-8">Design a contest</h2>
+        { verified ? <ContestForm /> : 
+        <h1>You dont have access to create a contest</h1> }
       <br/>
     </div>
   );

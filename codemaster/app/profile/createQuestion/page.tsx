@@ -1,10 +1,11 @@
 import Navbar from "@/components/misc/navbar";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import TournamentForm from "@/components/forms/TournamentForm";
-const thisLink = "/others";
+import IndividualQuestionForm from "@/components/forms/IndividualQuestionForm";
 
-export default async function CreateContestsPage() {
+const thisLink = "/profile";
+
+export default async function CreateQuestionsPage() {
   const supabase = createClient();
 
   const {
@@ -22,15 +23,12 @@ export default async function CreateContestsPage() {
     .single();
 
   if (error) { console.error(error); }
-  
-  const verified = data.user_type.includes("verified") || data.user_type.includes("admin");
 
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
       <Navbar thisLink={thisLink} />
-        <h2 className="text-4xl pt-8">Design your own tournament</h2>
-        { verified ? <TournamentForm /> : 
-        <h1>You dont have access to create a tournament</h1> }
+        <h2 className="text-4xl pt-8">Create a question</h2>
+        <IndividualQuestionForm user_data={data} />
       <br/>
     </div>
   );

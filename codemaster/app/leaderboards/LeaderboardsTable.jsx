@@ -1,9 +1,6 @@
 "use client"
 import React from 'react'
-import { useState, useEffect } from 'react';
 import { LeaderboardsRow } from './LeaderboardsRow';
-
-
 
 export const LeaderboardsTable = ({data, xpType, header}) => {
 
@@ -32,7 +29,6 @@ export const LeaderboardsTable = ({data, xpType, header}) => {
       </thead>
       <tbody className="border-grey border-gray-700 border-b ">
           {data.map((data, index) => {
-          
             return (<LeaderboardsRow data={data} index={index} key={index} xpType={xpType}/>)
           })}
         </tbody>

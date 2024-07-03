@@ -16,13 +16,17 @@ export default function MRQ(params: any) {
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition;
 
-  let selectedOptions : any[];
+  let selectedOptions : any[] = options.map(() => useState(false));
+  let status: string = "Not Attempted";
 
-  if (partOfCompetition && data.selectedOptions !== undefined) {
-    selectedOptions = data.selectedOptions.map((optionSelected: boolean) => useState(optionSelected));
-  } else {
-    selectedOptions = options.map(() => useState(false));
-  }
+  if (partOfCompetition) {
+    status = partOfCompetition.status;
+    if (status === "Attempted" && partOfCompetition.data[part]) {
+      selectedOptions = partOfCompetition.data[part].selectedOptions.map((optionSelected: boolean) => useState(optionSelected));
+    } else if (status === "Completed") {
+      selectedOptions = partOfCompetition.data[part].answered.map((optionSelected: boolean) => useState(optionSelected));
+    }
+  } 
 
   const [numOptionsSelected, setNumOptionsSelected] = useState(0);
   const [additionalPoints, setAdditionalPoints] = useState(0);
@@ -92,6 +96,7 @@ export default function MRQ(params: any) {
       : <></>
     }
     <div className={`flex flex-row justify-between p-2 ${!source ? "m-2" : ""} mb-0`}>
+    {status !== "Completed" &&
     <SubmitButton
     formAction={partOfCompetition ? handleSave : handleSubmit}
     className="text-lg font-medium bg-blue-500 text-white p-2 rounded-lg"
@@ -99,13 +104,21 @@ export default function MRQ(params: any) {
     >
     {partOfCompetition ? "Save" : "Submit"}
     </SubmitButton>
-    <span className="text-lg font-medium pr-5 pt-2">{
+    }
+    {status !== "Completed" 
+     ? <span className="text-lg font-medium pr-5 pt-2">{
       !submitted || !numOptionsSelected
       ? `[${points} points]` 
       : additionalPoints === points && submitted
       ? `${points} / ${points} ✅`
       : `${additionalPoints} / ${points} ❌`
-    }</span> 
+      }</span>
+     : <span className="text-lg font-medium pr-5 pt-2">{
+      partOfCompetition.data[part].pointsAccumulated === points
+      ? `${points} / ${points} ✅`
+      : `${partOfCompetition.data[part].pointsAccumulated} / ${points} ❌`
+      }</span>
+    }
     </div>
     </form>
     </div>

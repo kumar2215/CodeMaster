@@ -26,13 +26,11 @@ export default async function submitFreestyle(
   const points: number[] = data.points;
   const function_name: string = data.function_name;
 
-  const answeredRight: string[] = Array(inputs.length).fill("Incorrect");
-  const tests: any[] = [];
   let total = 0;
   for (let i = 0; i < inputs.length; i++) {
-    tests.push({input: inputs[i], points: points[i]});
     total += points[i];
   }
+  const answeredRight: string[] = Array(inputs.length).fill("Incorrect");
 
   let pointsAccumulated: number = 0;
 
@@ -53,7 +51,7 @@ export default async function submitFreestyle(
         language: language,
         parameters: parameters,
         function_name: function_name,
-        testcases: tests
+        testcases: inputs
       })
     });
 
@@ -196,4 +194,5 @@ export default async function submitFreestyle(
   else { console.log("Freestyle stats updated") };
 
   setIsLoading(false);
+  return true;
 }
