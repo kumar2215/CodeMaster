@@ -68,7 +68,6 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
   const username = user.user_metadata.username;
 
   let ID = id;
-  id  = id.replaceAll("%5E", "^");
   id = id.replace("%5B", "[");
   id = id.replace("%5D", "]");
 
@@ -80,7 +79,7 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
   let type: any, Id: any, current: any, totalQuestions: any;
 
   if (!single) {
-    const regex = /(.*)\[(\d+)\-(\d+)\](.*)/;
+    const regex = /(.*)\[(\d+)\-(\d+)\]/;
     const match = id.match(regex);
     if (match) {
       const competition = match[1];
@@ -89,25 +88,30 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
       Id = competitionInfo.slice(1).join("-");
       current = parseInt(match[2]);
       totalQuestions = parseInt(match[3]);
-      const ids = match[4].split("^");
       if (current < totalQuestions) {
-        nextId = `${competition}[${current+1}-${totalQuestions}]${ids.join("^")}`
+        nextId = `${competition}[${current+1}-${totalQuestions}]`
         nextText = "Next question";
       }
       if (current > 1) {
-        prevId = `${competition}[${current-1}-${totalQuestions}]${ids.join("^")}`;
+        prevId = `${competition}[${current-1}-${totalQuestions}]`;
         prevText = "Previous question";
       } else {
         prevId = `${type}/${Id}`;
         prevText = "Go back to start page";
       }
-      ID = ids[current-1];
+      const table = type === "contest" ? "Contests" : "Tournaments";
+      const { data: competitionData, error: err } = await supabase.from(table).select(`questions`).eq("id", Id).single();
+      if (err) { console.error(err); }
+      const questions = competitionData && competitionData.questions;
+      if (questions) {
+        ID = questions[current-1];
+      }
     }
   }
     
-  const { data: question, error: err } = await supabase.from("Questions").select(`*`).eq("id", ID);
+  const { data: question, error: err } = await supabase.from("Questions").select(`*`).eq("id", ID).single();
   if (err) { console.error(err); }
-  const questionData = question && question[0];
+  const questionData = question;
 
   // prevent users from accessing questions that are not part of a competition
   if (questionData === null || (questionData.purpose !== "general" && single)) { 

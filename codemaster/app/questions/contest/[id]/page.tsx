@@ -55,7 +55,7 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
   }
 
   const questions = contestData.questions;
-  const link = `/questions/contest-${contestData.id}[1-${questions.length}]${questions.join("^")}`;
+  const link = `/questions/contest-${contestData.id}[1-${questions.length}]`;
   const btnText = contestData.status === "Not Attempted" 
     ? "Start contest" 
     : contestData.status === "Attempted"
