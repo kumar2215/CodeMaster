@@ -1,6 +1,6 @@
 "use client";
 import {SubmitButton} from "@/components/buttons/submit-button";
-import submitToDB from "@/app/api/savePostToDB";
+import submitToDB from "@/app/api/savePost/save";
 import dynamic from "next/dynamic";
 // import { useState } from "react";
 import { toast } from "react-toastify";

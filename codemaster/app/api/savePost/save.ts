@@ -1,5 +1,5 @@
 "use server";
-import {createClient} from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function submitToDB(formData: FormData, topic: string) {
   const supabase = createClient();

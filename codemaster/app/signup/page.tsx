@@ -38,9 +38,13 @@ export default function SignUp({
     if (error) {
       console.error(error);
       return redirect("/signup?message=Someting went wrong. Please try again.");
+    } else {
+      if (data.user?.identities && data.user?.identities.length > 0) {
+        return redirect("/signup?message=Check email to continue sign in process");
+      } else {
+        return redirect("/signup?message=Email already exists. Please use a different email.");
+      }
     }
-
-    return redirect("/signup?message=Check email to continue sign in process");
   };
 
   return (

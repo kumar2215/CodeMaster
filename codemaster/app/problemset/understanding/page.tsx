@@ -32,7 +32,8 @@ export default async function CodeUnderstanding() {
     .from("Questions")
     .select(`*`)
     .eq("type", "Code Understanding")
-    .eq("purpose", "general");
+    .eq("purpose", "general")
+    .eq("verified", true);
   
   if (err2) { console.error(err2); }
 

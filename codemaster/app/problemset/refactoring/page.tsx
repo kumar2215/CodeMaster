@@ -30,7 +30,8 @@ export default async function Debugging() {
     .from("Questions")
     .select(`*`)
     .eq("type", "Refactoring")
-    .eq("purpose", "general");
+    .eq("purpose", "general")
+    .eq("verified", true);
   
   if (err2) { console.error(err2); }
   

@@ -1,5 +1,5 @@
 import processAndValidateFormData from '@/app/utils/Processing/processForm'
-import submitForm from '@/app/api/submitForm';
+import submitForm from '@/app/api/submitForm/submit';
 import { toast } from 'react-toastify';
 
 export default async function submitContestForm(data: any) {
