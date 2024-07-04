@@ -1,7 +1,7 @@
 "use client";
-import Link from "next/link";
 import { SubmitButton } from "@/components/buttons/submit-button";
 import submitCompetition from "@/app/utils/Submissions/submitCompetition";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { toast } from "react-toastify";
 

@@ -1,9 +1,9 @@
 import Navbar from "@/components/misc/navbar";
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import convertDate from "@/app/utils/dateConversion/convertDateV1";
-import contestIcon from "@/assets/contest-icon.jpg"
+import contestIcon from "@/assets/contest-icon.jpg";
 const thisLink = "/contests";
 
 export default async function ContestStartPage({params: {id}}: {params: {id: string}}) {

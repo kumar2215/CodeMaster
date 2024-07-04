@@ -1,7 +1,8 @@
 import Navbar from "@/components/misc/navbar";
 import { createClient } from "@/utils/supabase/server";
+import Link from "next/link";
 import { redirect } from "next/navigation";
-import convertDate from "@/app/utils/dateConversion/convertDateV2";
+import convertDate from "@/app/utils/dateConversion/convertDateV1";
 import tournamentIcon from "@/assets/tournament-icon.jpg"
 const thisLink = "/tournaments";
 
@@ -54,7 +55,7 @@ export default async function TournamentStartPage({params: {id}}: {params: {id: 
   }
 
   const questions = tournamentData.questions;
-  const link = `/questions/tournament-${tournamentData.id}[1-${questions.length}]${questions.join("^")}`;
+  const link = `/questions/tournament-${tournamentData.id}[1-${questions.length}]`;
 
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
@@ -96,7 +97,7 @@ export default async function TournamentStartPage({params: {id}}: {params: {id: 
             className="bg-green-300 text-base font-medium p-2 rounded-2xl hover:bg-green-400 cursor-pointer hover:font-semibold" 
             style={{border: "1px solid black"}}
             >
-              <a href={link}>Start Tournament</a>
+              <Link href={link}>Start Tournament</Link>
             </button>
           </div>
 

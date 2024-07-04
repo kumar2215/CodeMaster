@@ -1,6 +1,7 @@
 import { GeistSans } from "geist/font/sans";
 import logo from "../assets/CodeMaster-logo.jpg";
 import "./globals.css";
+import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -27,6 +28,7 @@ export default function RootLayout({
           {children}
         </main>
         <ToastContainer />
+        <NextTopLoader />
       </body>
     </html>
   );
