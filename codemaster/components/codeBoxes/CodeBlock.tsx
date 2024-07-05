@@ -23,19 +23,19 @@ function interceptKeys(evt: any) {
 }
 
 const CodeBlock = ({ language, value } : {language: string, value: string}) => {
-    useEffect(() => {
-        hljs.highlightAll();
+    // useEffect(() => {
+    //     hljs.highlightAll();
 
-        document.addEventListener('keydown', interceptKeys);
-        document.addEventListener('contextmenu', (e) => e.preventDefault());
-        document.addEventListener('dragstart', (e) => e.preventDefault());
+    //     document.addEventListener('keydown', interceptKeys);
+    //     document.addEventListener('contextmenu', (e) => e.preventDefault());
+    //     document.addEventListener('dragstart', (e) => e.preventDefault());
 
-        return () => {
-            document.removeEventListener('keydown', interceptKeys);
-            document.removeEventListener('contextmenu', (e) => e.preventDefault());
-            document.removeEventListener('dragstart', (e) => e.preventDefault());
-        };
-    }, []);
+    //     return () => {
+    //         document.removeEventListener('keydown', interceptKeys);
+    //         document.removeEventListener('contextmenu', (e) => e.preventDefault());
+    //         document.removeEventListener('dragstart', (e) => e.preventDefault());
+    //     };
+    // }, []);
 
     return (
     <div className="pl-4 text-base" onContextMenu={() => false}>
