@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/navigation';
 import submitFreestyle from '@/app/utils/Submissions/submitFreestyle';
 import saveFreestyle from '@/app/utils/Saving/saveFreestyle';
 import dropdownBtn from "@/assets/dropdown-btn.jpg"
@@ -58,7 +57,6 @@ export default function FreeStyle ({data}: {data: any}) {
     totalPoints += points[i];
   }
   const [showTestCases, setShowTestCases] = useState(false);
-  const router = useRouter();
 
   const runCodeAndSumbit = async () => {
     return await submitFreestyle(data, code, results, setIsLoading, setSubmitted, setAccPoints, setError);
@@ -218,7 +216,7 @@ export default function FreeStyle ({data}: {data: any}) {
       {status !== "Completed" && 
       <button 
       className="text-lg font-medium bg-blue-500 text-white p-2 rounded-lg" 
-      onClick={async () => partOfCompetition ? await handleSave() : await runCodeAndSumbit() && router.refresh()}>
+      onClick={partOfCompetition ? handleSave : runCodeAndSumbit}>
       { isLoading 
         ? <span className="loading loading-spinner w-10"></span>
         : <div className='flex justify-center'>{partOfCompetition ? "Save" : "Submit"}</div>

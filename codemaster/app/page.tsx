@@ -1,9 +1,21 @@
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 import PremiumButton from "@/components/buttons/PremiumButton";
 import AuthButton from "@/components/buttons/AuthButton";
 import SignUpButton from "@/components/buttons/SignUpButton";
 import Body from "@/components/pages/FrontPageBody";
 
 export default async function Index() {
+
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    return redirect("/problemset");
+  }
 
   return (
     <div className="flex-1 grow w-full flex flex-col gap-10">

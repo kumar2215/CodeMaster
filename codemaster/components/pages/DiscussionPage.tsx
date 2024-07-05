@@ -7,6 +7,7 @@ import unhighlightedCommentBtn from "@/assets/unhighlighted_replies_button.jpg";
 import highlightedCommentBtn from "@/assets/highlighted_replies_button.jpg";
 import convertDate from "@/app/utils/dateConversion/convertDateV2";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function CommentSection(params: any) {
   
@@ -35,25 +36,47 @@ export default function CommentSection(params: any) {
 
     const supabase = createClient();
     const res = await supabase.from("Comments").insert(newComment).select();
-    if (res.error) { console.error(res.error) }
+    if (res.error) { 
+      console.error(res.error); 
+      toast.error("Something went wrong. Please try again.", {autoClose: 3000});
+      return;
+    }
 
     const newCommentId = res.data && res.data[0].id;
     replies.push(newCommentId);
     const res2 = await supabase.from("Comments").update({replies: replies}).eq("id", commentId);
-    if (res2.error) { console.error(res2.error) }
+    if (res2.error) { 
+      console.error(res2.error); 
+      toast.error("Something went wrong. Please try again.", {autoClose: 3000});
+      return;
+    }
 
     const res3 = await supabase.from("Discussions").update({posts: posts + 1}).eq("id", discussionId);
-    if (res3.error) { console.error(res3.error) }
+    if (res3.error) { 
+      console.error(res3.error); 
+      toast.error("Something went wrong. Please try again.", {autoClose: 3000});
+      return;
+    }
 
     const res4 = await supabase.from("Users").select("*").eq("username", username).single();
-    if (res4.error) { console.error(res4.error) }
+    if (res4.error) { 
+      console.error(res4.error);
+      toast.error("Something went wrong. Please try again.", {autoClose: 3000});
+      return;
+    }
 
     let comments_written = res4.data.comments_written;
     comments_written = comments_written !== null ? comments_written : [];
     comments_written.push(newCommentId);
 
     const res5 = await supabase.from("Users").update({comments_written: comments_written}).eq("username", username);
-    if (res5.error) { console.error(res5.error) }
+    if (res5.error) { 
+      console.error(res5.error);
+      toast.error("Something went wrong. Please try again.", {autoClose: 3000});
+      return;
+    }
+
+    toast.success("Reply created successfully!", {autoClose: 3000});
   }
 
   const showComments = () => {
