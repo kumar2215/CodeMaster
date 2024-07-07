@@ -7,6 +7,7 @@ import unhighlightedCommentBtn from "@/assets/unhighlighted_replies_button.jpg";
 import highlightedCommentBtn from "@/assets/highlighted_replies_button.jpg";
 import convertDate from "@/app/utils/dateConversion/convertDateV2";
 import { useState } from "react";
+import { useRouter } from "next/navigation"
 import { toast } from "react-toastify";
 
 export default function CommentSection(params: any) {
@@ -28,6 +29,7 @@ export default function CommentSection(params: any) {
   const [showReplies, setShowReplies] = useState(false);
   const [repliesBtn, setRepliesBtn] = useState(unhighlightedCommentBtn.src);
   const [repliesLoaded, setRepliesLoaded] = useState(<div></div>);
+  const router = useRouter();
 
   const submitReply = async (formData: FormData) => {
     
@@ -77,6 +79,7 @@ export default function CommentSection(params: any) {
     }
 
     toast.success("Reply created successfully!", {autoClose: 3000});
+    router.refresh();
   }
 
   const showComments = () => {

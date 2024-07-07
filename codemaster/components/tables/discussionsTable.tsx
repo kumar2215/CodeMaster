@@ -38,8 +38,8 @@ export default function DiscussionsTable(data: any) {
           <div style={{borderRight: '1px solid rgb(156 163 175)'}}>Created on</div>
           <div style={{borderRight: '1px solid rgb(156 163 175)', textAlign: 'left', paddingLeft: '1rem'}}>Title</div>
           <div style={{borderRight: '1px solid rgb(156 163 175)'}}>Created by</div>
-          <div style={{borderRight: '1px solid rgb(156 163 175)'}}>Posts</div>
-          <div>Views</div>
+          <div>Posts</div>
+          <div style={{borderLeft: '1px solid rgb(156 163 175)'}}>Views</div>
         </div>
 
         {discussions.map((entry: any, index: number) => {
@@ -71,8 +71,8 @@ export default function DiscussionsTable(data: any) {
               <Link href={link} onClick={() => updateViews(index)}>{entry.title}</Link>
             </div>
             <div style={{borderRight: '1px solid rgb(156 163 175)'}}>{entry.created_by}</div>
-            <div style={{borderRight: '1px solid rgb(156 163 175)'}}>{entry.posts}</div>
-            <div>{entry.views}</div>
+            <div>{entry.posts}</div>
+            <div style={{borderLeft: '1px solid rgb(156 163 175)'}}>{entry.views}</div>
           </div>
         })}
       </div>
