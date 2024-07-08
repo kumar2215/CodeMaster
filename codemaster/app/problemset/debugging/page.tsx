@@ -49,20 +49,20 @@ export default async function Debugging() {
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
     <Navbar thisLink={thisLink} />
-    <div className="grid grid-rows-2 max-w-4xl max-h-24">
-    <h2 className="text-2xl font-bold">Debugging</h2>
-    <p className="text-base leading-7">
-    Debugging is the process of finding and fixing errors in a computer
-    program. It is a crucial step in the development process, as even small
-    errors can cause a program to behave unexpectedly or crash. In this
-    section, the programming problems provided are code snippets that
-    contain bugs and require you to identify and fix the bugs in the
-    code to make the program work correctly.
-    </p>
+    <div className="flex flex-col max-w-4xl w-11/12">
+      <h2 className="text-2xl font-bold">Debugging</h2>
+      <p className="text-sm leading-7 lg:text-base">
+      Debugging is the process of finding and fixing errors in a computer
+      program. It is a crucial step in the development process, as even small
+      errors can cause a program to behave unexpectedly or crash. In this
+      section, the programming problems provided are code snippets that
+      contain bugs and require you to identify and fix the bugs in the
+      code to make the program work correctly.
+      </p>
     </div>
-    <h2 className="max-h-3 leading-3"/>
-    {questions && <QuestionsTable data={questions} />}
-    <br/>
+    <div className="w-11/12 lg:w-full flex justify-center ">
+     {questions && <QuestionsTable data={questions} />}
+    </div>    <br/>
     </div>
   );
 }

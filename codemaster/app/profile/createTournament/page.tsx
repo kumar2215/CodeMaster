@@ -29,9 +29,12 @@ export default async function CreateContestsPage() {
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
       <Navbar thisLink={thisLink} />
-        <h2 className="text-4xl pt-8">Design your own tournament</h2>
+      <div className="flex flex-col items-center justify-center w-full">
+      <h2 className="text-4xl pt-8">Design your own tournament</h2>
         { verified ? <TournamentForm /> : 
         <h1>You dont have access to create a tournament</h1> }
+      </div>
+
       <br/>
     </div>
   );

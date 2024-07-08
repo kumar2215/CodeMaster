@@ -47,12 +47,14 @@ export default async function TournamentsPage() {
   }
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
+    <div className="flex-1 w-full flex flex-col gap-10 items-center " style={{backgroundColor: "#80bfff"}}>
         <Navbar thisLink={thisLink}/>
-        <div className="w-full max-w-4xl flex flex-row text-3xl text-left font-bold">
+        <div className="flex-col w-10/12 lg:w-full max-w-4xl flex text-3xl text-left font-bold">
+        
           Tournaments
+          <TournamentsTable tournaments={tournaments} />
+
         </div>
-        <TournamentsTable tournaments={tournaments} />
         <br/>
       </div>
   );

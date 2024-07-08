@@ -21,10 +21,10 @@ export default function ContestForm() {
   });
 
   return (
-    <div className="w-full max-w-5xl">
-      <form onSubmit={handleSubmit(submitContestForm)}>
-        <div className='w-full flex flex-col bg-gray-200 rounded-lg p-5 ml-6 gap-5'>
-          <div className='flex flex-row gap-4'>
+    <div className="w-11/12 max-w-5xl flex flex-col justify-center items-center">
+      <form className='w-full' onSubmit={handleSubmit(submitContestForm)}>
+      <div className='w-full flex flex-col bg-gray-200 rounded-lg p-5 gap-5 overflow-x-auto'>
+      <div className='flex flex-row gap-4'>
             <p className='text-xl pt-1'>Contest name:</p>
             <label className="leading-5" style={{borderWidth: "1.5px"}}>
               <input className='input-info h-8 pl-2' {...register('name')} />
@@ -51,7 +51,7 @@ export default function ContestForm() {
           fields.map((field, index) => (
             <>
             <br/>
-            <div key={field.id} className='bg-gray-200 rounded-lg flex flex-col p-5 ml-6'>
+            <div key={field.id} className='bg-gray-200 rounded-lg flex flex-col p-5  overflow-x-auto'>
               <QuestionForm
                 key={field.id}
                 control={control}
@@ -66,7 +66,7 @@ export default function ContestForm() {
           ))
         }
 
-        <div className='w-full flex flex-row gap-3 p-5 ml-6'>
+        <div className='w-full flex flex-row gap-3 p-5'>
           <button className="btn btn-info bg-blue-600" type="button" onClick={() => append(
             {
               type: '',

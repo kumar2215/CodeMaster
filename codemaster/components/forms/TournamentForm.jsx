@@ -21,11 +21,11 @@ export default function TournamentForm() {
   });
 
   return (
-    <div className="w-full max-w-5xl">
-      <form onSubmit={handleSubmit(submitTournamentForm)}>
-        <div className='w-full flex flex-col bg-gray-200 rounded-lg p-5 ml-6 gap-5'>
+    <div className="w-11/12 max-w-5xl flex flex-col justify-center items-center">
+      <form className='w-full' onSubmit={handleSubmit(submitTournamentForm)}>
+        <div className='w-full flex flex-col bg-gray-200 rounded-lg p-5 gap-5 overflow-x-auto'>
           {/* Tournament name field */}
-          <div className='flex flex-row gap-4'>
+          <div className='flex flex-row gap-4 '>
             <p className='text-xl pt-1'>Tournament name:</p>
             <label className="leading-5" style={{borderWidth: "1.5px"}}>
               <input className='input-info h-8 pl-2' {...register('name')} />
@@ -54,7 +54,7 @@ export default function TournamentForm() {
           fields.map((field, index) => (
             <>
             <br/>
-            <div key={field.id} className='bg-gray-200 rounded-lg flex flex-col p-5 ml-6'>
+            <div key={field.id} className='bg-gray-200 rounded-lg flex flex-col p-5  overflow-x-auto'>
               <QuestionForm
                 key={field.id}
                 control={control}
@@ -69,7 +69,7 @@ export default function TournamentForm() {
           ))
         }
 
-        <div className='w-full flex flex-row gap-3 p-5 ml-6'>
+        <div className='w-full flex flex-row gap-3 p-5 '>
           {/* Button to add Questions*/}
           <button className="btn btn-info bg-blue-600" type="button" onClick={() => append(
             {

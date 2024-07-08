@@ -49,17 +49,18 @@ export default async function Debugging() {
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
     <Navbar thisLink={thisLink} />
-    <div className="grid grid-rows-2 max-w-4xl max-h-24">
-    <h2 className="text-2xl font-bold">Good Code Principles</h2>
-    <p className="text-base leading-7">
-    Good code principles are a set of guidelines that help developers write clean, maintainable, and efficient code. 
+    <div className="flex flex-col max-w-4xl w-11/12">
+      <h2 className="text-2xl font-bold">Good Code Principles</h2>
+      <p className="text-sm leading-7 lg:text-base">
+      Good code principles are a set of guidelines that help developers write clean, maintainable, and efficient code. 
     By following these principles, developers can create code that is easy to read, understand, and modify. 
     In this section, you will learn about some of the most important code principles and how to apply them in your own projects.
     </p>
     </div>
-    <h2 className="max-h-3 leading-3"/>
-    {questions && <QuestionsTable data={questions} />}
-    <br/>
+    {/* <h2 className="max-h-3 leading-3"/> */}
+    <div className="w-11/12 lg:w-full flex justify-center ">
+     {questions && <QuestionsTable data={questions} />}
+    </div>    <br/>
     </div>
   );
 }

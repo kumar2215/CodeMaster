@@ -25,7 +25,7 @@ export default async function Forum() {
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
       <Navbar thisLink={thisLink}/>
       <div
-          className="animate-in w-3/5 flex flex-col gap-10 opacity-0 px-3"
+          className="animate-in w-10/12 flex flex-col gap-10 opacity-0 px-3 lg:w-3/5"
       >
         {topicCard("General", "/forum/general", journalIcon)}
         {topicCard("Contests", "/forum/contests", contestIcon)}

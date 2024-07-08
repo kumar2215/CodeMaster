@@ -7,14 +7,8 @@ export default async function Index() {
 
   return (
     <div className="flex-1 grow w-full flex flex-col gap-10">
-      <nav 
-        style={{
-          display: "grid",
-          gridTemplateColumns: "550px 550px",
-          justifyContent: "center",
-          border: "1px solid #e5e7eb",
-        }}
-        >
+<nav className="grid grid-cols-1 md:grid-cols-2 justify-center border border-gray-300 p-4">
+
         <div className="w-full max-w-4xl flex justify-start p-3 text-sm">
           <PremiumButton />
         </div>

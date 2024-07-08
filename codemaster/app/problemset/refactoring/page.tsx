@@ -49,18 +49,19 @@ export default async function Debugging() {
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
     <Navbar thisLink={thisLink} />
-    <div className="grid grid-rows-2 max-w-4xl max-h-24">
-    <h2 className="text-2xl font-bold">Refactoring</h2>
-    <p className="text-base leading-7">
-    Refactoring is the process of restructuring existing code without changing its external behavior.
+    <div className="flex flex-col max-w-4xl w-11/12">
+      <h2 className="text-2xl font-bold">Refactoring</h2>
+      <p className="text-sm leading-7 lg:text-base">
+      Refactoring is the process of restructuring existing code without changing its external behavior.
     It is intended to improve the nonfunctional attributes of the software. Refactoring is usually motivated by
     noticing a code smell. In this section, you will be given code snippets that are in need of refactoring. 
     Your task is to identify the code smells and refactor the code to make it more readable and maintainable. 
     Your refactored code should have the same functionality as the original code and is judged upon using a voting system.
     </p>
     </div>
-    <h2 className="max-h-3 leading-3 pt-8"/>
-    {questions && <QuestionsTable data={questions} />}
+    <div className="w-11/12 lg:w-full flex justify-center ">
+     {questions && <QuestionsTable data={questions} />}
+    </div>
     <br/>
     </div>
   );
