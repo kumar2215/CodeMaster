@@ -135,6 +135,22 @@ export default async function upload(question, purpose, isVerified = true) {
   const question_id = res && res[0].id;
   console.log("Question with id: " + question_id + " uploaded successfully!");
 
+  if (purpose === "general" && !isVerified) {
+    const res = await supabase.from("Users").select("username").eq("user_type", "admin");
+    if (res.error) { console.error(res.error); return false; }
+
+    const res2 = await supabase.from("Notifications").insert({
+      from: createdBy,
+      to: res.data,
+      message: `${createdBy} has created a new question. Waiting for approval.`,
+      action: {
+        type: "Approve",
+        link: `/admin/questions/$${question_id}`
+      }
+    })
+    if (res2.error) { console.error(res2.error); return false; }
+  }
+
   return question_id;
 }
 

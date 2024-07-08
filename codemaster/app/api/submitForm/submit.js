@@ -1,6 +1,6 @@
 "use server";
 import { createClient } from '@/utils/supabase/server';
-import upload from '@/app/questionGeneration/upload';
+import upload from '@/app/api/uploadQuestion/upload';
 
 const supabase = createClient();
 
@@ -37,8 +37,28 @@ export async function uploadData(formData, createdBy, type) {
       ])
       .single(); 
 
-    if (error) console.error(`Error inserting into table ${type}:`, error.message);
-    else { return true;}
+    if (error) {
+      console.error(`Error inserting into table ${type}:`, error.message); 
+      return false;
+    }; 
+
+    if (purpose === "tournament") {
+      const res = await supabase.from("Users").select("username").eq("user_type", "admin");
+      if (res.error) { console.error(res.error); return false; }
+
+      const res2 = await supabase.from("Notifications").insert({
+        from: createdBy,
+        to: res.data,
+        message: `${createdBy} has created a new tournament. Waiting for approval.`,
+        action: {
+          type: "Approve",
+          link: `/admin/${type}/${data.id}`
+        }
+      })
+      if (res2.error) { console.error(res2.error); return false; }
+    }
+
+    return true;
 
   } catch (error) {
     console.error(`Error inserting into table ${type}:`, error.message);

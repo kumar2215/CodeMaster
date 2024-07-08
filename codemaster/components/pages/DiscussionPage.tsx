@@ -78,6 +78,21 @@ export default function CommentSection(params: any) {
       return;
     }
 
+    const res6 = await supabase.from("Notifications").insert({
+      from: username,
+      to: [written_by],
+      message: `${username} replied to your comment.`,
+      action: {
+        type: "View",
+        link: `forum/discussion/${discussionId}`
+      }
+    });
+    if (res6.error) { 
+      console.error(res6.error);
+      toast.error("Something went wrong. Please try again.", {autoClose: 3000});
+      return;
+    }
+
     toast.success("Reply created successfully!", {autoClose: 3000});
     router.refresh();
   }

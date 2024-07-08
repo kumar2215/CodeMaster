@@ -106,7 +106,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
           </div>
 
           <div className='flex flex-col gap-2'>
-            <p className='text-lg'>Source:</p>
+            <h1 className='text-lg'>Source:</h1>
             <p className='text-sm'>
               The source here refers to the who or what you want to give credit to for the question.
               It can be a link or just a brief description. If it is your own work, enter your name 
@@ -114,13 +114,17 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
             </p>
             <label className="w-fit leading-5" style={{borderWidth: "1.5px"}}>
               <input className='input-info h-8 pl-2' {...register(`questions.${index}.source.src`)} />
-            </label>
+            </label> 
           </div>
         </div>
             
-        <div className='flex flex-col'>
+        <div className='flex flex-col mt-5 gap-2'>
 
-          <p className='text-lg my-5' >Question Content:</p>
+          <h1 className='text-lg'>Question Content:</h1>
+          <p className='text-sm mb-2'>
+            This is where description of the problem will go. 
+            It should provide the context for all parts of the question.
+          </p>
 
           {contents.map((item, idx) => (
             <div key={idx} className='flex flex-row gap-2 my-2'>

@@ -1,10 +1,7 @@
 import Navbar from "@/components/misc/navbar";
-import topicCard from "@/components/misc/topicCard";
+import Notification from "@/components/misc/notification";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import contestIcon from "@/assets/contest-icon.jpg";
-import tournamentIcon from "@/assets/tournament-icon.jpg";
-import problemsetIcon from "@/assets/problem-solving-icon.jpg";
 
 const thisLink = "/profile";
 
@@ -29,7 +26,15 @@ export default async function ProfilePage() {
 
   if (err) { console.error(err); }
 
-  const user_type: string = userData.user_type;
+  let { data: notifications, error: err2 } = await supabase
+    .from("Notifications")
+    .select(`*`)
+    .order("created_at", { ascending: false });
+
+  if (err2) { console.error(err2); }
+
+  notifications = notifications && notifications.filter((notification: any) => notification.to.includes(username));
+
   const general_XP:  number = userData.XP;
   const contest_XP: number = userData.contest_XP;
   const tournament_XP: number = userData.tournament_XP;
@@ -91,23 +96,10 @@ export default async function ProfilePage() {
         <div className="w-full mb-2" style={{borderBottom: "1px solid black"}}>
           <h1 className="text-xl font-bold mb-2">Notifications</h1>
         </div>
-        <h1>You have no notifications so far.</h1> {/* placeholder for now */}
-
-        {Array.from({length: 5}).map(x => <br/>)}
-
-        <div className="w-full flex flex-col gap-8">
-          <div className="w-full mb-2" style={{borderBottom: "1px solid black"}}>
-            <h1 className="text-xl font-bold mb-2">Create</h1>
-          </div>
-
-          {topicCard("Create a question", "/profile/createQuestion", problemsetIcon)}
-
-          {(user_type.includes("admin") || user_type.includes("verified"))  && topicCard("Create a tournament", "/profile/createTournament", tournamentIcon)}
-
-          {user_type.includes("admin") && topicCard("Create a contest", "/profile/createContest", contestIcon)}
-        </div>
-
-        <br />
+        {notifications?.length === 0
+        ? <h1>You have no notifications so far.</h1> 
+        : notifications?.map((notification: any) => <Notification data={notification} />)
+        }
 
       </div>
     </div>

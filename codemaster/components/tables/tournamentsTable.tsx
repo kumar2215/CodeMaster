@@ -33,7 +33,7 @@ export default function TournamentsTable(data: any) {
         </div>
 
         {tournaments.map((entry: any, index: number) => {
-          const link = `/forum/discussion/${entry.id}` // TODO: change this
+          const link = `/questions/tournament/${entry.id}`
           return <div
               key={index}
               style={{
