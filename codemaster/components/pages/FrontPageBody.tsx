@@ -2,14 +2,7 @@ import logo from "@/assets/CodeMaster-logo.jpg";
 
 export default function Body() {
   return (
-    <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "500px auto",
-      columnGap: "50px",
-      alignItems: "center",
-      justifyContent: "center",
-    }}>
+    <div className="md:flex-row flex-col flex items-center justify-center gap-10">
       <img 
         src={logo.src} 
         alt="CodeMaster Logo"

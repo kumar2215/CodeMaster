@@ -16,19 +16,20 @@ export default function section(title: string, description: string, link: string
           borderRadius: "10px",
           boxShadow: "3px 3px 2px #888888"
         }}
-        className="hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 cursor-pointer"
+        className="hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 cursor-pointer lg:h-full"
         >
-          <div className="grid grid-cols-2 gap-x-5">
-            <div>
-              <h1 className="text-2xl font-bold">{title}</h1>
-              <br/>
-              <img src={image.src} alt="icon"/>
+          <div className="grid grid-rows-2 gap-x-5 lg:grid-cols-2 lg:grid-rows-1">
+
+              <div>
+                <h1 className="text-2xl font-bold">{title}</h1>
+                <br/>
+                <img src={image.src} alt="icon"/>
+              </div>
+              <p className="text-md text-left lg:text-lg">
+                {description}
+              </p>
             </div>
-            <p className="text-lg text-left">
-              {description}
-            </p>
           </div>
-        </div>
       </a>
     );
   }

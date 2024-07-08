@@ -7,7 +7,7 @@ function placeInCodeBox(code: string, language: string) {
   const overflow = lines.some((line) => line.length > 105) ? "overflow-x-scroll" : "";
 
   return (
-    <div className={`flex w-full max-w-4xl bg-gray-100 p-2 m-2 rounded-lg shadow-md font-mono ${overflow}`}>
+    <div className={`flex w-full max-w-4xl bg-gray-100 p-2 m-2 rounded-lg shadow-md font-mono overflow-x-auto ${overflow}`}>
     {/* Line Numbers */}
     <div className="flex flex-col items-end pr-2 border-r border-gray-300 text-gray-500">
     {lines.map((line: string, index: number) => (

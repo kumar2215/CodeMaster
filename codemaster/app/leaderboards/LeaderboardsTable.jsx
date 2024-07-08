@@ -9,8 +9,8 @@ export const LeaderboardsTable = ({data, xpType, header}) => {
       <article className="w-10/12 px-2 ">
   
     {/*TABLE */}
-    <div className="w-full overflow-x-scroll md:overflow-auto max-w-7xl 2xl:max-w-none r rounded-tl-xl rounded-tr-xl">
-    <table className="table-fixed  overflow-scroll md:overflow-auto w-full text-left font-inter rounded-lg border-l border-r border-gray-800 ">
+    <div className="w-full overflow-x-scroll lg:overflow-auto max-w-7xl 2xl:max-w-none r rounded-tl-xl rounded-tr-xl">
+    <table className="table-fixed  overflow-scroll lg:overflow-auto w-full text-left font-inter rounded-lg border-l border-r border-gray-800 ">
     {/**Table header */}
       <thead
         className={` rounded-lg text-base text-white font-semibold w-full border-grey bg-neutral-800 border-b`}
@@ -19,7 +19,7 @@ export const LeaderboardsTable = ({data, xpType, header}) => {
           <th className="text-xs font-medium px-0 py-4 text-center w-2/12">
             RANK
           </th>
-          <th className="text-xs font-medium pl-24 py-4 text-left w-7/12">               
+          <th className="text-xs font-medium  py-4 text-left w-7/12">               
             USER
           </th>
           <th className="text-xs font-medium px-6 py-4 text-center w-3/12">

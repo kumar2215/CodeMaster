@@ -99,9 +99,9 @@ export default function CommentSection(params: any) {
   }
   
   return (
-    <div className="w-full max-w-5xl flex flex-row">
+    <div className="w-full max-w-5xl flex flex-row items-center justify-center">
       <div style={{width: "2.5rem"}}></div>
-      <div className="w-full flex flex-col gap-4">
+      <div className="w-full flex flex-col gap-4 ">
         <div className="w-full flex flex-col bg-white p-3 gap-3 border-2">
           <div className="flex flex-row items-center focus:outline-none p-2 justify-between border-b-2 border-gray-300">
             <div className="flex flex-row gap-2"

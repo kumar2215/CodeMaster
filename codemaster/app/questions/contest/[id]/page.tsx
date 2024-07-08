@@ -65,11 +65,11 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
       <Navbar thisLink={thisLink} />
-      <div className='w-full max-w-5xl flex flex-col bg-gray-200 rounded-lg p-5 ml-6 gap-5'>
-        <div className="flex flex-row gap-20">
-          <img src={contestIcon.src} alt="contest-icon" className="w-80 h-80 ml-4" />
+      <div className='w-10/12 max-w-5xl flex flex-col bg-gray-200 rounded-lg p-5 self-center lg:w-full mx-auto'>
+      <div className="flex flex-col lg:flex-row lg:gap">
+          <img src={contestIcon.src} alt="contest-icon" className="lg:w-80 lg:h-80 lg:mx-0 mx-auto h-60 w-60" />
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 lg:ml-10 mx-auto">
             <div className='flex flex-row gap-2'>
               <p className='text-xl font-semibold'>Contest name:</p>
               <p className='text-xl'>{contestData.name}</p>

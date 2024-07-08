@@ -71,26 +71,24 @@ export default function FreeStyle ({data}: {data: any}) {
     {part !== "null"
     ? (
     <div className="flex flex-row p-2">
-      <span className="text-lg font-bold pr-2">{`(${part})`}</span>
-      <p className="text-lg font-medium">{question}</p>
+      <span className="lg:text-lg text-sm font-bold pr-2">{`(${part})`}</span>
+      <p className="lg:text-lg text-sm font-medium">{question}</p>
     </div>)
     : (
-    <div className="text-lg text-gray-500 min-h-10">{question}</div>
+    <div className="lg:text-lg text-sm text-gray-500 min-h-10">{question}</div>
     )}
     <CodeEditor language={language} code={code} setCode={setCode} />
     { source
       ? source.link
-      ? <div className="text-lg font-medium leading-10">
-      <p>source: 
+      ? <div className="lg:text-lg text-xs font-medium leading-10">
       <a 
       href={source.src}
       target="_blank"
       rel="noopener noreferrer"
       className="hover:text-blue-500 hover:underline cursor-pointer px-2"
-      >{source.src}</a>
-      </p>
+      >{`source: ${source.src}`}</a>
       </div>
-      : <div className="text-lg font-medium leading-10">source: {source.src}</div>
+      : <div className="lg:text-lg text-sm font-medium leading-10">source: {source.src}</div>
       : <></>
     }
 
@@ -117,7 +115,7 @@ export default function FreeStyle ({data}: {data: any}) {
         >
           {format.map((header: string, index: number) => (
             <div key={index} 
-            className="flex flex-row justify-center text-lg font-bold"
+            className="flex flex-row justify-center lg:text-lg text-sm font-bold"
             style={{
               border: "2px solid black", 
               borderRight: index === format.length ? "2px solid black" : "none", 
@@ -127,12 +125,12 @@ export default function FreeStyle ({data}: {data: any}) {
             </div>
           ))}
           <div 
-          className="flex flex-row justify-center text-lg font-bold"
+          className="flex flex-row justify-center lg:text-lg text-sm font-bold"
           style={{border: "2px solid black", borderRight: "none"}}
           >expected
           </div>
           <div 
-          className="flex flex-row justify-center text-lg font-bold"
+          className="flex flex-row justify-center lg:text-lg text-sm font-bold"
           style={{border: "2px solid black", borderRight: "2px solid black"}}
           >actual
           </div>
@@ -157,7 +155,7 @@ export default function FreeStyle ({data}: {data: any}) {
             >
             {Object.values(input).slice(0, format.length).map((value: any, idx2: number) => (
               <div key={idx2} 
-              className="flex flex-row justify-center text-lg text-nowrap font-medium overflow-x-auto" 
+              className="flex flex-row justify-center lg:text-lg text-sm text-nowrap font-medium overflow-x-auto" 
               style={{
                 border: "2px solid black",
                 borderRight: idx2 === format.length ? "2px solid black" : "none",
@@ -177,7 +175,7 @@ export default function FreeStyle ({data}: {data: any}) {
               borderTop: "none"}}
             >
               <div
-              className="w-full h-full text-lg text-center font-medium overflow-x-auto"
+              className="w-full h-full lg:text-lg text-sm text-center font-medium overflow-x-auto"
               >
                 {typeof input.expected === "object" ? JSON.stringify(input.expected).split(",").join(", ") : input.expected}
               </div>
@@ -189,7 +187,7 @@ export default function FreeStyle ({data}: {data: any}) {
               borderTop: "none"}}
             >
               <div
-              className={`w-full h-full text-lg text-center font-medium ${results[idx][0].error ? "text-red-600" : ""}`}
+              className={`w-full h-full lg:text-lg text-sm text-center font-medium ${results[idx][0].error ? "text-red-600" : ""}`}
               >
                 {typeof results[idx][0].actual === "object" 
                 ? JSON.stringify(results[idx][0].actual).split(",").join(", ")
@@ -224,14 +222,14 @@ export default function FreeStyle ({data}: {data: any}) {
       </button>
       }
       {status !== "Completed"
-       ? <span className="text-lg font-medium pr-5 pt-2">{
+       ? <span className="lg:text-lg text-sm font-medium pr-5 pt-2">{
         !submitted || isLoading
         ? `[${points.reduce((a: number, b: number) => a + b, 0)} points]`
         :  accPoints === totalPoints && submitted && !isLoading
         ? `${totalPoints} / ${totalPoints} ✅` 
         : `${accPoints} / ${totalPoints} ❌`
         }</span>
-       : <span className="text-lg font-medium pr-5 pt-2">{
+       : <span className="lg:text-lg text-sm font-medium pr-5 pt-2">{
         partOfCompetition.data[part].pointsAccumulated === totalPoints
         ? `${totalPoints} / ${totalPoints} ✅`
         : `${partOfCompetition.data[part].pointsAccumulated} / ${totalPoints} ❌`

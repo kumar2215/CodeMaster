@@ -33,7 +33,7 @@ const CodeEditor = ({ language, code, setCode }: { language: string, code: strin
 
   return (
     <ControlledEditor
-    className='h-full'
+    className='h-full lg:text-md text-xs'
       value={code}
       options={{
         mode: language,

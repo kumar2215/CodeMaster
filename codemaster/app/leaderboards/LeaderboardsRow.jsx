@@ -13,7 +13,7 @@ export const LeaderboardsRow = ({data, index, xpType}) => {
             </td>
 
             <td
-                className={`text-m font-medium py-4 pl-20 whitespace-nowrap text-left flex items-center`}
+                className={`text-m font-medium py-4 whitespace-nowrap text-left flex items-center`}
               >
                 <div className='w-12 h-12'>
                     <img src={`https://api.dicebear.com/8.x/personas/svg?seed=${data.username}`} alt="avatar"

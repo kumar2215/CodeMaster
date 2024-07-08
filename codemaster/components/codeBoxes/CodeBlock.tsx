@@ -40,7 +40,7 @@ const CodeBlock = ({ language, value } : {language: string, value: string}) => {
     return (
     <div className="pl-4 text-base" onContextMenu={() => false}>
         <pre>
-          <code className={`language-${language}`}>
+          <code className={`language-${language} lg:text-base text-xs`}>
             {value}
           </code>
         </pre>

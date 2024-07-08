@@ -26,9 +26,9 @@ export default function IndividualQuestionForm({ user_data }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className='w-full max-w-5xl bg-gray-200 rounded-lg flex flex-col p-5 ml-6'>
-        <QuestionForm
+    <form className='w-11/12 flex flex-col justify-center items-center' onSubmit={handleSubmit(onSubmit)}>
+      <div className='w-full max-w-5xl bg-gray-200 rounded-lg flex flex-col p-5 ml-6 overflow-auto'>
+      <QuestionForm
           control={control}
           register={register}
           remove={null}
@@ -36,13 +36,12 @@ export default function IndividualQuestionForm({ user_data }) {
           index={0}
           single={true}
         />
+
       </div>
 
       <br/>
 
-      <div className='w-full flex flex-row gap-3 p-2 ml-3'>
         <button className='btn btn-success' type="submit">Submit Question</button>
-      </div>
     </form>
   );
 }

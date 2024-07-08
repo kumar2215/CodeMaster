@@ -176,14 +176,14 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
     <div className="flex-1 w-full flex flex-col gap-8 items-center" style={{backgroundColor: "#80bfff"}}>
       <Navbar thisLink={thisLink} />
       <div className="w-full max-w-5xl bg-slate-50 p-3 border-4">
-        <div className="text-2xl font-bold min-h-10">{`Question ${current ? current : ""}: ${questionData.title}`}</div>
+        <div className=" lg:text-2xl text-lg font-bold min-h-10">{`Question ${current ? current : ""}: ${questionData.title}`}</div>
 
         <div className="flex flex-row gap-2">
-          <div className="text-lg font-medium min-h-10">Difficulty:</div>
-          <div className={`text-lg font-medium min-h-10 ${color}`}>{questionData.difficulty}</div>
+          <div className="lg:text-lg text-sm font-medium min-h-10">Difficulty:</div>
+          <div className={`lg:text-lg text-sm  font-medium min-h-10 ${color}`}>{questionData.difficulty}</div>
         </div>
 
-        <div className="text-lg text-gray-500 min-h-10">
+        <div className="lg:text-lg text-sm text-gray-500 min-h-10">
           {questionData.content.map((content: any, index: number) => 
             content.category === "text"
             ? <p key={index}>{content.value}</p>
@@ -197,23 +197,22 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
 
         {questionData.parts.length > 1
         ? questionData.source.link
-        ? <div className="text-lg font-medium leading-10">
-          <p>source: 
+        ? <div className="lg:text-lg text-sm font-medium leading-10">
           <a 
           href={questionData.source.src}
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-blue-500 hover:underline cursor-pointer px-2"
-          >{questionData.source.src}</a>
-          </p>
+          >{`source:  ${questionData.source.src}`}</a>
           </div>
-        : <div className="text-lg font-medium leading-10">source: {questionData.source.src}</div>
+        : <div className="lg:text-lg text-sm font-medium leading-10">source: {questionData.source.src}</div>
         : <></>}
       </div>
       
-      {questionData.parts.length > 1 && questionData.parts.map(async (part: any, index: number) =>
-        handlePart(questionData, part)
-      )}
+        {questionData.parts.length > 1 && questionData.parts.map(async (part: any, index: number) =>
+          handlePart(questionData, part)
+        )}
+
 
       {/* pagination */}
       {!single && <Pagination paginationData={paginationData} />}

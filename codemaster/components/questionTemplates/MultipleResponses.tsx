@@ -56,11 +56,11 @@ export default function MultipleResponses(params: any) {
     {part !== "null"
     ? (
     <div className="flex flex-row p-2">
-      <span className="text-lg font-bold pr-2">{`(${part})`}</span>
-      <p className="text-lg font-medium">{question}</p>
+      <span className="lg:text-lg text-sm font-bold pr-2">{`(${part})`}</span>
+      <p className="lg:text-lg text-sm font-medium">{question}</p>
     </div>)
     : (
-    <div className="text-lg text-gray-500 min-h-10">{question}</div>
+    <div className="lg:text-lg text-sm text-gray-500 min-h-10">{question}</div>
     )}
     <div 
     style={{
@@ -72,7 +72,7 @@ export default function MultipleResponses(params: any) {
     >
     {format.map((header: string, index: number) => (
       <div key={index} 
-      className="flex flex-row justify-center text-lg font-bold"
+      className="flex flex-row justify-center lg:text-lg text-sm font-bold"
       style={{
         border: "2px solid black", 
         borderRight: index === format.length ? "2px solid black" : "none", 
@@ -82,7 +82,7 @@ export default function MultipleResponses(params: any) {
       </div>
     ))}
     <div 
-    className="flex flex-row justify-center text-lg font-bold"
+    className="flex flex-row justify-center lg:text-lg text-sm font-bold"
     style={{border: "2px solid black", borderRight: "2px solid black"}}
     >expected</div>
     </div>
@@ -105,7 +105,7 @@ export default function MultipleResponses(params: any) {
         >
         {Object.values(input).slice(0, format.length).map((value: any, idx2: number) => (
           <div key={idx2} 
-          className="flex flex-row justify-center text-lg font-medium" 
+          className="flex flex-row justify-center lg:text-lg text-sm font-medium" 
           style={{
             border: "2px solid black",
             borderRight: idx2 === format.length ? "2px solid black" : "none",
@@ -123,7 +123,7 @@ export default function MultipleResponses(params: any) {
           borderTop: "none"}}
           >
           <input 
-          className="w-full h-full bg-gray-200 text-lg text-center font-medium"
+          className="w-full h-full bg-gray-200 lg:text-lg text-sm text-center font-medium"
           placeholder={`[${points[idx]} points]`}
           onChange={(event) => handleInputChange(event, idx)}
           value={inputStates[idx][0]}
@@ -136,38 +136,36 @@ export default function MultipleResponses(params: any) {
       </div>
       { source 
       ? source.link
-      ? <div className="text-lg font-medium leading-10">
-      <p>source: 
+      ? <div className="lg:text-lg text-xs font-medium leading-10">
       <a 
       href={source.src}
       target="_blank"
       rel="noopener noreferrer"
       className="hover:text-blue-500 hover:underline cursor-pointer px-2"
-      >{source.src}</a>
-      </p>
+      >source: {source.src}</a>
       </div>
-      : <div className="text-lg font-medium leading-10">source: {source.src}</div>
+      : <div className="lg:text-lg text-sm font-medium leading-10">source: {source.src}</div>
       : <></>
       }
       <div className="flex flex-row justify-between p-2 pl-4 m-2 mb-0">
       {status !== "Completed" &&
       <SubmitButton
       formAction={partOfCompetition ? handleSave : handleSubmit}
-      className="text-lg font-medium bg-blue-500 text-white p-2 rounded-lg"
+      className="lg:text-lg text-sm font-medium bg-blue-500 text-white p-2 rounded-lg"
       pendingText={partOfCompetition ? "Saving..." : "Submitting..."}
       >
       {partOfCompetition ? "Save" : "Submit"}
       </SubmitButton>
       }
       {status !== "Completed" 
-       ? <span className="text-lg font-medium pr-5 pt-2">{
+       ? <span className="lg:text-lg text-sm font-medium pr-5 pt-2">{
         !submitted || !inputStates.every((inputState: any) => inputState[0] !== "")
         ? `[${totalPoints} points]` 
         : additionalPoints === totalPoints && submitted
         ? `${totalPoints} / ${totalPoints} ✅`
         : `${additionalPoints} / ${totalPoints}❌`
         }</span>
-       : <span className="text-lg font-medium pr-5 pt-2">{
+       : <span className="lg:text-lg text-sm font-medium pr-5 pt-2">{
         partOfCompetition.data[part].pointsAccumulated === totalPoints
         ? `${totalPoints} / ${totalPoints} ✅`
         : `${partOfCompetition.data[part].pointsAccumulated} / ${totalPoints} ❌`

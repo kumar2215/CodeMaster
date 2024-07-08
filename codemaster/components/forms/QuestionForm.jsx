@@ -51,18 +51,18 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
         <h1 className='text-3xl text-left text-blue-600'>{`Question ${qnNum}`}</h1>
       </div>
 
-      <div>
+      <div className='w-full'>
         <div className='flex flex-col gap-4'>
 
           <div className='flex flex-row gap-2'>
-            <p className='text-lg pt-1'>Title:</p>
+            <p className='lg:text-lg text-sm pt-1'>Title:</p>
             <label className="leading-5" style={{borderWidth: "1.5px"}}>
             <input className='input-info h-8 pl-2' {...register(`questions.${index}.title`)} />
             </label>
           </div>
           
           <div className='flex flex-row gap-2'>
-            <p className='text-lg pt-1'>Question Type:</p>
+            <p className='lg:text-lg text-sm pt-1'>Question Type:</p>
             <label className="leading-5" style={{borderWidth: "1.5px"}}>
               <select {...register(`questions.${index}.type`)}
                 className='input-info h-8'  
@@ -77,7 +77,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
           </div>
           
           <div className='flex flex-row gap-2'>
-            <p className='text-lg pt-1'>Difficulty:</p>
+            <p className='lg:text-lg text-sm pt-1'>Difficulty:</p>
             <label className="leading-5" style={{borderWidth: "1.5px"}}>
               <select {...register(`questions.${index}.difficulty`)}
                 className='input-info h-8'
@@ -91,7 +91,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
           </div>
           
           <div className='flex flex-row gap-2'>
-            <p className='text-lg pt-1'>Language:</p>
+            <p className='lg:text-lg text-sm pt-1'>Language:</p>
             <label className="leading-5" style={{borderWidth: "1.5px"}}>
               <select {...register(`questions.${index}.language`)}
                 className='input-info h-8'
@@ -106,7 +106,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
           </div>
 
           <div className='flex flex-col gap-2'>
-            <p className='text-lg'>Source:</p>
+            <p className='lg:text-lg text-sm'>Source:</p>
             <p className='text-sm'>
               The source here refers to the who or what you want to give credit to for the question.
               It can be a link or just a brief description. If it is your own work, enter your name 
@@ -120,7 +120,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
             
         <div className='flex flex-col'>
 
-          <p className='text-lg my-5' >Question Content:</p>
+          <p className='lg:text-lg text-sm my-5' >Question Content:</p>
 
           {contents.map((item, idx) => (
             <div key={idx} className='flex flex-row gap-2 my-2'>
@@ -168,7 +168,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
       </div>
       
       <div className='flex flex-col gap-4'>
-        <p className='text-lg my-3' >Question Parts:</p>
+        <p className='lg:text-lg text-sm my-3' >Question Parts:</p>
 
         {parts.map((field, idx) => {
           const QuestionComponent = QUESTION_COMPONENTS[field.questionType] || MCQForm; 

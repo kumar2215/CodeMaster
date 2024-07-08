@@ -21,7 +21,7 @@ export default function QuestionsTable(data: any) {
       style={{borderWidth: "1px", borderBottom: "none"}}
       onClick={() => selectedLanguage !== language && (setFilteredQuestions(questions), setSelectedLanguage(language))}
       >
-        <button className="text-lg align-middle font-semibold pt-1 px-1">{language}</button>
+        <button className="text-md align-middle font-semibold pt-1 px-1">{language}</button>
     </li>
     );
   }
