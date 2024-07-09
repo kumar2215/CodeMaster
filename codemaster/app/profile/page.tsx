@@ -3,7 +3,7 @@ import Notification from "@/components/misc/notification";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
-const thisLink = "/profile";
+const thisLink = "/others";
 
 export default async function ProfilePage() {
   const supabase = createClient();

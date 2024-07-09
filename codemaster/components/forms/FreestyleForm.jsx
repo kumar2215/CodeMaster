@@ -1,5 +1,7 @@
 "use client";
 import { useFieldArray, Controller } from 'react-hook-form';
+import AddButtonImage from "@/components/images/add_button";
+import RemoveButton from '@/components/buttons/RemoveButton';
 import dynamic from 'next/dynamic';
 
 const CodeEditor = dynamic(
@@ -26,12 +28,7 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
     <div className='w-full flex flex-col gap-y-4'>
 
       <div className='flex flex-row gap-2'>
-        <button 
-        className='bg-white border-black w-6 h-6 my-2' style={{borderWidth: "1px"}}
-        onClick={() => removePart(parentIndex)}
-        >
-        - 
-        </button>
+        <RemoveButton remove={() => removePart(parentIndex)} style={{marginTop: "5px"}}/>
         <h2 className='text-xl text-blue-600 pt-2'>{`(${part})`}</h2>
         <p className='text-xl pt-2'>Freestyle</p>
       </div>
@@ -133,12 +130,7 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
       ? parameters.map((p, i) => {
           return (
           <div key={i} className='flex flex-row gap-4'>
-            <button 
-            className='bg-white border-black w-6 h-6' style={{borderWidth: "1px"}}
-            onClick={() => removeParameter(i)} 
-            >
-            - 
-            </button>
+            <RemoveButton remove={() => removeParameter(i)} />
             <label className="w-44 leading-5" style={{borderWidth: "1.5px"}}>
               <input
               className='w-full pl-1'
@@ -159,10 +151,12 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
         )})
       : null}
 
-      <button className="btn btn-info mt-4 mr-2 mb-2" type="button" onClick={() => {
+      <button type="button" className="w-2/5 flex flex-row justify-between gap-2 mt-2" onClick={() => {
         appendParameter({ name: '', type: '' });
       }}>
-      Add Parameter
+        <AddButtonImage />
+        <h1 className="w-full bg-green-400 text-lg text-white font-medium rounded-lg pt-1">Add Parameter</h1>
+        <h1></h1>
       </button>
       
       {/* Testcases field */}
@@ -171,12 +165,7 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
       ? testcases.map((item, index) => (
         <div key={item.id} >
           <div className='flex flex-row gap-2'>
-            <button 
-              className='bg-white border-black w-6 h-6 my-1' style={{borderWidth: "1px"}}
-              onClick={() => removeTestcase(index)}
-            >
-              - 
-            </button>
+            <RemoveButton remove={() => removeTestcase(index)} />
             <h2 className='pt-1'>Testcase {index+1}</h2>
           </div>
           {params.map((p, i) => {
@@ -224,14 +213,16 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
       ? <p className='text-red-600'>Please enter the parameters first.</p>
       : null}
       
-      <button className="btn btn-info mt-4 mr-2 mb-2" type="button" onClick={() => {
+      <button type="button" className="w-2/5 flex flex-row justify-between gap-2" onClick={() => {
         const obj = {};
         params.forEach((p, i) => {
           if (p.name.trim() !== '') obj[p.name.trim()] = '';
         });
         appendTestcase(obj);
       }}>
-      Add Testcase
+        <AddButtonImage />
+        <h1 className="w-full bg-green-400 text-lg text-slate-50 font-medium rounded-lg pt-1">Add Testcase</h1>
+        <h1></h1>
       </button>
       
     </div>

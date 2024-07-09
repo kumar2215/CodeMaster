@@ -71,7 +71,7 @@ export default function TournamentForm() {
 
         <div className='w-full flex flex-row gap-3 p-5 ml-6'>
           {/* Button to add Questions*/}
-          <button className="btn btn-info bg-blue-600" type="button" onClick={() => append(
+          <button className="btn btn-info bg-blue-500" type="button" onClick={() => append(
             {
               type: '',
               title: '',

@@ -2,6 +2,8 @@
 import React from 'react';
 import { Controller, useFieldArray } from 'react-hook-form';
 import dynamic from 'next/dynamic';
+import AddButtonImage from '@/components/images/add_button';
+import RemoveButton from '@/components/buttons/RemoveButton';
 import MultipleResponseForm from './MultipleResponseForm';
 import MRQForm from './MRQForm';
 import MCQForm from './MCQForm';
@@ -39,16 +41,15 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
   const qnNum = !single ? index + 1 : '';
   
   return (
-    <form className='w-full flex flex-col gap-5'>
+    <div className='w-full flex flex-col gap-5'>
 
       <div className='flex flex-row gap-3'>
-        {remove !== null && <button 
-          className='bg-white border-black w-6 h-6 my-1' style={{borderWidth: "1px"}}
-          onClick={() => remove(index)}
-        >
-          - 
-        </button>}
-        <h1 className='text-3xl text-left text-blue-600'>{`Question ${qnNum}`}</h1>
+        {remove !== null && 
+        <>
+          <RemoveButton remove={() => remove(index)} />
+          <h1 className='text-3xl text-left text-blue-600'>{`Question ${qnNum}`}</h1>
+        </>
+        }
       </div>
 
       <div>
@@ -128,12 +129,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
 
           {contents.map((item, idx) => (
             <div key={idx} className='flex flex-row gap-2 my-2'>
-              <button 
-                className='bg-white border-black w-6 h-6 my-1' style={{borderWidth: "1px"}}
-                onClick={() => removeContent(idx)}
-              >
-                  - 
-              </button>
+              <RemoveButton remove={() => removeContent(idx)} style={{marginBottom: "4px"}}/>
               <div className='w-full'>
                 {item.category === "text" ? (
                   <textarea {...register(`questions.${index}.contents.${idx}.value`)} 
@@ -159,11 +155,16 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
           ))}
           
           <div className='w-full flex flex-row gap-x-3 mt-2 justify-evenly'>
-            <button className="btn btn-info" type="button" onClick={() => addContent('text')}>
-              Add text content
+            <button type="button" className="w-2/5 flex flex-row justify-between gap-2 mt-2" onClick={() => addContent('text')}>
+              <AddButtonImage />
+              <h1 className="w-full bg-green-500 text-lg text-white font-medium rounded-lg pt-1">Add text content</h1>
+              <h1></h1>
             </button>
-            <button className="btn btn-info" type="button" onClick={() => addContent('code')}>
-              Add code content
+
+            <button type="button" className="w-2/5 flex flex-row justify-between gap-2 mt-2" onClick={() => addContent('code')}>
+              <AddButtonImage />
+              <h1 className="w-full bg-green-500 text-lg text-white font-medium rounded-lg pt-1">Add code content</h1>
+              <h1></h1>
             </button>
           </div>
 
@@ -172,7 +173,63 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
       </div>
       
       <div className='flex flex-col gap-4'>
-        <p className='text-lg my-3' >Question Parts:</p>
+        <p className='text-lg my-2' >Question Parts:</p>
+
+        <div className='flex flex-row gap-3 justify-between'>
+
+          <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => appendPart({
+            part: '',
+            questionType: "Multiple-Responses", 
+            question: '',
+            format: '',
+            inputs: [],
+            points: []
+          })}>
+            <AddButtonImage style={{marginTop: "5px"}} />
+            <h1 className="w-full bg-green-500 text-lg text-white font-medium rounded-lg p-2">Add Multiple Responses</h1>
+          </button>
+          
+          <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => appendPart({
+            part: '',
+            questionType: "MRQ", 
+            question: '',
+            options: [],
+            expected: '',
+            points: 0
+          })}>
+            <AddButtonImage style={{marginTop: "5px"}} />
+            <h1 className="w-full bg-green-500 text-lg text-white font-medium rounded-lg p-2">Add MRQ</h1>
+          </button>
+          
+          <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => appendPart({
+            part: '',
+            questionType: "MCQ",
+            question: '',
+            options: [],
+            expected: 0,
+            points: 0
+          })}>
+            <AddButtonImage style={{marginTop: "5px"}} />
+            <h1 className="w-full bg-green-500 text-lg text-white font-medium rounded-lg p-2">Add MCQ</h1>
+          </button>
+          
+          <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => appendPart({
+            part: '',
+            questionType: "Freestyle",
+            question: '',
+            parameters: '',
+            inputs: [],
+            points: [],
+            precode: '',
+            code: '',
+            postcode: '',
+            functionName: ''
+          })}>
+            <AddButtonImage style={{marginTop: "5px"}} />
+            <h1 className="w-full bg-green-500 text-lg text-white font-medium rounded-lg p-2">Add Freestyle</h1>
+          </button>
+
+        </div>
 
         {parts.map((field, idx) => {
           const QuestionComponent = QUESTION_COMPONENTS[field.questionType] || MCQForm; 
@@ -193,52 +250,8 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
             </div>
           );
         })}
-
-        <div className='flex flex-row gap-x-3 justify-between'>
-          <button className="btn btn-info" type="button" onClick={() => appendPart({
-            part: '',
-            questionType: "Multiple-Responses", 
-            question: '',
-            format: '',
-            inputs: [],
-            points: []
-            
-          })}>Add Multiple Responses</button>
-          
-          <button className="btn btn-info" type="button" onClick={() => appendPart({
-            part: '',
-            questionType: "MRQ", 
-            question: '',
-            options: [],
-            expected: '',
-            points: 0
-          })}>Add MRQ</button>
-          
-          <button className="btn btn-info" type="button" onClick={() => appendPart({
-            part: '',
-            questionType: "MCQ",
-            question: '',
-            options: [],
-            expected: 0,
-            points: 0
-          })}>Add MCQ</button>
-          
-          <button className="btn btn-info" type="button" onClick={() => appendPart({
-            part: '',
-            questionType: "Freestyle",
-            question: '',
-            parameters: '',
-            inputs: [],
-            points: [],
-            precode: '',
-            code: '',
-            postcode: '',
-            functionName: ''
-          })}>Add Freestyle</button>
-
-        </div>
       </div>
-    </form>
+    </div>
   );
 }
 

@@ -1,7 +1,9 @@
 "use client";
 import React from 'react';
-import { useForm, useFieldArray, Controller } from 'react-hook-form';
+import { useFieldArray, Controller } from 'react-hook-form';
 import dynamic from 'next/dynamic';
+import AddButtonImage from '@/components/images/add_button';
+import RemoveButton from '@/components/buttons/RemoveButton';
 
 const CodeEditor = dynamic(
   () => import('../codeBoxes/CodeEditor'),
@@ -21,12 +23,7 @@ export default function MCQForm({ part, control, register, parentIndex, removePa
   return (
     <div className='w-full flex flex-col gap-y-4'>
       <div className='flex flex-row gap-2'>
-        <button 
-        className='bg-white border-black w-6 h-6 my-2' style={{borderWidth: "1px"}}
-        onClick={() => removePart(parentIndex)}
-        >
-        - 
-        </button>
+        <RemoveButton remove={() => removePart(parentIndex)} style={{marginTop: "5px"}}/>
         <h2 className='text-xl text-blue-600 pt-2'>{`(${part})`}</h2>
         <p className='text-xl pt-2'>MCQ</p>
       </div>
@@ -72,12 +69,17 @@ export default function MCQForm({ part, control, register, parentIndex, removePa
           </div>
         ))}
         
-        <div className='w-full flex flex-row gap-x-3 mt-2 justify-evenly'>
-          <button className="btn btn-info" type="button" onClick={() => addOption('text')}>
-            Add Text Option
+        <div className='w-full flex flex-row gap-3 mt-2 justify-evenly'>
+          <button type="button" className="w-2/5 flex flex-row justify-between gap-2 mt-2" onClick={() => addOption('text')}>
+            <AddButtonImage />
+            <h1 className="w-full bg-green-400 text-lg text-white font-medium rounded-lg pt-1">Add Text Option</h1>
+            <h1></h1>
           </button>
-          <button className="btn btn-info" type="button" onClick={() => addOption('code')}>
-            Add Code Option
+
+          <button type="button" className="w-2/5 flex flex-row justify-between gap-2 mt-2" onClick={() => addOption('code')}>
+            <AddButtonImage />
+            <h1 className="w-full bg-green-400 text-lg text-white font-medium rounded-lg pt-1">Add Code Option</h1>
+            <h1></h1>
           </button>
         </div>
       </div>

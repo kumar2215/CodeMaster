@@ -41,7 +41,7 @@ export default function IndividualQuestionForm({ user_data }) {
       <br/>
 
       <div className='w-full flex flex-row gap-3 p-2 ml-3'>
-        <button className='btn btn-success' type="submit">Submit Question</button>
+        <button className='btn btn-success bg-green-400' type="submit">Submit Question</button>
       </div>
     </form>
   );
