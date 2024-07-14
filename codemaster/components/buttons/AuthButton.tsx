@@ -28,16 +28,6 @@ export default async function AuthButton() {
     return redirect("/login");
   };
 
-  // const setProfilePic = async () => {
-  //   "use server";
-  //   return alert("This feature is not yet implemented");
-
-  // const supabase = createClient();
-  // await supabase.auth.update({
-  //   data: { avatar_url: "https://assets.leetcode.com/users/default_avatar.jpg" },
-  // });
-  // }
-
   return user ? (
       <div className="flex items-center gap-4">
         Hey, {user.user_metadata.username}!
@@ -45,10 +35,12 @@ export default async function AuthButton() {
           <div className="relative">
             <button className="flex items-center focus:outline-none" id="headlessui-menu-button-:r58:" type="button"
                     aria-haspopup="menu" aria-expanded="false" data-headlessui-state="">
-              <span id="navbar_user_avatar" className="relative ml-1 h-6 w-6">
-              <img src={`https://api.dicebear.com/8.x/personas/svg?seed=${username}`} alt="avatar"
-                   className="h-full w-full rounded-full object-cover"/>
-              </span>
+              <Link href="/profile" className="relative flex items-center">
+                <span id="navbar_user_avatar" className="relative ml-1 h-6 w-6">
+                <img src={`https://api.dicebear.com/8.x/personas/svg?seed=${username}`} alt="avatar"
+                    className="h-full w-full rounded-full object-cover"/>
+                </span>
+              </Link>
             </button>
           </div>
         </form>

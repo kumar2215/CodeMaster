@@ -20,6 +20,7 @@ export default function Navbar(linkObj: any) {
   }
 
   return (
+<<<<<<< HEAD
 <div className="w-full bg-gray-100">
   <nav className="container mx-auto flex justify-center border-gray-300 p-4 w-full">
     <div className="flex flex-col lg:flex-row w-full lg:max-w-5xl">
@@ -49,6 +50,33 @@ export default function Navbar(linkObj: any) {
         <AuthButton />
         <PremiumButton />
       </div>
+=======
+    <div className="w-full" style={{backgroundColor: "#e1e1ea"}}>
+    <nav 
+    style={{
+      display: "grid",
+      gridTemplateColumns: "550px 550px",
+      justifyContent: "center",
+      border: "1px solid #e5e7eb",
+    }}
+    >
+    <div className="display-flex m-auto h-[50px] w-full items-center justify-center px-6 md:flex max-w-[1200px]">
+    <ul className="relative m-0 flex h-full grow items-center gap-6 self-end p-0">
+    {createListElement("/problemset", "Problems")}
+    {createListElement("/contests", "Contests")}
+    {createListElement("/tournaments", "Tournaments")}
+    {createListElement("/leaderboards", "Leaderboards")}
+    {createListElement("/forum", "Forum")}
+    {createListElement("/profile", "Profile")}
+    {createListElement("/others", "Others")}
+    </ul>
+    </div>
+    <div className="w-full max-w-4xl flex justify-end gap-3 p-3 text-sm">
+    <AuthButton />
+    <PremiumButton />
+    </div>
+    </nav>
+>>>>>>> main
     </div>
   </nav>
 </div>

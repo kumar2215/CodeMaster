@@ -15,6 +15,7 @@ export default function MultipleResponses(params: any) {
   const points: number[] = data.points;
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition;
+  let verified: boolean = data.verified;
 
   let inputStates: any[] = inputs.map(() => useState(""));
   let status: string = "Not Attempted";
@@ -31,6 +32,7 @@ export default function MultipleResponses(params: any) {
         return useState(value);
       });
     }
+    verified = partOfCompetition.verified;
   }
 
   const [submitted, setSubmitted] = useState(false);
@@ -147,8 +149,8 @@ export default function MultipleResponses(params: any) {
       : <div className="lg:text-lg text-sm font-medium leading-10">source: {source.src}</div>
       : <></>
       }
-      <div className="flex flex-row justify-between p-2 pl-4 m-2 mb-0">
-      {status !== "Completed" &&
+      <div className={`flex flex-row ${verified ? `justify-between`: "justify-end"} p-2 pl-4 m-2 mb-0`}>
+      {status !== "Completed" && verified &&
       <SubmitButton
       formAction={partOfCompetition ? handleSave : handleSubmit}
       className="lg:text-lg text-sm font-medium bg-blue-500 text-white p-2 rounded-lg"

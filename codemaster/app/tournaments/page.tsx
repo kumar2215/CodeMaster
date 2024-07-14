@@ -30,13 +30,13 @@ export default async function TournamentsPage() {
   if (res.error) { console.error(res.error) }
   let tournaments: any = res.data;
 
-  tournaments = tournaments.filter((tournament: any) => tournament.verified_by !== null && Date.now() <= new Date(tournament.deadline).getTime())
+  tournaments = tournaments.filter((tournament: any) => tournament.verified_by !== null && tournament.password !== null);
 
   if (tournaments) {
     for (let i = 0; i < tournaments.length; i++) {
       if (tournamentsIdsDoneByUser && tournamentsIdsDoneByUser.includes(tournaments[i].id)) {
         const tournament = tournamentsDoneByUser[tournamentsIdsDoneByUser.indexOf(tournaments[i].id)];
-        tournaments[i].status = tournament.status ? tournament.status : "Not Attempted";
+        tournaments[i].status = tournament.status;
         tournaments[i].points = tournament.pointsAccumulated 
           ? `${tournament.pointsAccumulated}/${tournaments[i].points}` 
           : tournaments[i].points;

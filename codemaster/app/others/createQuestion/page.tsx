@@ -3,7 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import IndividualQuestionForm from "@/components/forms/IndividualQuestionForm";
 
-const thisLink = "/profile";
+const thisLink = "/others";
 
 export default async function CreateQuestionsPage() {
   const supabase = createClient();

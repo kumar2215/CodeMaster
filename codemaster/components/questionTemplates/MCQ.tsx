@@ -16,6 +16,7 @@ export default function MCQ(params: any) {
   const expected: number = data.expected;
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition;
+  let verified: boolean = data.verified;
 
   let initialSelectedOption: number = 0;
   let status: string = "Not Attempted";
@@ -26,6 +27,7 @@ export default function MCQ(params: any) {
     } else if (status === "Completed") {
       initialSelectedOption = partOfCompetition.data[part].answered;
     }
+    verified = partOfCompetition.verified;
   }
 
   const [selectedOption, setSelectedOption] = useState(initialSelectedOption);
@@ -87,8 +89,13 @@ export default function MCQ(params: any) {
       : <div className="lg:text-lg text-sm font-medium leading-10">source: {source.src}</div>
       : <></>
     }
+<<<<<<< HEAD
     <div className={` flex flex-row justify-between p-2 ${!source ? "m-2" : ""} mb-0`}>
     {status !== "Completed" &&
+=======
+    <div className={`flex flex-row ${verified ? `justify-between`: "justify-end"} p-2 ${!source ? "m-2" : ""} mb-0`}>
+    {status !== "Completed" && verified &&
+>>>>>>> main
     <SubmitButton
     formAction={partOfCompetition ? handleSave : handleSubmit}
     className="lg:text-lg text-sm font-medium bg-blue-500 text-white p-2 rounded-lg"

@@ -48,7 +48,7 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
 
   if (idx !== -1) {
     const contest = contestsDoneByUser[idx];
-    contestData.status = contest.status ? contest.status : "Not Attempted";
+    contestData.status = contest.status;
     contestData.points =  contest.pointsAccumulated ? `${contest.pointsAccumulated}/${contestData.points}` : contestData.points;
   } else {
     contestData.status = "Not Attempted";
@@ -56,7 +56,9 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
 
   const questions = contestData.questions;
   const link = `/questions/contest-${contestData.id}[1-${questions.length}]`;
-  const btnText = contestData.status === "Not Attempted" 
+  const btnText = new Date(contestData.deadline).getTime() < new Date().getTime() && contestData.status !== "Completed"
+    ? "Contest closed"
+    : contestData.status === "Not Attempted"
     ? "Start contest" 
     : contestData.status === "Attempted"
     ? "Resume contest"
@@ -92,12 +94,22 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
 
             {Array.from({length: 5}).map(x => <br/>)}
 
-            <button 
-            className="bg-green-300 text-base font-medium p-2 rounded-2xl hover:bg-green-400 cursor-pointer hover:font-semibold" 
-            style={{border: "1px solid black"}}
-            >
-              <Link href={link}>{btnText}</Link>
-            </button>
+            {btnText !== "Contest closed"
+            ? <Link
+              href={link} 
+              className="bg-green-300 text-base text-center font-medium p-2 rounded-2xl hover:bg-green-400 cursor-pointer hover:font-semibold" 
+              style={{border: "1px solid black"}}
+              >
+                <button>{btnText}</button>
+              </Link>
+            : <button 
+              className="bg-green-400 text-base text-center font-medium p-2 rounded-2xl" 
+              style={{border: "1px solid black"}} 
+              disabled={true}
+              >
+                {btnText}
+              </button>
+            }
           </div>
 
         </div>  
