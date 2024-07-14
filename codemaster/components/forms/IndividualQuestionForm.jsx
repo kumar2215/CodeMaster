@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import QuestionForm from './QuestionForm';
 import processAndValidateQuestion from '@/app/utils/Processing/processQuestion';
-import upload from '@/app/questionGeneration/upload';
+import upload from '@/app/api/uploadQuestion/upload';
 import { toast } from 'react-toastify';
 
 export default function IndividualQuestionForm({ user_data }) {
@@ -10,18 +10,22 @@ export default function IndividualQuestionForm({ user_data }) {
   const { register, handleSubmit, control, watch } = useForm({});
 
   const verified = user_data.user_type.includes("admin");
+  const username = user_data.username;
 
   async function onSubmit(data) {
     const question = data.questions[0];
     const processedQuestion = processAndValidateQuestion(question, null); 
     if (!processedQuestion || processedQuestion.parts.some(q => !q)) return;
-    const successful = await upload(processedQuestion, "general", verified); 
+
+    const successful = await upload(processedQuestion, "general", username, verified); 
     if (successful) {
       if (!verified) {
         toast.success("Question created successfully! Currently awaiting for verification.", {autoClose: 3000});
       } else {
         toast.success("Question created successfully!", {autoClose: 3000});
       }
+    } else {
+      toast.error("Something went wrong. Please try again.", {autoClose: 3000});
     }
   };
 
@@ -41,7 +45,7 @@ export default function IndividualQuestionForm({ user_data }) {
       <br/>
 
       <div className='w-full flex flex-row gap-3 p-2 ml-3'>
-        <button className='btn btn-success' type="submit">Submit Question</button>
+        <button className='btn btn-success bg-green-400' type="submit">Submit Question</button>
       </div>
     </form>
   );

@@ -2,8 +2,11 @@ import Navbar from "@/components/misc/navbar";
 import placeInCodeBox from "@/components/codeBoxes/CodeBox";
 import handler from "@/app/utils/Handlers/handler";
 import Pagination from "@/components/misc/pagination";
+import ReviewPart from "@/components/misc/reviewPart";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+
+let previewMode: boolean = false;
 
 async function createSupabase() {
   const supabase = createClient();
@@ -52,7 +55,25 @@ async function handlePart(questionData: any, part: any, singlePart: boolean = fa
 
   partData.partOfCompetition = questionData.partOfCompetition;
 
-  return handler(questionType, partData, username);
+  if (partData.review) {
+    const commentId = partData.review.commentId;
+    const {data: comment, error: err} = await supabase.from("Comments").select(`*`).eq("id", commentId).single();
+    if (err) {
+      console.error(err);
+      return;
+    }
+    partData.review.content = comment && comment.content;
+    partData.review.written_by = comment && comment.written_by;
+    partData.review.created_at = comment && comment.created_at;
+    delete partData.review.commentId;
+  }
+
+  return (
+    <div>
+      {handler(questionType, partData, username)}
+      {previewMode && <ReviewPart username={username} partData={partData} questionType={questionType} />}
+    </div>
+  );
 }
 
 export default async function Question({params: {id}}: {params: {id: string}}) {
@@ -77,6 +98,8 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
   let nextId: string = "";
   let nextText: string = "";
   let type: any, Id: any, current: any, totalQuestions: any;
+  let reviewed: boolean = false;
+  let password: string | null = null;
 
   if (!single) {
     const regex = /(.*)\[(\d+)\-(\d+)\]/;
@@ -100,26 +123,39 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
         prevText = "Go back to start page";
       }
       const table = type === "contest" ? "Contests" : "Tournaments";
-      const { data: competitionData, error: err } = await supabase.from(table).select(`questions`).eq("id", Id).single();
+      const { data: competitionData, error: err } = await supabase.from(table).select(`*`).eq("id", Id).single();
       if (err) { console.error(err); }
       const questions = competitionData && competitionData.questions;
       if (questions) {
         ID = questions[current-1];
       }
+      if (type === "tournament") {
+        previewMode = competitionData.verified_by === null;
+        reviewed = competitionData.reviewed;
+        password = competitionData.password;
+      }
     }
   }
     
-  const { data: question, error: err } = await supabase.from("Questions").select(`*`).eq("id", ID).single();
+  const { data: questionData, error: err } = await supabase.from("Questions").select(`*`).eq("id", ID).single();
   if (err) { console.error(err); }
-  const questionData = question;
 
   // prevent users from accessing questions that are not part of a competition
   if (questionData === null || (questionData.purpose !== "general" && single)) { 
     return redirect("/problemset");
   }
 
+  if (single) previewMode = !questionData.verified;
+
   const res = await supabase.from("Users").select(`*`).eq("username", username).single();
   if (res.error) { console.error(res.error); }
+
+  // prevent users from accessing questions that are not published yet
+  const user_type = res.data && res.data.user_type;
+  const created_by = questionData.created_by;
+  if (previewMode && !(user_type.includes("admin") || username === created_by)) {
+    return redirect("/problemset");
+  }
 
   let competitionsDone: any;
   if (type === "contest") {
@@ -140,7 +176,8 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
     questionNumber: current,
     totalQuestions,
     data: (competitionDone.questions && competitionDone.questions[current-1]) || {},
-    status: competitionDone.status || "Not Attempted"
+    status: competitionDone.status || "Not Attempted",
+    verified: !previewMode,
   };
 
   if (!single && competitionDone.status === "Completed" && current === totalQuestions) {
@@ -212,7 +249,7 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
       </div>
       
       {questionData.parts.length > 1 && questionData.parts.map(async (part: any, index: number) =>
-        handlePart(questionData, part)
+        await handlePart(questionData, part)
       )}
 
       {/* pagination */}

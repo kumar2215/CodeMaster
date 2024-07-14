@@ -56,6 +56,7 @@ export default async function handleMultipleResponses(questionPart: any, usernam
     inputs: inputs,
     points: points,
     source: source,
+    verified: questionPart.verified,
     partOfCompetition: partOfCompetition,
     savedInputs: questionPart.savedInputs
   }

@@ -54,6 +54,7 @@ export default async function handleMCQ(questionPart: any, username: any) {
     points: points,
     expected: expected,
     source: source,
+    verified: questionPart.verified,
     partOfCompetition: partOfCompetition,
     selectedOption: questionPart.selectedOption
   }

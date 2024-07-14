@@ -1,3 +1,4 @@
+"use client";
 import { createClient } from "@/utils/supabase/client";
 import { Dispatch, SetStateAction } from "react";
 import { toast } from "react-toastify";

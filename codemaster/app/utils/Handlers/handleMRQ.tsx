@@ -54,6 +54,7 @@ export default async function handleMRQ(questionPart: any, username: any) {
     points: points,
     expected: expected,
     source: source,
+    verified: questionPart.verified,
     partOfCompetition: partOfCompetition,
     selectedOptions: questionPart.selectedOptions
   }

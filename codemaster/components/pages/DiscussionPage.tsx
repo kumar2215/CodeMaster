@@ -78,7 +78,33 @@ export default function CommentSection(params: any) {
       return;
     }
 
+    if (written_by !== username) {
+      const notification = {
+        from: username,
+        message: `${username} replied to your comment.`,
+        type: "View",
+        link: `forum/discussion/${discussionId}`
+      }
+
+      const { data, error } = await supabase.from("Users").select("notifications").eq("username", written_by).single();
+      if (error) { 
+        console.error(error);
+        toast.error("Something went wrong. Please try again.", {autoClose: 3000});
+        return;
+      }
+
+      const notifications = data.notifications || [];
+      notifications.push(notification);
+      const res6 = await supabase.from("Users").update({notifications: notifications}).eq("username", written_by);
+      if (res6.error) { 
+        console.error(res6.error);
+        toast.error("Something went wrong. Please try again.", {autoClose: 3000});
+        return;
+      }
+    }
+
     toast.success("Reply created successfully!", {autoClose: 3000});
+    setCreateReply(false);
     router.refresh();
   }
 

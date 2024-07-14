@@ -14,17 +14,22 @@
   @media (prefers-color-scheme: dark) {
     :root {
       --background: 200 50% 3%;
-      --btn-background: 200 10% 9%;
-      --btn-background-hover: 200 10% 12%;
-      --foreground: 200 20% 96%;
-      /* --text-color: white; */
+      --foreground: 200 50% 3%; 
+      --text-color: black !important;
     }
+
+    input{ 
+      background-color: white; 
+    } 
+    select{ 
+      background-color: white; 
+    } 
   }
 
-  /* body {
+  body {
     background-color: hsl(var(--background));
     color: var(--text-color);
-  } */
+  }
 }
 
 @layer base {
