@@ -89,13 +89,9 @@ export default function MCQ(params: any) {
       : <div className="lg:text-lg text-sm font-medium leading-10">source: {source.src}</div>
       : <></>
     }
-<<<<<<< HEAD
-    <div className={` flex flex-row justify-between p-2 ${!source ? "m-2" : ""} mb-0`}>
-    {status !== "Completed" &&
-=======
+    
     <div className={`flex flex-row ${verified ? `justify-between`: "justify-end"} p-2 ${!source ? "m-2" : ""} mb-0`}>
     {status !== "Completed" && verified &&
->>>>>>> main
     <SubmitButton
     formAction={partOfCompetition ? handleSave : handleSubmit}
     className="lg:text-lg text-sm font-medium bg-blue-500 text-white p-2 rounded-lg"

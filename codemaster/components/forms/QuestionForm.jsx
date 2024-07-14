@@ -107,11 +107,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
           </div>
 
           <div className='flex flex-col gap-2'>
-<<<<<<< HEAD
-            <p className='lg:text-lg text-sm'>Source:</p>
-=======
             <h1 className='text-lg'>Source:</h1>
->>>>>>> main
             <p className='text-sm'>
               The source here refers to the who or what you want to give credit to for the question.
               It can be a link or just a brief description. If it is your own work, enter your name 
@@ -124,16 +120,11 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
         </div>
             
         <div className='flex flex-col mt-5 gap-2'>
-
-<<<<<<< HEAD
-          <p className='lg:text-lg text-sm my-5' >Question Content:</p>
-=======
           <h1 className='text-lg'>Question Content:</h1>
           <p className='text-sm mb-2'>
             This is where description of the problem will go. 
             It should provide the context for all parts of the question.
           </p>
->>>>>>> main
 
           {contents.map((item, idx) => (
             <div key={idx} className='flex flex-row gap-2 my-2'>
@@ -181,9 +172,6 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
       </div>
       
       <div className='flex flex-col gap-4'>
-<<<<<<< HEAD
-        <p className='lg:text-lg text-sm my-3' >Question Parts:</p>
-=======
         <p className='text-lg my-2' >Question Parts:</p>
 
         <div className='flex flex-row gap-3 justify-between'>
@@ -241,7 +229,6 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
           </button>
 
         </div>
->>>>>>> main
 
         {parts.map((field, idx) => {
           const QuestionComponent = QUESTION_COMPONENTS[field.questionType] || MCQForm; 
