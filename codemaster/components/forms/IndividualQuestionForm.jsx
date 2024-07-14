@@ -10,18 +10,22 @@ export default function IndividualQuestionForm({ user_data }) {
   const { register, handleSubmit, control, watch } = useForm({});
 
   const verified = user_data.user_type.includes("admin");
+  const username = user_data.username;
 
   async function onSubmit(data) {
     const question = data.questions[0];
     const processedQuestion = processAndValidateQuestion(question, null); 
     if (!processedQuestion || processedQuestion.parts.some(q => !q)) return;
-    const successful = await upload(processedQuestion, "general", verified); 
+
+    const successful = await upload(processedQuestion, "general", username, verified); 
     if (successful) {
       if (!verified) {
         toast.success("Question created successfully! Currently awaiting for verification.", {autoClose: 3000});
       } else {
         toast.success("Question created successfully!", {autoClose: 3000});
       }
+    } else {
+      toast.error("Something went wrong. Please try again.", {autoClose: 3000});
     }
   };
 

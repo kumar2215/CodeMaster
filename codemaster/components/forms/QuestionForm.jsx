@@ -157,13 +157,13 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
           <div className='w-full flex flex-row gap-x-3 mt-2 justify-evenly'>
             <button type="button" className="w-2/5 flex flex-row justify-between gap-2 mt-2" onClick={() => addContent('text')}>
               <AddButtonImage />
-              <h1 className="w-full bg-green-500 text-lg text-white font-medium rounded-lg pt-1">Add text content</h1>
+              <h1 className="w-full bg-green-500 hover:bg-green-700 text-lg text-white font-medium rounded-lg pt-1">Add text content</h1>
               <h1></h1>
             </button>
 
             <button type="button" className="w-2/5 flex flex-row justify-between gap-2 mt-2" onClick={() => addContent('code')}>
               <AddButtonImage />
-              <h1 className="w-full bg-green-500 text-lg text-white font-medium rounded-lg pt-1">Add code content</h1>
+              <h1 className="w-full bg-green-500 hover:bg-green-700 text-lg text-white font-medium rounded-lg pt-1">Add code content</h1>
               <h1></h1>
             </button>
           </div>
@@ -186,7 +186,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
             points: []
           })}>
             <AddButtonImage style={{marginTop: "5px"}} />
-            <h1 className="w-full bg-green-500 text-lg text-white font-medium rounded-lg p-2">Add Multiple Responses</h1>
+            <h1 className="w-full bg-green-500 hover:bg-green-700 text-lg text-white font-medium rounded-lg p-2">Add Multiple Responses</h1>
           </button>
           
           <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => appendPart({
@@ -198,7 +198,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
             points: 0
           })}>
             <AddButtonImage style={{marginTop: "5px"}} />
-            <h1 className="w-full bg-green-500 text-lg text-white font-medium rounded-lg p-2">Add MRQ</h1>
+            <h1 className="w-full bg-green-500 hover:bg-green-700 text-lg text-white font-medium rounded-lg p-2">Add MRQ</h1>
           </button>
           
           <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => appendPart({
@@ -210,7 +210,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
             points: 0
           })}>
             <AddButtonImage style={{marginTop: "5px"}} />
-            <h1 className="w-full bg-green-500 text-lg text-white font-medium rounded-lg p-2">Add MCQ</h1>
+            <h1 className="w-full bg-green-500 hover:bg-green-700 text-lg text-white font-medium rounded-lg p-2">Add MCQ</h1>
           </button>
           
           <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => appendPart({
@@ -226,7 +226,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
             functionName: ''
           })}>
             <AddButtonImage style={{marginTop: "5px"}} />
-            <h1 className="w-full bg-green-500 text-lg text-white font-medium rounded-lg p-2">Add Freestyle</h1>
+            <h1 className="w-full bg-green-500 hover:bg-green-700 text-lg text-white font-medium rounded-lg p-2">Add Freestyle</h1>
           </button>
 
         </div>

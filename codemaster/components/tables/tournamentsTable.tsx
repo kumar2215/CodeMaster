@@ -57,8 +57,6 @@ export default function TournamentsTable(data: any) {
             ? <img src={attemptedLogo.src} alt="Attempted" width={0.6 * attemptedLogo.width}/>
             : <div className="text-gray-400">-</div>}
             </div>
-            <Link href={link}>{entry.name}</Link> 
-            <div style={{borderRight: '1px solid rgb(156 163 175)'}}>{entry.created_by}</div>
             <div
             className="hover:text-blue-500 hover:leading-8 hover:font-medium cursor-pointer"
             style={{
@@ -66,7 +64,9 @@ export default function TournamentsTable(data: any) {
               textAlign: "start",
               paddingLeft: "1rem"
             }}>
+              <Link href={link}>{entry.name}</Link> 
             </div>
+            <div style={{borderRight: '1px solid rgb(156 163 175)'}}>{entry.created_by}</div>
             <div style={{borderRight: '1px solid rgb(156 163 175)'}}>{convertDate(entry.deadline)}</div>
             <div>{entry.points}</div>
           </div>

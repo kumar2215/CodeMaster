@@ -3,7 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import TournamentForm from "@/components/forms/TournamentForm";
 
-const thisLink = "/profile";
+const thisLink = "/others";
 
 export default async function CreateContestsPage() {
   const supabase = createClient();

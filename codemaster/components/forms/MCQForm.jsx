@@ -39,12 +39,7 @@ export default function MCQForm({ part, control, register, parentIndex, removePa
 
         {fields.map((item, index) => (
           <div key={index} className='flex flex-row gap-2 my-2'>
-            <button 
-              className='bg-white border-black w-6 h-6 my-1' style={{borderWidth: "1px"}}
-              onClick={() => remove(index)}
-            >
-                - 
-            </button>
+            <RemoveButton remove={() => remove(index)} style={{marginBottom: "5px"}} />
             <div className='w-full'>
               {item.category === "text" ? (
                 <textarea {...register(`questions.${qnNum-1}.parts.${parentIndex}.options.${index}.value`)} 
@@ -57,7 +52,7 @@ export default function MCQForm({ part, control, register, parentIndex, removePa
                   defaultValue=""
                   render={({ field }) => {
                     return <CodeEditor
-                        language={language}  // Assuming the language is static, adjust if dynamic
+                        language={language}
                         code={field.value}
                         setCode={field.onChange} 
                     />
@@ -72,13 +67,13 @@ export default function MCQForm({ part, control, register, parentIndex, removePa
         <div className='w-full flex flex-row gap-3 mt-2 justify-evenly'>
           <button type="button" className="w-2/5 flex flex-row justify-between gap-2 mt-2" onClick={() => addOption('text')}>
             <AddButtonImage />
-            <h1 className="w-full bg-green-400 text-lg text-white font-medium rounded-lg pt-1">Add Text Option</h1>
+            <h1 className="w-full bg-green-400 hover:bg-green-700 text-lg text-white font-medium rounded-lg pt-1">Add Text Option</h1>
             <h1></h1>
           </button>
 
           <button type="button" className="w-2/5 flex flex-row justify-between gap-2 mt-2" onClick={() => addOption('code')}>
             <AddButtonImage />
-            <h1 className="w-full bg-green-400 text-lg text-white font-medium rounded-lg pt-1">Add Code Option</h1>
+            <h1 className="w-full bg-green-400 hover:bg-green-700 text-lg text-white font-medium rounded-lg pt-1">Add Code Option</h1>
             <h1></h1>
           </button>
         </div>

@@ -126,7 +126,7 @@ const MultipleResponseForm = ({ part, control, register, parentIndex, removePart
         append(obj);
       }}>
         <AddButtonImage />
-        <h1 className="w-full bg-green-400 text-lg text-white font-medium rounded-lg pt-1">Add Input</h1>
+        <h1 className="w-full bg-green-400 hover:bg-green-700 text-lg text-white font-medium rounded-lg pt-1">Add Input</h1>
         <h1></h1>
       </button>
 

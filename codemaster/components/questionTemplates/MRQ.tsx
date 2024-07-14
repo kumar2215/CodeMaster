@@ -15,6 +15,7 @@ export default function MRQ(params: any) {
   const points: number = data.points;
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition;
+  let verified: boolean = data.verified
 
   let selectedOptions : any[] = options.map(() => useState(false));
   let status: string = "Not Attempted";
@@ -26,6 +27,7 @@ export default function MRQ(params: any) {
     } else if (status === "Completed") {
       selectedOptions = partOfCompetition.data[part].answered.map((optionSelected: boolean) => useState(optionSelected));
     }
+    verified = partOfCompetition.verified;
   } 
 
   const [numOptionsSelected, setNumOptionsSelected] = useState(0);
@@ -95,8 +97,8 @@ export default function MRQ(params: any) {
       : <div className="text-lg font-medium leading-10">source: {source.src}</div>
       : <></>
     }
-    <div className={`flex flex-row justify-between p-2 ${!source ? "m-2" : ""} mb-0`}>
-    {status !== "Completed" &&
+    <div className={`flex flex-row ${verified ? `justify-between`: "justify-end"} p-2 ${!source ? "m-2" : ""} mb-0`}>
+    {status !== "Completed" && verified &&
     <SubmitButton
     formAction={partOfCompetition ? handleSave : handleSubmit}
     className="text-lg font-medium bg-blue-500 text-white p-2 rounded-lg"

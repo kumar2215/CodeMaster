@@ -67,13 +67,13 @@ export default function MRQForm({ control, register, parentIndex, removePart, wa
         <div className='w-full flex flex-row gap-3 mt-2 justify-evenly'>
           <button type="button" className="w-2/5 flex flex-row justify-between gap-2 mt-2" onClick={() => addOption('text')}>
             <AddButtonImage />
-            <h1 className="w-full bg-green-400 text-lg text-white font-medium rounded-lg pt-1">Add Text Option</h1>
+            <h1 className="w-full bg-green-400 hover:bg-green-700 text-lg text-white font-medium rounded-lg pt-1">Add Text Option</h1>
             <h1></h1>
           </button>
 
           <button type="button" className="w-2/5 flex flex-row justify-between gap-2 mt-2" onClick={() => addOption('code')}>
             <AddButtonImage />
-            <h1 className="w-full bg-green-400 text-lg text-white font-medium rounded-lg pt-1">Add Code Option</h1>
+            <h1 className="w-full bg-green-400 hover:bg-green-700 text-lg text-white font-medium rounded-lg pt-1">Add Code Option</h1>
             <h1></h1>
           </button>
         </div>

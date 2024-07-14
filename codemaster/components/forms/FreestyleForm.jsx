@@ -155,7 +155,7 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
         appendParameter({ name: '', type: '' });
       }}>
         <AddButtonImage />
-        <h1 className="w-full bg-green-400 text-lg text-white font-medium rounded-lg pt-1">Add Parameter</h1>
+        <h1 className="w-full bg-green-400 hover:bg-green-700 text-lg text-white font-medium rounded-lg pt-1">Add Parameter</h1>
         <h1></h1>
       </button>
       
@@ -221,7 +221,7 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
         appendTestcase(obj);
       }}>
         <AddButtonImage />
-        <h1 className="w-full bg-green-400 text-lg text-slate-50 font-medium rounded-lg pt-1">Add Testcase</h1>
+        <h1 className="w-full bg-green-400 hover:bg-green-700 text-lg text-slate-50 font-medium rounded-lg pt-1">Add Testcase</h1>
         <h1></h1>
       </button>
       

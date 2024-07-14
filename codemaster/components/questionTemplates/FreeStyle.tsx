@@ -19,7 +19,7 @@ export default function FreeStyle ({data}: {data: any}) {
   const points: number[] = data.points;
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition; 
-
+  let verified: boolean = data.verified;
   
   let results: any[] = Array(inputs.length).fill('').map(x => useState({
     actual: '',
@@ -36,7 +36,7 @@ export default function FreeStyle ({data}: {data: any}) {
       codeData = partOfCompetition.data[part].answered;
       results = Array(inputs.length).fill('').map((x: any, i: number) => {
         let value = partOfCompetition.data[part].status[i];
-        value = value === "Correct" ? `${points[i]}/${points[i]}` : `0/${points[i]}`;
+        value = value === "Correct" ? `${points[i]}/${points[i]} ✅` : `0/${points[i]} ❌`;
         return useState({
           actual: value,
           expected: value,
@@ -44,6 +44,7 @@ export default function FreeStyle ({data}: {data: any}) {
         });
       });
     }
+    verified = partOfCompetition.verified
   } 
 
   const [code, setCode] = useState(codeData);
@@ -134,7 +135,7 @@ export default function FreeStyle ({data}: {data: any}) {
           <div 
           className="flex flex-row justify-center text-lg font-bold"
           style={{border: "2px solid black", borderRight: "2px solid black"}}
-          >actual
+          >{status === "Completed" ? "score" : "actual"}
           </div>
         </div>
 
@@ -162,8 +163,7 @@ export default function FreeStyle ({data}: {data: any}) {
                 border: "2px solid black",
                 borderRight: idx2 === format.length ? "2px solid black" : "none",
                 borderBottom: idx === inputs.length-1 ? "2px solid black" : "none",
-                borderTop: idx === 0 ? "none" : "2px solid black",
-                // paddingLeft: "2rem"
+                borderTop: idx === 0 ? "none" : "2px solid black"
               }}>
               {typeof value === "object" ? JSON.stringify(value).split(",").join(", ") : value}
               </div>
@@ -194,9 +194,7 @@ export default function FreeStyle ({data}: {data: any}) {
                 {typeof results[idx][0].actual === "object" 
                 ? JSON.stringify(results[idx][0].actual).split(",").join(", ")
                 : results[idx][0].actual !== ''
-                ? results[idx][0].actual === results[idx][0].expected
-                ? `${results[idx][0].actual} ✅` 
-                : `${results[idx][0].actual} ❌`
+                ? results[idx][0].actual
                 : results[idx][0].error
                 }
               </div>
@@ -210,10 +208,9 @@ export default function FreeStyle ({data}: {data: any}) {
     <div className="max-w-full mt-2 ml-2 whitespace-pre-wrap break-words text-red-600">
       {error}
     </div>
-    <br/>
      
-    <div className="flex flex-row justify-between p-2 pl-4 mb-0">
-      {status !== "Completed" && 
+    <div className={`flex flex-row ${verified ? `justify-between`: "justify-end"} p-2 pl-4 mb-0`}>
+      {status !== "Completed" && verified &&
       <button 
       className="text-lg font-medium bg-blue-500 text-white p-2 rounded-lg" 
       onClick={partOfCompetition ? handleSave : runCodeAndSumbit}>
@@ -237,8 +234,7 @@ export default function FreeStyle ({data}: {data: any}) {
         : `${partOfCompetition.data[part].pointsAccumulated} / ${totalPoints} ❌`
         }</span>
       }
-      
     </div>            
-    </div>
+  </div>
   );
 }

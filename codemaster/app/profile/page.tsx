@@ -3,7 +3,7 @@ import Notification from "@/components/misc/notification";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
-const thisLink = "/others";
+const thisLink = "/profile";
 
 export default async function ProfilePage() {
   const supabase = createClient();
@@ -26,14 +26,7 @@ export default async function ProfilePage() {
 
   if (err) { console.error(err); }
 
-  let { data: notifications, error: err2 } = await supabase
-    .from("Notifications")
-    .select(`*`)
-    .order("created_at", { ascending: false });
-
-  if (err2) { console.error(err2); }
-
-  notifications = notifications && notifications.filter((notification: any) => notification.to.includes(username));
+  const notifications = userData.notifications || [];
 
   const general_XP:  number = userData.XP;
   const contest_XP: number = userData.contest_XP;
@@ -98,9 +91,10 @@ export default async function ProfilePage() {
         </div>
         {notifications?.length === 0
         ? <h1>You have no notifications so far.</h1> 
-        : notifications?.map((notification: any) => <Notification data={notification} />)
+        : notifications?.map((notification: any) => <Notification notification={notification} username={username} />)
         }
 
+        <br/>
       </div>
     </div>
   );

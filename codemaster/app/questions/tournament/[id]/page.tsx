@@ -1,4 +1,5 @@
 import Navbar from "@/components/misc/navbar";
+import VerifyPassword from "@/components/buttons/VerifyPassword";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -29,6 +30,7 @@ export default async function TournamentStartPage({params: {id}}: {params: {id: 
   if (res.error) { console.error(res.error); }
 
   const tournamentData = res.data;
+  const verified = tournamentData.verified_by !== null;
 
   const res2 = await supabase
     .from('Users')
@@ -40,7 +42,7 @@ export default async function TournamentStartPage({params: {id}}: {params: {id: 
 
   const userData = res2.data;
 
-  let tournamentsDoneByUser = userData.tournamnets_done;
+  let tournamentsDoneByUser = userData.tournaments_done;
   tournamentsDoneByUser = tournamentsDoneByUser ? tournamentsDoneByUser : [];
   const tournamentsIdsDoneByUser = tournamentsDoneByUser.map((tournament: { id: any; }) => tournament.id); 
 
@@ -49,13 +51,28 @@ export default async function TournamentStartPage({params: {id}}: {params: {id: 
   if (idx !== -1) {
     const tournament = tournamentsDoneByUser[idx];
     tournamentData.status = tournament.status;
-    tournamentData.points = `${tournament.pointsAccumulated}/${tournamentData.points}`;
+    tournamentData.points = tournament.pointsAccumulated 
+      ? `${tournament.pointsAccumulated}/${tournamentData.points}` 
+      : tournamentData.points; ;
   } else {
     tournamentData.status = "Not Attempted";
   }
 
+  // TODO: add functionality to ask for password after successful review
   const questions = tournamentData.questions;
   const link = `/questions/tournament-${tournamentData.id}[1-${questions.length}]`;
+  
+  const btnText = !verified && !tournamentData.password_hash
+    ? "Review tournament"
+    : verified && !tournamentData.password_hash
+    ? "Review tournament and set password"
+    : new Date(tournamentData.deadline).getTime() < new Date().getTime() && tournamentData.status !== "Completed"
+    ? "Tournament closed"
+    : tournamentData.status === "Not Attempted"
+    ? "Start tournament" 
+    : tournamentData.status === "Attempted"
+    ? "Resume tournament"
+    : "View results";
 
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
@@ -85,20 +102,32 @@ export default async function TournamentStartPage({params: {id}}: {params: {id: 
               <p className='text-xl'>{tournamentData.points}</p>
             </div>
 
+            {verified && tournamentData.password_hash &&
             <div className='flex flex-row gap-2'>
               <p className='text-xl font-semibold'>Status:</p>
               <p className='text-xl'>{tournamentData.status}</p>
             </div>
+            }
 
             {Array.from({length: 5}).map(x => <br/>)}
             
-            {/* Need to change this to take in the tournament's password instead */}
-            <button 
-            className="bg-green-300 text-base font-medium p-2 rounded-2xl hover:bg-green-400 cursor-pointer hover:font-semibold" 
-            style={{border: "1px solid black"}}
-            >
-              <Link href={link}>Start Tournament</Link>
-            </button>
+            {verified && tournamentData.password_hash && (tournamentData.status === "Not Attempted" || tournamentData.status === "Attempted")
+            ? <VerifyPassword id={id} link={link} btnText={btnText} />
+            : btnText !== "Tournament closed"
+            ? <Link
+              href={link} 
+              className="bg-green-300 text-base text-center font-medium p-2 rounded-2xl hover:bg-green-400 cursor-pointer hover:font-semibold" 
+              style={{border: "1px solid black"}}
+              >
+                <button>{btnText}</button>
+              </Link>
+            : <button 
+                className="bg-green-400 text-base text-center font-medium p-2 rounded-2xl" 
+                style={{border: "1px solid black"}} 
+                disabled={true}
+                >
+                  {btnText}
+              </button>}
           </div>
 
         </div>  
