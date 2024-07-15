@@ -46,12 +46,11 @@ export default async function ContestsPage() {
   }
 
   return (
-      <div className="flex-1 w-full flex flex-col gap-10 items-center " style={{backgroundColor: "#80bfff"}}>
+      <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
         <Navbar thisLink={thisLink}/>
-        <div className="flex-col w-10/12 lg:w-full max-w-4xl flex text-3xl text-left font-bold">
-          Contests
+        <div className="flex-col w-10/12 lg:w-full max-w-4xl flex gap-5">
+          <h1 className="text-xl lg:text-3xl text-left font-bold">Contests</h1>
           <ContestsTable contests={contests} />
-
         </div>
         <br/>
       </div>

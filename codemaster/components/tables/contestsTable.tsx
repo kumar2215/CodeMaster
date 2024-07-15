@@ -12,44 +12,38 @@ export default function ContestsTable(data: any) {
   return (
       <div className="w-full max-w-4xl border-2 border-gray-400" suppressHydrationWarning={true}>
         <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 5.2fr 1.8fr 1fr',
-              width: '100%',
-              maxWidth: '56rem',
-              minHeight: '2rem',
-              lineHeight: '2rem',
-              textAlign: 'center',
-              alignItems: 'center',
-              fontSize: '1rem',
-              fontWeight: '600',
-              backgroundColor: '#f0f0f0'
-            }}>
-          <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Status</div>
-          <div style={{borderRight: '1px solid rgb(156 163 175)', textAlign: 'left', paddingLeft: '1rem'}}>Contest</div>
-          <div style={{borderRight: '1px solid rgb(156 163 175)'}}>Closes by</div>
-          <div>Points</div>
+          className="text-[0.75rem] lg:text-base grid grid-cols-[1fr_4fr_2.5fr_1fr] lg:grid-cols-[1fr_5.2fr_1.8fr_1fr]"
+          style={{
+            maxWidth: '56rem',
+            minHeight: '2rem',
+            lineHeight: '2rem',
+            textAlign: 'center',
+            alignItems: 'center',
+            fontWeight: '600',
+            backgroundColor: '#f0f0f0'
+          }}>
+          <div className="px-2 lg:px-0" style={{ borderRight: '1px solid rgb(156 163 175)' }}>Status</div>
+          <div className="pl-2 lg:pl-4 text-left" style={{borderRight: '1px solid rgb(156 163 175)'}}>Contest</div>
+          <div className="px-1 lg:px-0"style={{borderRight: '1px solid rgb(156 163 175)'}}>Closes by</div>
+          <div className="px-2 lg:px-0" >Points</div>
         </div>
 
         {contests.map((entry: any, index: number) => {
           const link = `/questions/contest/${entry.id}`
           return <div
               key={index}
+              className="text-[0.65rem] lg:text-sm grid grid-cols-[1fr_3.5fr_2fr_1fr] lg:grid-cols-[1fr_5.2fr_1.8fr_1fr]"
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 5.2fr 1.8fr 1fr',
-                width: '100%',
                 maxWidth: '56rem',
                 minHeight: '2rem',
                 lineHeight: '2rem',
                 textAlign: 'center',
                 alignItems: 'center',
-                fontSize: '0.875rem',
                 fontWeight: '400',
                 backgroundColor: 'white',
                 borderTop: '1px solid rgb(156 163 175)'
               }}>
-            <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>
+            <div className="px-2 lg:px-8" style={{ borderRight: '1px solid rgb(156 163 175)' }}>
             {entry.status === "Completed" 
             ? <img src={completedLogo.src} alt="Completed" width={0.6 * completedLogo.width}/>
             : entry.status === "Attempted" 
@@ -57,16 +51,12 @@ export default function ContestsTable(data: any) {
             : <div className="text-gray-400">-</div>}
             </div>
             <div
-            className="hover:text-blue-500 hover:leading-8 hover:font-medium cursor-pointer"
-            style={{
-              borderRight: '1px solid rgb(156 163 175)',
-              textAlign: "start",
-              paddingLeft: "1rem"
-            }}>
+            className="pl-2 lg:pl-4 text-left hover:text-blue-500 hover:leading-8 hover:font-medium cursor-pointer"
+            style={{ borderRight: '1px solid rgb(156 163 175)' }}>
               <Link href={link}>{entry.name}</Link> 
             </div>
-            <div style={{borderRight: '1px solid rgb(156 163 175)'}}>{convertDate(entry.deadline)}</div>
-            <div>{entry.points}</div>
+            <div className="px-2 lg:px-0 text-[0.625rem] lg:text-sm lg:leading-8" style={{borderRight: '1px solid rgb(156 163 175)'}}>{convertDate(entry.deadline)}</div>
+            <div className="px-2 lg:px-0" >{entry.points}</div>
           </div>
         })}
       </div>
