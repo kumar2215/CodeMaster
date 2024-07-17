@@ -1,5 +1,6 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createClient } from '@/utils/supabase/client';
 import { SubmitButton } from '@/components/buttons/SubmitButton';
 import submitMRQ from '@/app/utils/Submissions/submitMRQ';
 import saveMRQ from '@/app/utils/Saving/saveMRQ';
@@ -8,6 +9,21 @@ import placeInCodeBox from '@/components/codeBoxes/CodeBox';
 export default function MRQ(params: any) {
   
   const data = params.data;
+
+  let codeColorTheme: string = "github";
+  useEffect(() => {
+    async function getColorTheme() {
+      const supabase = createClient();
+      const res = await supabase
+        .from("Users")
+        .select("preferences")
+        .eq("username", data.username)
+        .single();
+      if (res.error) { console.error(res.error); }
+      codeColorTheme = res.data && res.data.preferences.codeColorTheme;
+    }
+    getColorTheme();
+  }, []);
   
   const question: string = data.question;
   const part: string = data.part;
@@ -57,7 +73,7 @@ export default function MRQ(params: any) {
     {part !== "null"
     ? (
     <div className="flex flex-row">
-      <span className="text-lg font-bold pr-2">{`(${part})`}</span>
+      <span className="pr-2 text-lg font-bold">{`(${part})`}</span>
       <p className="text-lg font-medium">{question}</p>
     </div>)
     : (
@@ -76,8 +92,8 @@ export default function MRQ(params: any) {
       onChange={(event) => handleOptionChange(event, index)}
       >
       </input>
-      <span className="text-lg font-medium pl-2">{
-        !option.language ? option.value : placeInCodeBox(option.value, option.language)
+      <span className="pl-2 text-lg font-medium">{
+        !option.language ? option.value : placeInCodeBox(option.value, option.language, codeColorTheme)
       }</span>
       </label>
       </div>
@@ -90,7 +106,7 @@ export default function MRQ(params: any) {
       href={source.src}
       target="_blank"
       rel="noopener noreferrer"
-      className="hover:text-blue-500 hover:underline cursor-pointer px-2"
+      className="px-2 cursor-pointer hover:text-blue-500 hover:underline"
       >{source.src}</a>
       </p>
       </div>
@@ -101,21 +117,21 @@ export default function MRQ(params: any) {
     {status !== "Completed" && verified &&
     <SubmitButton
     formAction={partOfCompetition ? handleSave : handleSubmit}
-    className="text-lg font-medium bg-blue-500 text-white p-2 rounded-lg"
+    className="p-2 text-lg font-medium text-white bg-blue-500 rounded-lg"
     pendingText={partOfCompetition ? "Saving..." : "Submitting..."}
     >
     {partOfCompetition ? "Save" : "Submit"}
     </SubmitButton>
     }
     {status !== "Completed" 
-     ? <span className="text-lg font-medium pr-5 pt-2">{
+     ? <span className="pt-2 pr-5 text-lg font-medium">{
       !submitted || !numOptionsSelected
       ? `[${points} points]` 
       : additionalPoints === points && submitted
       ? `${points} / ${points} ✅`
       : `${additionalPoints} / ${points} ❌`
       }</span>
-     : <span className="text-lg font-medium pr-5 pt-2">{
+     : <span className="pt-2 pr-5 text-lg font-medium">{
       partOfCompetition.data[part].pointsAccumulated === points
       ? `${points} / ${points} ✅`
       : `${partOfCompetition.data[part].pointsAccumulated} / ${points} ❌`

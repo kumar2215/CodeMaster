@@ -17,7 +17,6 @@ export default async function ProblemSet() {
   }
 
   const preferences = userData.preferences;
-  // console.log(preferences);
 
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>

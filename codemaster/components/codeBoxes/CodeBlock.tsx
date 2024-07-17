@@ -1,7 +1,6 @@
 'use client';
 import React, { useEffect } from 'react';
 import hljs from 'highlight.js';
-import './styles/defualt.css';
 import { toast } from "react-toastify";
 
 function interceptKeys(evt: any) {
@@ -22,7 +21,8 @@ function interceptKeys(evt: any) {
   return true;
 }
 
-const CodeBlock = ({ language, value } : {language: string, value: string}) => {
+const CodeBlock = ({ language, value, colorTheme } : {language: string, value: string, colorTheme: string}) => {
+
   useEffect(() => {
     hljs.highlightAll();
     
@@ -38,9 +38,12 @@ const CodeBlock = ({ language, value } : {language: string, value: string}) => {
   }, []);
   
   return (
-    <div className="pl-4 text-base" onContextMenu={() => false}>
+    <div className="w-full pl-2 text-base" onContextMenu={() => false}>
+      <link rel="stylesheet" href={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/${colorTheme}.css`} />
       <pre>
-        <code className={`language-${language}`}>
+        <code 
+        className={`language-${language}`} 
+        style={{padding: "0rem", paddingRight: "1rem", backgroundColor: "#f3f4f6"}}>
           {value}
         </code>
       </pre>

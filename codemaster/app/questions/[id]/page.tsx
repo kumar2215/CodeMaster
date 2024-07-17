@@ -226,7 +226,7 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
           {questionData.content.map((content: any, index: number) => 
             content.category === "text"
             ? <p key={index}>{content.value}</p>
-            : placeInCodeBox(content.value, questionData.language)
+            : placeInCodeBox(content.value, questionData.language, preferences.codeColorTheme)
           )}
 
           <div className="p-2 text-base text-black h-fit">
