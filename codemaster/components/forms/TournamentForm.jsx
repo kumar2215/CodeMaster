@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import QuestionForm from './QuestionForm';
 import submitTournamentForm from '@/app/utils/Submissions/submitTournamentForm';
-import { SubmitButton } from '@/components/buttons/submit-button';
+import { SubmitButton } from '@/components/buttons/SubmitButton';
 
 export default function TournamentForm() {
 

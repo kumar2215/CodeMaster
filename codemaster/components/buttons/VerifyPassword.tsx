@@ -38,7 +38,7 @@ export default function VerifyPassword({ id, link, btnText }: { id: string, link
 
   return (
     <button 
-      className="bg-green-400 text-base text-center font-medium p-2 rounded-2xl" 
+      className="p-2 text-base font-medium text-center bg-green-400 rounded-2xl" 
       style={{border: "1px solid black"}} 
       onClick={askForPassword}
       >

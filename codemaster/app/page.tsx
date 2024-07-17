@@ -14,11 +14,11 @@ export default async function Index() {
   } = await supabase.auth.getUser();
 
   if (user) {
-    return redirect("/problemset");
+    redirect("/problemset");
   }
 
   return (
-    <div className="flex-1 grow w-full flex flex-col gap-10">
+    <div className="flex flex-col flex-1 w-full gap-10 grow" style={{backgroundColor: "#f9fafb"}}>
       <nav 
         style={{
           display: "grid",
@@ -27,16 +27,16 @@ export default async function Index() {
           border: "1px solid #e5e7eb",
         }}
         >
-        <div className="w-full max-w-4xl flex justify-start p-3 text-sm">
+        <div className="flex justify-start w-full max-w-4xl p-3 text-sm">
           <PremiumButton />
         </div>
-        <div className="w-full max-w-4xl flex justify-end gap-5 p-3 text-sm">
+        <div className="flex justify-end w-full max-w-4xl gap-5 p-3 text-sm">
           <AuthButton />
           <SignUpButton />
         </div>
       </nav>
 
-      <div className="animate-in flex-1 flex flex-col gap-10 opacity-0 px-3">
+      <div className="flex flex-col flex-1 gap-10 px-3 opacity-0 animate-in">
         <Body />
       </div>
     </div>

@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { SubmitButton } from '@/components/buttons/submit-button';
+import { SubmitButton } from '@/components/buttons/SubmitButton';
 import submitMultipleResponses from '@/app/utils/Submissions/submitMultipleResponses';
 import saveMultipleResponses from '@/app/utils/Saving/saveMultipleResponses';
 

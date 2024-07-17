@@ -27,7 +27,6 @@ async function uploadData(formData, createdBy, type) {
       answers.push(answer);
     }
 
-    // TODO: Need to modify this to include answers column
     const { data, error } = await supabase
       .from(type)
       .insert([

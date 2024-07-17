@@ -1,31 +1,27 @@
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import Navbar from "@/components/misc/navbar";
 import ReviewVerification from "@/components/misc/reviewVerification";
+import checkInUser from "@/app/utils/Misc/checkInUser";
 
 const thisLink = "/others";
 
 export default async function Verify({params: {id}}: {params: {id: string}}) {
 
-  const supabase = createClient();
-
-  const { 
-    data: { user } 
-  } = await supabase.auth.getUser();
-  
-  if (!user) {
-    return redirect("/login");
+  const [supabase, userData] = await checkInUser();
+  if (supabase === null) {
+    console.error(userData);
+    return;
   }
 
-  const username = user.user_metadata.username;
+  const username = userData.username;
+  const preferences = userData.preferences;
 
   const { data, error } = await supabase.from("Verifications").select("*").eq("id", id);
   if (error) { console.error(error) }
 
   if (data?.length === 0) {
     return (
-      <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
-        <Navbar thisLink={thisLink}/>
+      <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
+        <Navbar thisLink={thisLink} style={preferences.header} />
         <h1 className="text-xl text-red-600">Invalid verification link</h1>
       </div>
     );
@@ -40,12 +36,12 @@ export default async function Verify({params: {id}}: {params: {id: string}}) {
   const review = verification?.review;
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
-      <Navbar thisLink={thisLink}/>
-      <h2 className="text-4xl pt-2">Application details</h2>
+    <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
+      <Navbar thisLink={thisLink} style={preferences.header} />
+      <h2 className="pt-2 text-4xl">Application details</h2>
 
-      <div className="w-full max-w-5xl flex flex-col gap-4">
-        <div className='flex flex-col bg-gray-200 rounded-lg p-5 gap-5'>
+      <div className="flex flex-col w-full max-w-5xl gap-4">
+        <div className='flex flex-col gap-5 p-5 bg-gray-200 rounded-lg'>
 
           <div className="flex flex-row gap-2">
             <p className='text-lg font-semibold'>User who applied:</p>

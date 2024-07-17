@@ -1,32 +1,34 @@
 import Navbar from "@/components/misc/navbar";
 import CommentSection from "@/components/pages/DiscussionPage";
-import { createClient } from "@/utils/supabase/server";
+import checkInUser from "@/app/utils/Misc/checkInUser";
+
 
 export default async function Discussion({params: {id}}: {params: {id: string}}) {
 
   const thisLink = "/forum";
 
-  const supabase = createClient();
+  const [supabase, userData] = await checkInUser();
+  if (supabase === null) {
+    console.error(userData);
+    return;
+  }
 
-  const {
-    data: {user},
-  } = await supabase.auth.getUser();
-  const username = user?.user_metadata.username;
+  const preferences = userData.preferences;
 
-  const res = await supabase.from("Discussions").select("*").eq("id", id);
+  const res = await supabase.from("Discussions").select("*").eq("id", id).single();
   if (res.error) { console.error(res.error) }
-  const discussion = res.data && res.data[0];
+  const discussion = res.data;
 
-  const res2 = await supabase.from("Comments").select().eq("id", discussion.head_comment);
+  const res2 = await supabase.from("Comments").select().eq("id", discussion.head_comment).single();
   if (res2.error) { console.error(res.error) }
-  const commentData = res2.data && res2.data[0];
+  const commentData = res2.data;
 
   const posts: number = discussion.posts;
 
   return (
-      <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
-        <Navbar thisLink={thisLink} />
-        <CommentSection discussionId={id} commentData={commentData} title={discussion.title} posts={posts} username={username} />
+      <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
+        <Navbar thisLink={thisLink} style={preferences.header} />
+        <CommentSection discussionId={id} commentData={commentData} title={discussion.title} posts={posts} userData={userData} />
       </div>
   );
 }

@@ -1,35 +1,23 @@
 import Navbar from "@/components/misc/navbar";
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import ContestForm from "@/components/forms/ContestForm";
+import checkInUser from "@/app/utils/Misc/checkInUser";
 
 const thisLink = "/others";
 
 export default async function CreateContestsPage() {
-  const supabase = createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/login");
+  const [supabase, userData] = await checkInUser();
+  if (supabase === null) {
+    console.error(userData);
+    return;
   }
-
-  const { data, error } = await supabase
-    .from('Users')
-    .select('*')
-    .eq('email', user.email)
-    .single();
-
-  if (error) { console.error(error); }
   
-  const verified = data.user_type.includes("admin");
+  const preferences = userData.preferences;
+  const verified = userData.user_type.includes("admin");
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
-      <Navbar thisLink={thisLink} />
-        <h2 className="text-4xl pt-8">Design a contest</h2>
+    <div className="flex flex-col items-center flex-1 w-full gap-10" style={{backgroundColor: "#80bfff"}}>
+      <Navbar thisLink={thisLink} style={preferences.header} />
+        <h2 className="pt-8 text-4xl">Design a contest</h2>
         { verified ? <ContestForm /> : 
         <h1>You dont have access to create a contest</h1> }
       <br/>

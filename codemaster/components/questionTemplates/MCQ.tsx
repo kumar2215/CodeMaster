@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { SubmitButton } from '@/components/buttons/submit-button';
+import { SubmitButton } from '@/components/buttons/SubmitButton';
 import submitMCQ from '@/app/utils/Submissions/submitMCQ';
 import saveMCQ from '@/app/utils/Saving/saveMCQ';
 import placeInCodeBox from '@/components/codeBoxes/CodeBox';

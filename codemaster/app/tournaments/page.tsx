@@ -1,29 +1,17 @@
 import Navbar from "@/components/misc/navbar";
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import TournamentsTable from "@/components/tables/tournamentsTable";
+import checkInUser from "@/app/utils/Misc/checkInUser";
 const thisLink = "/tournaments";
 
 export default async function TournamentsPage() {
-  const supabase = createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/login");
+  const [supabase, userData] = await checkInUser();
+  if (supabase === null) {
+    console.error(userData);
+    return;
   }
-
-  const { data: userData, error: err } = 
-  await supabase
-    .from("Users")
-    .select(`*`)
-    .eq("username", user.user_metadata.username);
-
-  if (err) { console.error(err); }
   
-  const tournamentsDoneByUser = userData && userData[0].tournaments_done;
+  const preferences = userData.preferences;
+  const tournamentsDoneByUser = userData.tournaments_done;
   const tournamentsIdsDoneByUser = tournamentsDoneByUser && tournamentsDoneByUser.map((tournament: { id: any; }) => tournament.id);
 
   const res = await supabase.from("Tournaments").select("*");
@@ -47,9 +35,9 @@ export default async function TournamentsPage() {
   }
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
-        <Navbar thisLink={thisLink}/>
-        <div className="w-full max-w-4xl flex flex-row text-3xl text-left font-bold">
+    <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
+        <Navbar thisLink={thisLink} style={preferences.header} />
+        <div className="flex flex-row w-full max-w-4xl text-3xl font-bold text-left">
           Tournaments
         </div>
         <TournamentsTable tournaments={tournaments} />

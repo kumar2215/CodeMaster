@@ -70,7 +70,7 @@ export default function processAndValidateQuestion(question, idx) {
     content: question.contents,
     points: total_points,
     source: {
-      link: question.source.src.includes('/'),
+      link: question.source.src.includes('https'),
       src: question.source.src
     },
     parts: question.parts.map((part, index) => {
