@@ -28,6 +28,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/uploadQuestion/upload.js", "components/forms/TournamentForm.jsx", "app/questionGeneration/uploadTournament.js", "app/api/submitForm/submit.js", "app/utils/Processing/processForm.js", "app/leaderboards/LeaderboardsTable.jsx", "app/leaderboards/LeaderboardsRow.jsx", "app/leaderboards/LeaderboardsPage.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/uploadQuestion/upload.js", "components/forms/TournamentForm.jsx", "app/questionGeneration/uploadTournament.js", "app/api/submitForm/submit.js", "app/utils/Processing/processForm.js", "app/leaderboards/LeaderboardsTable.jsx", "app/leaderboards/LeaderboardsRow.jsx", "app/leaderboards/LeaderboardsPage.jsx", "cypress/e2e/spec.cy.ks"],
   "exclude": ["node_modules"]
 }
