@@ -1,7 +1,10 @@
 'use client';
 import React, { useEffect } from 'react';
 import hljs from 'highlight.js';
+// import 'highlight.js/styles/atom-one-dark.css';
 import { toast } from "react-toastify";
+
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 function interceptKeys(evt: any) {
   evt = evt || window.event; // IE support
@@ -43,7 +46,7 @@ const CodeBlock = ({ language, value, colorTheme } : {language: string, value: s
       <pre>
         <code 
         className={`language-${language}`} 
-        style={{padding: "0rem", paddingRight: "1rem", backgroundColor: "#f3f4f6"}}>
+        style={{padding: "0rem", paddingRight: "1rem"}}>
           {value}
         </code>
       </pre>

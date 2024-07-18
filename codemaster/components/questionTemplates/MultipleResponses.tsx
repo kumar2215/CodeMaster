@@ -58,7 +58,7 @@ export default function MultipleResponses(params: any) {
     {part !== "null"
     ? (
     <div className="flex flex-row p-2">
-      <span className="text-lg font-bold pr-2">{`(${part})`}</span>
+      <span className="pr-2 text-lg font-bold">{`(${part})`}</span>
       <p className="text-lg font-medium">{question}</p>
     </div>)
     : (
@@ -125,7 +125,7 @@ export default function MultipleResponses(params: any) {
           borderTop: "none"}}
           >
           <input 
-          className="w-full h-full bg-gray-200 text-lg text-center font-medium"
+          className="w-full h-full text-lg font-medium text-center bg-gray-200"
           placeholder={`[${points[idx]} points]`}
           onChange={(event) => handleInputChange(event, idx)}
           value={inputStates[idx][0]}
@@ -144,7 +144,7 @@ export default function MultipleResponses(params: any) {
       href={source.src}
       target="_blank"
       rel="noopener noreferrer"
-      className="hover:text-blue-500 hover:underline cursor-pointer px-2"
+      className="px-2 cursor-pointer hover:text-blue-500 hover:underline"
       >{source.src}</a>
       </p>
       </div>
@@ -155,21 +155,21 @@ export default function MultipleResponses(params: any) {
       {status !== "Completed" && verified &&
       <SubmitButton
       formAction={partOfCompetition ? handleSave : handleSubmit}
-      className="text-lg font-medium bg-blue-500 text-white p-2 rounded-lg"
+      className="p-2 text-lg font-medium text-white bg-blue-500 rounded-lg"
       pendingText={partOfCompetition ? "Saving..." : "Submitting..."}
       >
       {partOfCompetition ? "Save" : "Submit"}
       </SubmitButton>
       }
       {status !== "Completed" 
-       ? <span className="text-lg font-medium pr-5 pt-2">{
+       ? <span className="pt-2 pr-5 text-lg font-medium">{
         !submitted || !inputStates.every((inputState: any) => inputState[0] !== "")
         ? `[${totalPoints} points]` 
         : additionalPoints === totalPoints && submitted
         ? `${totalPoints} / ${totalPoints} ✅`
         : `${additionalPoints} / ${totalPoints}❌`
         }</span>
-       : <span className="text-lg font-medium pr-5 pt-2">{
+       : <span className="pt-2 pr-5 text-lg font-medium">{
         partOfCompetition.data[part].pointsAccumulated === totalPoints
         ? `${totalPoints} / ${totalPoints} ✅`
         : `${partOfCompetition.data[part].pointsAccumulated} / ${totalPoints} ❌`

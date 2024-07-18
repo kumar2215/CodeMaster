@@ -10,7 +10,8 @@ export default function MCQ(params: any) {
   
   const data = params.data;
 
-  let codeColorTheme: string = "github";
+  let [codeColorTheme, setCodeColorTheme] = useState("github");
+  let [changed, setChanged] = useState(false);
   useEffect(() => {
     async function getColorTheme() {
       const supabase = createClient();
@@ -21,9 +22,11 @@ export default function MCQ(params: any) {
         .single();
       if (res.error) { console.error(res.error); }
       codeColorTheme = res.data && res.data.preferences.codeColorTheme;
+      setCodeColorTheme(codeColorTheme);
     }
     getColorTheme();
-  }, []);
+    setChanged(true);
+  }, [changed]);
 
   const question: string = data.question;
   const part: string = data.part;
