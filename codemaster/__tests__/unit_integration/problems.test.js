@@ -5,7 +5,7 @@ import QuestionsTable  from "@/components/tables/questionsTable";
 import { createClient } from '../../utils/supabase/server'; 
 import { createServerClient } from "@supabase/ssr";
 import { createClient as createClient1 } from '@supabase/supabase-js';
-import { supabase } from "@/utils/supabase/db";
+import { supabase } from "../db";
 
 
 import '@testing-library/jest-dom'

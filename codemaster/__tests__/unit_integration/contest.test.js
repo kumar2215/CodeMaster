@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from '@testing-library/user-event'; 
 import ContestsTable from '@/components/tables/contestsTable'
-import { supabase } from "@/utils/supabase/db";
+import { supabase } from "../db";
 
 
 //Have to mock the inner Navbar components as inner async function components

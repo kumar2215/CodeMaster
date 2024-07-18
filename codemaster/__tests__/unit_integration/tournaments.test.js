@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from '@testing-library/user-event'; 
-import { supabase } from "@/utils/supabase/db";
+import { supabase } from "../db";
 import TournamentsTable from "@/components/tables/tournamentsTable";
 
 
