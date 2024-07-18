@@ -36,6 +36,7 @@ export default function TournamentsTable(data: any) {
           const link = `/forum/discussion/${entry.id}` // TODO: change this
           return <div
               key={index}
+              data-testid="tournaments-row"
               style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 5.2fr 1.2fr 1.8fr 1fr',

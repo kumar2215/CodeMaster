@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 const thisLink = "/problemset";
 
-export default async function Debugging() {
+export default async function Refactoring() {
   const supabase = createClient();
   
   const {

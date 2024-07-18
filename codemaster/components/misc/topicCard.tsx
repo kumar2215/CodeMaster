@@ -4,7 +4,8 @@ export default function topicCard(title: string, link: string, image: StaticImag
     return (
       <a href={link}>
         <div
-            style={{
+              data-testid="topicCard"
+              style={{
               width: "100%",
               height: "200px",
               display: "flex",

@@ -6,7 +6,7 @@ import { LeaderboardsPage } from "./LeaderboardsPage";
 
 const thisLink = "/leaderboards";
 
-export default async function ContestsPage() {
+export default async function Page() {
   const supabase = createClient();
 
   const {
@@ -44,6 +44,7 @@ export default async function ContestsPage() {
     sortedByTotalXP.sort((a, b) => b.total_XP - a.total_XP);
 
   }
+  console.log(sortedByTotalXP)
 
   if (err) { console.error(err); }
 

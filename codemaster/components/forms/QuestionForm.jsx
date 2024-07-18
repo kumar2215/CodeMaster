@@ -57,7 +57,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
           <div className='flex flex-row gap-2'>
             <p className='text-lg pt-1'>Title:</p>
             <label className="leading-5" style={{borderWidth: "1.5px"}}>
-            <input className='input-info h-8 pl-2' {...register(`questions.${index}.title`)} />
+            <input className=' input-info h-8 pl-2' {...register(`questions.${index}.title`)} />
             </label>
           </div>
           

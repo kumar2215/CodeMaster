@@ -27,7 +27,6 @@ export default function RootLayout({
         <main className="min-h-screen flex flex-col items-center">
           {children}
         </main>
-        <ToastContainer />
         <NextTopLoader />
       </body>
     </html>

@@ -48,7 +48,8 @@ export default function QuestionsTable(data: any) {
       fontSize: '1rem',
       fontWeight: '600',
       backgroundColor: '#f0f0f0'
-    }}>
+    }}
+    >
     <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Status</div>
     <div style={{ borderRight: '1px solid rgb(156 163 175)', textAlign: 'left', paddingLeft: '1rem'}}>Title</div>
     <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Difficulty</div>
@@ -66,6 +67,8 @@ export default function QuestionsTable(data: any) {
       const link = `/questions/${entry.id}`;
       return <div
       key={index}
+      data-testid="grid-div"
+
       style={{
         display: 'grid',
         gridTemplateColumns: '0.8fr 6.5fr 1.2fr 1.1fr',

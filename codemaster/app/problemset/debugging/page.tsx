@@ -21,6 +21,7 @@ export default async function Debugging() {
   .from("Users")
   .select(`*`)
   .eq("username", user.user_metadata.username);
+  console.log(userData)
   
   if (err) { console.error(err); }
   const questionsDoneByUser = userData && userData[0].questions_done;
@@ -34,6 +35,7 @@ export default async function Debugging() {
     .eq("verified", true);
   
   if (err2) { console.error(err2); }
+  console.log(questions)
   
   if (questions) {
     for (let i = 0; i < questions.length; i++) {

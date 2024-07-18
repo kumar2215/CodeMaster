@@ -35,6 +35,7 @@ export default function ContestsTable(data: any) {
           const link = `/questions/contest/${entry.id}`
           return <div
               key={index}
+              data-testid="contest-row"
               style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 5.2fr 1.8fr 1fr',
