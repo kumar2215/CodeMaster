@@ -1,5 +1,5 @@
 "use client";
-import { SubmitButton } from "@/components/buttons/submit-button";
+import { SubmitButton } from "@/components/buttons/SubmitButton";
 import submitCompetition from "@/app/utils/Submissions/submitCompetition";
 import submitTournamentReview from "@/app/utils/Submissions/submitTournamentReview";
 import { createClient } from "@/utils/supabase/client";

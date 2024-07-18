@@ -1,6 +1,7 @@
 "use client";
 import { createClient } from "@/utils/supabase/client";
-import { SubmitButton } from "@/components/buttons/submit-button";
+import { SubmitButton } from "@/components/buttons/SubmitButton";
+import ProfilePic from "@/components/images/profilepic";
 import convertDate from "@/app/utils/dateConversion/convertDateV2";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -114,8 +115,7 @@ export default function ReviewPart({username, partData, questionType} : {usernam
             aria-haspopup="menu" aria-expanded="false" data-headlessui-state=""
             >
               <span id="navbar_user_avatar" className="relative ml-1 h-10 w-10">
-              <img src={`https://api.dicebear.com/8.x/personas/svg?seed=${username}`} alt="avatar"
-              className="h-full w-full rounded-full object-cover"/>
+              <ProfilePic username={username} />
               </span>
               <div className="flex flex-col">
               <h1 className="text-gray-500 font-medium">{username}</h1>
@@ -154,8 +154,7 @@ export default function ReviewPart({username, partData, questionType} : {usernam
         aria-haspopup="menu" aria-expanded="false" data-headlessui-state=""
         >
           <span id="navbar_user_avatar" className="relative ml-1 h-10 w-10">
-          <img src={`https://api.dicebear.com/8.x/personas/svg?seed=${review.written_by}`} alt="avatar"
-          className="h-full w-full rounded-full object-cover"/>
+          <ProfilePic username={review.written_by} />
           </span>
           <div className="flex flex-col">
           <h1 className="text-gray-500 font-medium">{review.written_by}</h1>

@@ -157,6 +157,8 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
     return redirect("/problemset");
   }
 
+  const preferences = res.data && res.data.preferences;
+
   let competitionsDone: any;
   if (type === "contest") {
     competitionsDone = res.data && res.data.contests_done;
@@ -210,9 +212,9 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
     : "/tournaments";
   
   return (
-    <div className="flex-1 w-full flex flex-col gap-8 items-center" style={{backgroundColor: "#80bfff"}}>
-      <Navbar thisLink={thisLink} />
-      <div className="w-full max-w-5xl bg-slate-50 p-3 border-4">
+    <div className="flex flex-col items-center flex-1 w-full gap-8" style={preferences.body}>
+      <Navbar thisLink={thisLink} style={preferences.header} />
+      <div className="w-full max-w-5xl p-3 border-4 bg-slate-50">
         <div className="text-2xl font-bold min-h-10">{`Question ${current ? current : ""}: ${questionData.title}`}</div>
 
         <div className="flex flex-row gap-2">
@@ -224,10 +226,10 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
           {questionData.content.map((content: any, index: number) => 
             content.category === "text"
             ? <p key={index}>{content.value}</p>
-            : placeInCodeBox(content.value, questionData.language)
+            : placeInCodeBox(content.value, questionData.language, preferences.codeColorTheme)
           )}
 
-          <div className="text-base h-fit text-black p-2">
+          <div className="p-2 text-base text-black h-fit">
             {questionData.parts.length === 1 && await handlePart(questionData, questionData.parts[0], true)}
           </div>
         </div>
@@ -240,7 +242,7 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
           href={questionData.source.src}
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-blue-500 hover:underline cursor-pointer px-2"
+          className="px-2 cursor-pointer hover:text-blue-500 hover:underline"
           >{questionData.source.src}</a>
           </p>
           </div>

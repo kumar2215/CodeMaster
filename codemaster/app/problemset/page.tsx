@@ -1,7 +1,6 @@
 import Navbar from "@/components/misc/navbar";
 import section from "@/components/misc/card";
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
+import checkInUser from "@/app/utils/Misc/checkInUser";
 import debuggingIcon from "@/assets/debugging-icon.jpg";
 import codeUnderstandingIcon from "@/assets/Code-understanding-icon.jpg";
 import goodCodePracticesIcon from "@/assets/good-coding-principles-icon.jpg";
@@ -10,21 +9,20 @@ import codeRefactoringIcon from "@/assets/code-refactoring-icon.jpg";
 const thisLink = "/problemset";
 
 export default async function ProblemSet() {
-  const supabase = createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/login");
+  
+  const [supabase, userData] = await checkInUser();
+  if (supabase === null) {
+    console.error(userData);
+    return;
   }
 
+  const preferences = userData.preferences;
+
   return (
-    <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
-      <Navbar thisLink={thisLink} />
+    <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
+      <Navbar thisLink={thisLink} style={preferences.header} />
       <div 
-      className="animate-in w-3/4 h-full grid grid-cols-2 grid-rows-2 gap-20 opacity-0 px-3"
+      className="grid w-3/4 h-full grid-cols-2 grid-rows-2 gap-20 px-3 opacity-0 animate-in"
       > 
         {section(
           "Debugging", 

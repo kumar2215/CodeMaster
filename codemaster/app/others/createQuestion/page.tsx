@@ -1,34 +1,23 @@
 import Navbar from "@/components/misc/navbar";
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import IndividualQuestionForm from "@/components/forms/IndividualQuestionForm";
+import checkInUser from "@/app/utils/Misc/checkInUser";
 
 const thisLink = "/others";
 
 export default async function CreateQuestionsPage() {
-  const supabase = createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/login");
+  const [supabase, userData] = await checkInUser();
+  if (supabase === null) {
+    console.error(userData);
+    return;
   }
 
-  const { data, error } = await supabase
-    .from('Users')
-    .select('*')
-    .eq('email', user.email)
-    .single();
-
-  if (error) { console.error(error); }
+  const preferences = userData.preferences;
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
-      <Navbar thisLink={thisLink} />
-        <h2 className="text-4xl pt-8">Create a question</h2>
-        <IndividualQuestionForm user_data={data} />
+    <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
+      <Navbar thisLink={thisLink} style={preferences.header} />
+        <h2 className="pt-4 text-4xl">Create a question</h2>
+        <IndividualQuestionForm user_data={userData} />
       <br/>
     </div>
   );

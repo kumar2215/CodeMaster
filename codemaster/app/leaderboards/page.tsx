@@ -1,28 +1,26 @@
 import Navbar from "@/components/misc/navbar";
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
+import checkInUser from "@/app/utils/Misc/checkInUser";
 import { LeaderboardsTable } from "./LeaderboardsTable";
 import { LeaderboardsPage } from "./LeaderboardsPage";
 
 const thisLink = "/leaderboards";
 
 export default async function ContestsPage() {
-  const supabase = createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/login");
+  
+  const [supabase, user] = await checkInUser();
+  if (supabase === null) {
+    console.error(user);
+    return;
   }
+
+  const preferences = user.preferences;
 
   //Fetching Users from db
   const { data: userData, error: err } = 
-  await supabase
-  .from("Users")
-  .select('XP, username, tournament_XP, contest_XP')
-  .limit(100)
+    await supabase
+    .from("Users")
+    .select('XP, username, tournament_XP, contest_XP')
+    .limit(100)
 
   let sortedByTournamentXP: any[] = []
   let sortedByContestXP: any[]  = []
@@ -48,9 +46,9 @@ export default async function ContestsPage() {
   if (err) { console.error(err); }
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
-      <Navbar thisLink={thisLink} />
-      <div className="text-xl font-bold w-full">
+    <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
+      <Navbar thisLink={thisLink} style={preferences.header} />
+      <div className="w-full text-xl font-bold">
         <LeaderboardsPage sortedByTournamentXP={sortedByTournamentXP} sortedByContestXP={sortedByContestXP} sortedByTotalXP={sortedByTotalXP}/>
       </div>
     </div>

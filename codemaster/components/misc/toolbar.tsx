@@ -1,17 +1,18 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 
-function Toolbar(params: any) {
+function Toolbar({ placeholder, content, setContent, style, editMode=false }:
+  { placeholder?: string, content: string, setContent: any, style?: React.CSSProperties, editMode?: boolean }
+) {
   const editorRef = useRef(null);
-
-  // const setContent = params.setContent;
+  const [quill, setQuill]: any = useState(null);
 
   useEffect(() => {
     if (editorRef.current) {
       const quill = new Quill(editorRef.current, {
         theme: 'snow',
-        placeholder: 'Write your post here...',
+        placeholder: placeholder,
         modules: {
           toolbar: [
             [{ 'header': [1, 2, 3, false] }], // Customize header options
@@ -31,22 +32,34 @@ function Toolbar(params: any) {
         }
       });
 
-      quill.root.style.fontSize = '1.125rem'; 
-      // setContent(quill.root.innerHTML);
-
-      // not working as intended, need to fix
+      quill.root.style.fontSize = '0.875rem';
+      if (editMode) quill.root.innerHTML = content;
+      
       const toolbar = (editorRef.current as HTMLElement)?.querySelector('.ql-toolbar') as HTMLElement;
       if (toolbar) {
         toolbar.style.display = 'flex';
         toolbar.style.flexWrap = 'wrap';
         toolbar.style.gap = '0.5rem'; // Adjust the gap as needed
       }
+
+      setQuill(quill);
     }
   }, []);
+
+  useEffect(() => {
+    if (quill) {
+      // listen for changes
+      quill.on('text-change', () => {
+        setContent(quill.root.innerHTML);
+      });
+      // console.log(JSON.stringify(quill.getContents()));
+    }
+  }, [content, quill]);
+
   
   return (
     <div className="bg-white rounded">
-      <div ref={editorRef} style={{ height: '300px' }} />
+      <div ref={editorRef} style={style} />
     </div>
   );
 };

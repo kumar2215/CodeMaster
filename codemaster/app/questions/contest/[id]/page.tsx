@@ -1,24 +1,19 @@
 import Navbar from "@/components/misc/navbar";
-import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import checkInUser from "@/app/utils/Misc/checkInUser";
 import convertDate from "@/app/utils/dateConversion/convertDateV1";
 import contestIcon from "@/assets/contest-icon.jpg";
 const thisLink = "/contests";
 
 export default async function ContestStartPage({params: {id}}: {params: {id: string}}) {
 
-  const supabase = createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/login");
+  const [supabase, userData] = await checkInUser();
+  if (supabase === null) {
+    console.error(userData);
+    return;
   }
 
-  const username = user.user_metadata.username;
+  const preferences = userData.preferences;
 
   const res = await supabase
     .from('Contests')
@@ -29,16 +24,6 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
   if (res.error) { console.error(res.error); }
 
   const contestData = res.data;
-
-  const res2 = await supabase
-    .from('Users')
-    .select('*')
-    .eq('username', username)
-    .single();
-
-  if (res2.error) { console.error(res2.error); }
-
-  const userData = res2.data;
 
   let contestsDoneByUser = userData.contests_done;
   contestsDoneByUser = contestsDoneByUser ? contestsDoneByUser : [];
@@ -65,11 +50,11 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
     : "View results";
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-10 items-center" style={{backgroundColor: "#80bfff"}}>
-      <Navbar thisLink={thisLink} />
-      <div className='w-full max-w-5xl flex flex-col bg-gray-200 rounded-lg p-5 ml-6 gap-5'>
+    <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
+      <Navbar thisLink={thisLink} style={preferences.header} />
+      <div className='flex flex-col w-full max-w-5xl gap-5 p-5 ml-6 bg-gray-200 rounded-lg'>
         <div className="flex flex-row gap-20">
-          <img src={contestIcon.src} alt="contest-icon" className="w-80 h-80 ml-4" />
+          <img src={contestIcon.src} alt="contest-icon" className="ml-4 w-80 h-80" />
 
           <div className="flex flex-col gap-2">
             <div className='flex flex-row gap-2'>
@@ -97,13 +82,13 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
             {btnText !== "Contest closed"
             ? <Link
               href={link} 
-              className="bg-green-300 text-base text-center font-medium p-2 rounded-2xl hover:bg-green-400 cursor-pointer hover:font-semibold" 
+              className="p-2 text-base font-medium text-center bg-green-300 cursor-pointer rounded-2xl hover:bg-green-400 hover:font-semibold" 
               style={{border: "1px solid black"}}
               >
                 <button>{btnText}</button>
               </Link>
             : <button 
-              className="bg-green-400 text-base text-center font-medium p-2 rounded-2xl" 
+              className="p-2 text-base font-medium text-center bg-green-400 rounded-2xl" 
               style={{border: "1px solid black"}} 
               disabled={true}
               >

@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import ProfilePic from '@/components/images/profilepic';
 
 export const LeaderboardsRow = ({data, index, xpType}) => {
     return (
@@ -16,8 +17,7 @@ export const LeaderboardsRow = ({data, index, xpType}) => {
                 className={`text-m font-medium py-4 pl-20 whitespace-nowrap text-left flex items-center`}
               >
                 <div className='w-12 h-12'>
-                    <img src={`https://api.dicebear.com/8.x/personas/svg?seed=${data.username}`} alt="avatar"
-                    className="h-full w-full rounded-full object-cover"/>
+                  <ProfilePic username={data.username}/>
                 </div>
                 {data.username}
 

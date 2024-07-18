@@ -20,11 +20,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html lang="en" className={GeistSans.className}>
       <link rel="icon" type="image/jpg" href={logo.src}/>
       <body className="bg-background text-foreground">
-        <main className="min-h-screen flex flex-col items-center">
+        <main className="flex flex-col items-center min-h-screen">
           {children}
         </main>
         <ToastContainer />
