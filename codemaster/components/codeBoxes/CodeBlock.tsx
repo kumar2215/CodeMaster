@@ -1,7 +1,6 @@
 'use client';
 import React, { useEffect } from 'react';
 import hljs from 'highlight.js';
-// import 'highlight.js/styles/atom-one-dark.css';
 import { toast } from "react-toastify";
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
