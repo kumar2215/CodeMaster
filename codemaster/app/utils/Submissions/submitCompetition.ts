@@ -229,7 +229,8 @@ export default async function submitCompetition(data: any) {
                 testcases
               })
             });
-
+            
+            // TODO: Need to change this
             if (response.ok) {
               const data = await response.json();
               const result = data.results;

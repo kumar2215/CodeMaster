@@ -59,6 +59,9 @@ export default async function handleFreestyle(questionPart: any, username: any) 
     points: points,
     source: source,
     function_name: function_name,
+    class_name: questionPart.class_name,
+    return_type: questionPart.return_type,
+    run_configuration: questionPart.run_configuration,
     verified: questionPart.verified,
     partOfCompetition: partOfCompetition,
     savedCode: questionPart.savedCode

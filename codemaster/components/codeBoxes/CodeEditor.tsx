@@ -31,12 +31,21 @@ if (typeof window !== 'undefined') {
 const CodeEditor = ({ language, code, setCode }: { language: string, code: string, setCode: (code: string) => void }) => {
   const editorRef = useRef();
 
+  const languageMap: { [key: string]: string } = {
+    'javascript': 'text/javascript',
+    'python': 'text/x-python',
+    'c++': 'text/x-c++src',
+    'java': 'text/x-c++src'
+  }
+
+  const lang: any = languageMap[language] || 'text/javascript';
+
   return (
     <ControlledEditor
     className='h-full'
       value={code}
       options={{
-        mode: language,
+        mode: lang,
         lineNumbers: true,
         lint: true,
         linewrapping: true,

@@ -26,17 +26,44 @@ export default async function submitFreestyle(
   const inputs: any[] = data.inputs;
   const points: number[] = data.points;
   const function_name: string = data.function_name;
+  const class_name: string = data.class_name;
+  const return_type: string = data.return_type;
+  const run_configuration: any = data.run_configuration;
 
   let total = 0;
   for (let i = 0; i < inputs.length; i++) {
     total += points[i];
   }
   const answeredRight: string[] = Array(inputs.length).fill("Incorrect");
-
   let pointsAccumulated: number = 0;
+  setAccPoints(pointsAccumulated);
+  results.forEach((res: any, index: number) => {
+    res[1]({actual: '', passed: '', error: ''});
+  })
 
   const supabase = createClient();
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+
+  // check if code has imported restricted libraries
+  let restrictedImports: string[] = [];
+  if (language === "python") {
+    restrictedImports = ['os', 'sys', 'subprocess', 'shutil', 'pickle', 'ctypes'];
+  } else if (language === "javascript") {
+    restrictedImports = ['child_process', 'fs', 'path', 'os', 'process', 'vm'];
+  } else if (language === "java") {
+    restrictedImports = ['java.io', 'java.lang.reflect', 'java.nio.file', 'java.lang.management'];
+  } else if (language === "c++") {
+    restrictedImports = ['<cstdlib>', '<cstdio>', '<unistd.h>', '<fstream>', '<fstream.h>', '<sys/types.h>', '<sys/stat.h>'];
+  }
+
+  for (const imp of restrictedImports) {
+    if (code.includes(imp)) {
+      toast.error(`Importing ${imp} is not allowed.`, {autoClose: 3000});
+      setError("Code has restricted imports");
+      setIsLoading(false);
+      return;
+    }
+  }
 
   console.log("Sending code to server");
   try {
@@ -46,12 +73,16 @@ export default async function submitFreestyle(
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        code: code,
-        precode: precode,
-        postcode: postcode,
-        language: language,
-        parameters: parameters,
-        function_name: function_name,
+        username,
+        code,
+        precode,
+        postcode,
+        language,
+        parameters,
+        function_name,
+        class_name,
+        return_type,
+        run_configuration,
         testcases: inputs
       })
     });
@@ -59,19 +90,38 @@ export default async function submitFreestyle(
     if (response.ok) {
       const data = await response.json();
       const result = data.results;
+      console.log(result);
 
       if (result.error) {
         setError(result.error);
       } else {
-        // console.log(results);
-        result.forEach((res: any, index: number) => {
-          if (res.actual === res.expected) {
-            answeredRight[index] = "Correct";
-            pointsAccumulated += points[index];
-          }
-          results[index][1](res);
-        });
+        if (Array(results.length).fill(0).every((res: any, index: number) => result.tests[index] && result.tests[index].actual)) {
+          result.tests.forEach((res: any, index: number) => {
+            if (res.passed) {
+              answeredRight[index] = "Correct";
+              pointsAccumulated += points[index];
+              result.tests[index].actual += " ✅"
+            } else {
+              result.tests[index].actual += " ❌"
+            }
+            results[index][1](result.tests[index]);
+          });
+        } else {
+          Array(results.length).fill(0).forEach((res: any, index: number) => {
+            if (!result.tests[index] || !result.tests[index].actual) {
+              result.tests[index] = {...result.tests[index], "error": "Timeout error"};
+            } else if (result.tests[index].passed) {
+              answeredRight[index] = "Correct";
+              pointsAccumulated += points[index];
+              result.tests[index].actual += " ✅"
+            } else if (result.tests[index].passed === false) {
+              result.tests[index].actual += " ❌"
+            }
+            results[index][1](result.tests[index]);
+          });
+        }
         setAccPoints(pointsAccumulated);
+        setError("");
       }
 
     } else {
@@ -80,7 +130,7 @@ export default async function submitFreestyle(
     }
   } catch (error) {
     console.error('Error:', error);
-    toast.error("Something went wrong. Please try again.", {autoClose: 3000});
+    toast.error("Server is down. Please inform the admin.", {autoClose: 3000});
   }
 
   const res = await supabase.from("Users").select("*").eq("username", username);

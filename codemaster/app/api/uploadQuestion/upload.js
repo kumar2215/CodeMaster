@@ -80,7 +80,7 @@ export default async function upload(question, purpose, username, isVerified = t
       const expected = inputs.map(input => input.expected);
       for (let j = 0; j < inputs.length; j++) {
         const data = inputs[j];
-        const { data: res, error } = await supabase.from("Testcases").insert({data: data}).select();
+        const { data: res, error } = await supabase.from("Testcases").insert({data: data.valueOf()}).select();
         if (error) { console.error(error); return; }
 
         const testcase_id =  res && res[0].id;
@@ -90,8 +90,8 @@ export default async function upload(question, purpose, username, isVerified = t
       total_points += points.reduce((a, b) => a + b, 0);
       const { data: res, error } = await supabase.from("Freestyle").insert({
         question: question, parameters: parameters, inputs: inputs, points: points, part: partValue, code: part.code, 
-        pre_code: part.pre_code, post_code: part.post_code, function_name: part.function_name, refactoring: part.refactoring,
-        verified: isVerified
+        pre_code: part.pre_code, post_code: part.post_code, class_name: part.className, function_name: part.functionName, 
+        return_type: part.returnType, refactoring: part.refactoring, verified: isVerified
       }).select();
       if (error) { console.error(error); return;}
       const part_id = res && res[0].id;

@@ -23,7 +23,7 @@ export default function FreeStyle ({data}: {data: any}) {
   
   let results: any[] = Array(inputs.length).fill('').map(x => useState({
     actual: '',
-    expected: '',
+    passed: '',
     error: ''
   }));
   let status: string = "Not Attempted";
@@ -72,7 +72,7 @@ export default function FreeStyle ({data}: {data: any}) {
     {part !== "null"
     ? (
     <div className="flex flex-row p-2">
-      <span className="text-lg font-bold pr-2">{`(${part})`}</span>
+      <span className="pr-2 text-lg font-bold">{`(${part})`}</span>
       <p className="text-lg font-medium">{question}</p>
     </div>)
     : (
@@ -87,7 +87,7 @@ export default function FreeStyle ({data}: {data: any}) {
       href={source.src}
       target="_blank"
       rel="noopener noreferrer"
-      className="hover:text-blue-500 hover:underline cursor-pointer px-2"
+      className="px-2 cursor-pointer hover:text-blue-500 hover:underline"
       >{source.src}</a>
       </p>
       </div>
@@ -97,7 +97,7 @@ export default function FreeStyle ({data}: {data: any}) {
 
     <div>
       <button
-        className="flex flex-row gap-1 font-medium py-2 px-4"
+        className="flex flex-row gap-1 px-4 py-2 font-medium"
         onClick={() => setShowTestCases(!showTestCases)}
       >
         <img src={dropdownBtn.src} alt="button" className="w-4 h-4 pt-1" />
@@ -111,7 +111,7 @@ export default function FreeStyle ({data}: {data: any}) {
         <div 
         style={{
           display: "grid",
-          gridTemplateColumns: `repeat(${format.length+2}, 1fr)`,
+          gridTemplateColumns: `repeat(${format.length+3}, 1fr)`,
           paddingLeft: "2rem",
           paddingRight: "2rem"
         }}
@@ -134,8 +134,13 @@ export default function FreeStyle ({data}: {data: any}) {
           </div>
           <div 
           className="flex flex-row justify-center text-lg font-bold"
-          style={{border: "2px solid black", borderRight: "2px solid black"}}
+          style={{border: "2px solid black", borderRight: "none"}}
           >{status === "Completed" ? "score" : "actual"}
+          </div>
+          <div 
+          className="flex flex-row justify-center text-lg font-bold"
+          style={{border: "2px solid black", borderRight: "2px solid black"}}
+          >stdout
           </div>
         </div>
 
@@ -153,21 +158,21 @@ export default function FreeStyle ({data}: {data: any}) {
             key={idx}
             style={{
               display: "grid",
-              gridTemplateColumns: `repeat(${format.length+2}, 1fr)`
+              gridTemplateColumns: `repeat(${format.length+3}, 1fr)`
             }}
             >
-            {Object.values(input).slice(0, format.length).map((value: any, idx2: number) => (
-              <div key={idx2} 
-              className="flex flex-row justify-center text-lg text-nowrap font-medium overflow-x-auto" 
+            {Object.values(input).slice(0, format.length).map((value: any, idx2: number) => {
+              return <div key={idx2} 
+              className="flex flex-row justify-center text-lg font-medium" 
               style={{
                 border: "2px solid black",
                 borderRight: idx2 === format.length ? "2px solid black" : "none",
                 borderBottom: idx === inputs.length-1 ? "2px solid black" : "none",
                 borderTop: idx === 0 ? "none" : "2px solid black"
               }}>
-              {typeof value === "object" ? JSON.stringify(value).split(",").join(", ") : value}
+                <p>{value.toString().trim('""').split(",").join(", ")}</p>
               </div>
-            ))}
+            })}
             <div 
             key={idx}
             style={{
@@ -177,7 +182,7 @@ export default function FreeStyle ({data}: {data: any}) {
               borderTop: "none"}}
             >
               <div
-              className="w-full h-full text-lg text-center font-medium overflow-x-auto"
+              className="w-full h-full overflow-x-auto text-lg font-medium text-center"
               >
                 {typeof input.expected === "object" ? JSON.stringify(input.expected).split(",").join(", ") : input.expected}
               </div>
@@ -186,6 +191,7 @@ export default function FreeStyle ({data}: {data: any}) {
             style={{
               border: "2px solid black", 
               borderBottom: idx === inputs.length ? "none" : "2px solid black", 
+              borderRight: idx === inputs.length ? "2px solid black" : "none",
               borderTop: "none"}}
             >
               <div
@@ -193,10 +199,23 @@ export default function FreeStyle ({data}: {data: any}) {
               >
                 {typeof results[idx][0].actual === "object" 
                 ? JSON.stringify(results[idx][0].actual).split(",").join(", ")
-                : results[idx][0].actual !== ''
+                : results[idx][0].actual
                 ? results[idx][0].actual
                 : results[idx][0].error
                 }
+              </div>
+            </div>
+            <div 
+            style={{
+              border: "2px solid black", 
+              borderBottom: idx === inputs.length ? "none" : "2px solid black", 
+              borderTop: "none"
+            }}
+            >
+              <div
+              className="w-full h-full overflow-x-auto text-lg font-medium text-center"
+              >
+                {results[idx][0].output?.trim('""').split(",").join(", ")}
               </div>
             </div>
           </div>
@@ -205,30 +224,30 @@ export default function FreeStyle ({data}: {data: any}) {
       </div>
     }    
 
-    <div className="max-w-full mt-2 ml-2 whitespace-pre-wrap break-words text-red-600">
+    <div className="max-w-full mt-2 ml-2 text-red-600 break-words whitespace-pre-wrap">
       {error}
     </div>
      
     <div className={`flex flex-row ${verified ? `justify-between`: "justify-end"} p-2 pl-4 mb-0`}>
       {status !== "Completed" && verified &&
       <button 
-      className="text-lg font-medium bg-blue-500 text-white p-2 rounded-lg" 
+      className="p-2 text-lg font-medium text-white bg-blue-500 rounded-lg" 
       onClick={partOfCompetition ? handleSave : runCodeAndSumbit}>
       { isLoading 
-        ? <span className="loading loading-spinner w-10"></span>
+        ? <span className="w-10 loading loading-spinner"></span>
         : <div className='flex justify-center'>{partOfCompetition ? "Save" : "Submit"}</div>
       }
       </button>
       }
       {status !== "Completed"
-       ? <span className="text-lg font-medium pr-5 pt-2">{
+       ? <span className="pt-2 pr-5 text-lg font-medium">{
         !submitted || isLoading
         ? `[${points.reduce((a: number, b: number) => a + b, 0)} points]`
         :  accPoints === totalPoints && submitted && !isLoading
         ? `${totalPoints} / ${totalPoints} ✅` 
         : `${accPoints} / ${totalPoints} ❌`
         }</span>
-       : <span className="text-lg font-medium pr-5 pt-2">{
+       : <span className="pt-2 pr-5 text-lg font-medium">{
         partOfCompetition.data[part].pointsAccumulated === totalPoints
         ? `${totalPoints} / ${totalPoints} ✅`
         : `${partOfCompetition.data[part].pointsAccumulated} / ${totalPoints} ❌`

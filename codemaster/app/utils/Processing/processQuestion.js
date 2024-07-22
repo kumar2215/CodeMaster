@@ -107,6 +107,7 @@ export default function processAndValidateQuestion(question, idx) {
             return false;
           }
           const formatArray = part.format.split(',').map(f => f.trim() !== '' ? f.trim() : '').filter(f => f !== '');
+          console.log(formatArray);
 
           // check if inputs are not empty
           if (part.inputs.length === 0) {
@@ -128,6 +129,8 @@ export default function processAndValidateQuestion(question, idx) {
               return false;
             }
           }
+
+          return { ...part, part: partValue ? partValue.split(" ")[1] : "null", points: pointsArray, format: formatArray };
         }
 
         if (part.questionType === "Freestyle") {
@@ -146,6 +149,12 @@ export default function processAndValidateQuestion(question, idx) {
           // check if user code has main function name
           if (!part.code.includes(part.functionName)) {
             toast.error(`Question ${i} ${partValue}'s usercode needs to contain the main function name`, {autoClose: 3000})
+            return false;
+          }
+
+          // check if user code has main class name if given
+          if (part.className !== '' && !part.code.includes(part.className)) {
+            toast.error(`Question ${i} ${partValue}'s usercode needs to contain the main class name given`, {autoClose: 3000})
             return false;
           }
 
@@ -172,10 +181,8 @@ export default function processAndValidateQuestion(question, idx) {
           const post_code = part.postcode;
           const refactoring = question.type === "Refactoring";
 
-          return { ...part, part: partValue ? partValue.split(" ")[1] : "null", points: pointsArray, pre_code, post_code, refactoring, function_name: part.functionName };
+          return { ...part, part: partValue ? partValue.split(" ")[1] : "null", points: pointsArray, pre_code, post_code, refactoring };
         }
-
-        return { ...part, part: partValue ? partValue.split(" ")[1] : "null", points: pointsArray, format: formatArray };
       }
 
       if (part.questionType === "MCQ" || part.questionType === "MRQ") {

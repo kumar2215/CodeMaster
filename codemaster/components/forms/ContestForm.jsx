@@ -23,16 +23,16 @@ export default function ContestForm() {
 
   return (
     <form className="w-full max-w-5xl">
-      <div className='w-full flex flex-col bg-gray-200 rounded-lg p-5 ml-6 gap-5'>
+      <div className='flex flex-col w-full gap-5 p-5 ml-6 bg-gray-200 rounded-lg'>
         <div className='flex flex-row gap-4'>
-          <p className='text-xl pt-1'>Contest name:</p>
+          <p className='pt-1 text-xl'>Contest name:</p>
           <label className="leading-5" style={{borderWidth: "1.5px"}}>
-            <input className='input-info h-8 pl-2' {...register('name')} />
+            <input className='h-8 pl-2 input-info' {...register('name')} />
           </label>
         </div>
 
-        <div className='flex flex-row gap-4 h-10'>
-          <p className='text-xl pt-2'>Deadline:</p>
+        <div className='flex flex-row h-10 gap-4'>
+          <p className='pt-2 text-xl'>Deadline:</p>
           <label className="items-center gap-2">
             <input
               className='p-2'
@@ -51,7 +51,7 @@ export default function ContestForm() {
         fields.map((field, index) => (
           <>
           <br/>
-          <div key={field.id} className='bg-gray-200 rounded-lg flex flex-col p-5 ml-6'>
+          <div key={field.id} className='flex flex-col p-5 ml-6 bg-gray-200 rounded-lg'>
             <QuestionForm
               key={field.id}
               control={control}
@@ -66,8 +66,8 @@ export default function ContestForm() {
         ))
       }
 
-      <div className='w-full flex flex-row gap-3 p-5 ml-6'>
-        <button className="btn btn-info bg-blue-500" type="button" onClick={() => append(
+      <div className='flex flex-row w-full gap-3 p-5 ml-6'>
+        <button className="bg-blue-500 btn btn-info" type="button" onClick={() => append(
           {
             type: '',
             title: '',
@@ -81,7 +81,7 @@ export default function ContestForm() {
 
         <SubmitButton
           formAction={handleSubmit(submitContestForm)}
-          className='btn btn-success'
+          className='bg-green-500 btn btn-success'
           disabled={!fields.length}
           pendingText='Submitting...'
         >
