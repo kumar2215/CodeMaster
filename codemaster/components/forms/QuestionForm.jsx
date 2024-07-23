@@ -10,7 +10,7 @@ import MCQForm from './MCQForm';
 import FreestyleForm from './FreestyleForm';
 
 const CodeEditor = dynamic(
-  () => import('../codeBoxes/CodeEditor'),
+  () => import('@/components/codeBoxes/CodeEditor'),
   { ssr: false }  
 );
 

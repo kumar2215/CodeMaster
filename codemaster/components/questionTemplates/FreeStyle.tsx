@@ -78,7 +78,9 @@ export default function FreeStyle ({data}: {data: any}) {
     : (
     <div className="text-lg text-gray-500 min-h-10">{question}</div>
     )}
-    <CodeEditor language={language} code={code} setCode={setCode} />
+    <div className='w-full'>
+      <CodeEditor language={language} code={code} setCode={setCode} />
+    </div>
     { source
       ? source.link
       ? <div className="text-lg font-medium leading-10">
