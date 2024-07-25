@@ -3,6 +3,7 @@ import Link from "next/link";
 import checkInUser from "@/app/utils/Misc/checkInUser";
 import convertDate from "@/app/utils/dateConversion/convertDateV1";
 import contestIcon from "@/assets/contest-icon.jpg";
+import { redirect } from "next/navigation";
 const thisLink = "/contests";
 
 export default async function ContestStartPage({params: {id}}: {params: {id: string}}) {
@@ -24,6 +25,9 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
   if (res.error) { console.error(res.error); }
 
   const contestData = res.data;
+  if (!contestData) {
+    redirect("/empty");
+  }
 
   let contestsDoneByUser = userData.contests_done;
   contestsDoneByUser = contestsDoneByUser ? contestsDoneByUser : [];

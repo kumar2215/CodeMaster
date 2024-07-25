@@ -56,7 +56,7 @@ export default function QuestionsTable(data: any) {
     <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Status</div>
     <div style={{ borderRight: '1px solid rgb(156 163 175)', textAlign: 'left', paddingLeft: '1rem'}}>Title</div>
     <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Difficulty</div>
-    <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Points</div>
+    <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Max Points</div>
     <div>Voting</div>
     </div>
     

@@ -3,7 +3,8 @@ import VerifyPassword from "@/components/buttons/VerifyPassword";
 import checkInUser from "@/app/utils/Misc/checkInUser";
 import Link from "next/link";
 import convertDate from "@/app/utils/dateConversion/convertDateV1";
-import tournamentIcon from "@/assets/tournament-icon.jpg"
+import tournamentIcon from "@/assets/tournament-icon.jpg";
+import { redirect } from "next/navigation";
 const thisLink = "/tournaments";
 
 export default async function TournamentStartPage({params: {id}}: {params: {id: string}}) {
@@ -25,6 +26,9 @@ export default async function TournamentStartPage({params: {id}}: {params: {id: 
   if (res.error) { console.error(res.error); }
 
   const tournamentData = res.data;
+  if (!tournamentData) {
+    redirect("/empty");
+  }
   const verified = tournamentData.verified_by !== null;
 
   let tournamentsDoneByUser = userData.tournaments_done;

@@ -4,6 +4,7 @@ import placeInCodeBox from "@/components/codeBoxes/CodeBox";
 import Navbar from "@/components/misc/navbar";
 import Voting from "@/components/misc/voting";
 import VotingResults from "@/components/misc/votingResults";
+import { redirect } from "next/navigation";
 
 export default async function VotingPage({params: {id}}: {params: {id: string}}) {
 
@@ -23,6 +24,10 @@ export default async function VotingPage({params: {id}}: {params: {id: string}})
     .single();
   
   if (res.error) { console.error(res.error); }
+
+  if (!res.data) {
+    redirect("/empty");
+  }
 
   const data = res.data;
   const voting_status = new Date().getTime() > new Date(data.voting_deadline).getTime() ? "Closed" : "Open";

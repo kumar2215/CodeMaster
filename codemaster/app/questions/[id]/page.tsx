@@ -140,6 +140,10 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
   const { data: questionData, error: err } = await supabase.from("Questions").select(`*`).eq("id", ID).single();
   if (err) { console.error(err); }
 
+  if (!questionData) {
+    return redirect("/empty");
+  }
+
   // prevent users from accessing questions that are not part of a competition
   if (questionData === null || (questionData.purpose !== "general" && single)) { 
     return redirect("/problemset");
