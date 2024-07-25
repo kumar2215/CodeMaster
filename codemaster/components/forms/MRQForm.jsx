@@ -6,7 +6,7 @@ import AddButtonImage from '@/components/images/add_button';
 import RemoveButton from '@/components/buttons/RemoveButton';
 
 const CodeEditor = dynamic(
-    () => import('../codeBoxes/CodeEditor'),
+    () => import('@/components/codeBoxes/CodeEditor'),
     { ssr: false }  // This component will only be imported on the client-side
 );
 
@@ -21,17 +21,17 @@ export default function MRQForm({ control, register, parentIndex, removePart, wa
   };
     
   return (
-    <div className='w-full flex flex-col gap-y-4'>
+    <div className='flex flex-col w-full gap-y-4'>
       <div className='flex flex-row gap-2'>
         <RemoveButton remove={() => removePart(parentIndex)} style={{marginTop: "5px"}}/>
-        <h2 className='text-xl text-blue-600 pt-2'>{`(${String.fromCharCode(parentIndex + 65).toLowerCase()})`}</h2>
-        <p className='text-xl pt-2'>MRQ</p>
+        <h2 className='pt-2 text-xl text-blue-600'>{`(${String.fromCharCode(parentIndex + 65).toLowerCase()})`}</h2>
+        <p className='pt-2 text-xl'>MRQ</p>
       </div>
 
       <div>
         <h2>Question:</h2>
         <textarea 
-          className='w-full h-8 mt-2 pl-2 pt-1' {...register(`questions.${qnNum-1}.parts.${parentIndex}.question`)} />
+          className='w-full h-8 pt-1 pl-2 mt-2' {...register(`questions.${qnNum-1}.parts.${parentIndex}.question`)} />
       </div>
       
       <div className='flex flex-col'>
@@ -43,7 +43,7 @@ export default function MRQForm({ control, register, parentIndex, removePart, wa
             <div className='w-full'>
               {item.category === "text" ? (
                 <textarea {...register(`questions.${qnNum-1}.parts.${parentIndex}.options.${index}.value`)} 
-                className='w-full textarea-bordered h-8 leading-4 pl-2 pt-2'
+                className='w-full h-8 pt-2 pl-2 leading-4 textarea-bordered'
                 placeholder={`Enter text`} />
               ) : (
                 <Controller
@@ -64,16 +64,16 @@ export default function MRQForm({ control, register, parentIndex, removePart, wa
           </div>
         ))}
         
-        <div className='w-full flex flex-row gap-3 mt-2 justify-evenly'>
-          <button type="button" className="w-2/5 flex flex-row justify-between gap-2 mt-2" onClick={() => addOption('text')}>
+        <div className='flex flex-row w-full gap-3 mt-2 justify-evenly'>
+          <button type="button" className="flex flex-row justify-between w-2/5 gap-2 mt-2" onClick={() => addOption('text')}>
             <AddButtonImage />
-            <h1 className="w-full bg-green-400 hover:bg-green-700 text-lg text-white font-medium rounded-lg pt-1">Add Text Option</h1>
+            <h1 className="w-full pt-1 text-lg font-medium text-white bg-green-400 rounded-lg hover:bg-green-700">Add Text Option</h1>
             <h1></h1>
           </button>
 
-          <button type="button" className="w-2/5 flex flex-row justify-between gap-2 mt-2" onClick={() => addOption('code')}>
+          <button type="button" className="flex flex-row justify-between w-2/5 gap-2 mt-2" onClick={() => addOption('code')}>
             <AddButtonImage />
-            <h1 className="w-full bg-green-400 hover:bg-green-700 text-lg text-white font-medium rounded-lg pt-1">Add Code Option</h1>
+            <h1 className="w-full pt-1 text-lg font-medium text-white bg-green-400 rounded-lg hover:bg-green-700">Add Code Option</h1>
             <h1></h1>
           </button>
         </div>
@@ -85,7 +85,7 @@ export default function MRQForm({ control, register, parentIndex, removePart, wa
           <input
           {...register(`questions.${qnNum-1}.parts.${parentIndex}.expected`)}
           type='text'
-          className='input-info h-6 pl-2'
+          className='h-6 pl-2 input-info'
           />
         </label>
       </div>
@@ -96,7 +96,7 @@ export default function MRQForm({ control, register, parentIndex, removePart, wa
           <input
           {...register(`questions.${qnNum-1}.parts.${parentIndex}.points`)}
           type='number'
-          className='input-info h-6 pl-2'
+          className='h-6 pl-2 input-info'
           />
         </label>
       </div>

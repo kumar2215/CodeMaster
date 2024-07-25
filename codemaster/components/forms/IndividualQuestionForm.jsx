@@ -2,6 +2,7 @@
 import { useForm } from 'react-hook-form';
 import QuestionForm from './QuestionForm';
 import processAndValidateQuestion from '@/app/utils/Processing/processQuestion';
+import { SubmitButton } from '@/components/buttons/SubmitButton';
 import upload from '@/app/api/uploadQuestion/upload';
 import { toast } from 'react-toastify';
 
@@ -14,9 +15,9 @@ export default function IndividualQuestionForm({ user_data }) {
 
   async function onSubmit(data) {
     const question = data.questions[0];
-    const processedQuestion = processAndValidateQuestion(question, null); 
+    const processedQuestion = processAndValidateQuestion(question, null);    
+    console.log(processedQuestion);
     if (!processedQuestion || processedQuestion.parts.some(q => !q)) return;
-
     const successful = await upload(processedQuestion, "general", username, verified); 
     if (successful) {
       if (!verified) {
@@ -30,8 +31,8 @@ export default function IndividualQuestionForm({ user_data }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className='w-full max-w-5xl bg-gray-200 rounded-lg flex flex-col p-5 ml-6'>
+    <form>
+      <div className='flex flex-col w-full max-w-5xl p-5 ml-6 bg-gray-200 rounded-lg'>
         <QuestionForm
           control={control}
           register={register}
@@ -44,8 +45,15 @@ export default function IndividualQuestionForm({ user_data }) {
 
       <br/>
 
-      <div className='w-full flex flex-row gap-3 p-2 ml-3'>
-        <button className='btn btn-success bg-green-400' type="submit">Submit Question</button>
+      <div className='flex flex-row w-full gap-3 p-2 ml-3'>
+        <SubmitButton
+        formAction={handleSubmit(onSubmit)}
+        type='submit'
+        className='bg-green-400 btn btn-success'
+        pendingText='Submitting...'
+        >
+        Submit Question
+        </SubmitButton>
       </div>
     </form>
   );

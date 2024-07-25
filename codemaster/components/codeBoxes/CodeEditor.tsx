@@ -1,54 +1,36 @@
 "use client";
-import React, { useRef } from 'react';
-import { Controlled as ControlledEditor } from 'react-codemirror2';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
-import 'codemirror/addon/lint/lint.css';
-import 'codemirror/addon/hint/show-hint.css';
-import 'codemirror/mode/javascript/javascript.js';
-import 'codemirror/mode/python/python.js';
-import 'codemirror/mode/clike/clike.js';
-import 'codemirror/addon/lint/javascript-lint';
-import 'codemirror/addon/lint/lint.js';
-import 'codemirror/addon/hint/javascript-hint';
-import { JSHINT } from 'jshint';
+import { useState, useEffect, useRef } from "react";
+import Editor from "@monaco-editor/react";
 
-// when adding a new language, make sure to add the corresponding import statement
+export default function CodeEditor2(
+  { language, code, setCode }: 
+  { language: string, code: string, setCode: (code: string) => void })
+{
 
-declare global {
-  interface Window {
-    JSHINT: typeof JSHINT;
+  const fontSize = 15;
+  const [lines, setLines] = useState(code.split("\n").length);
+  const editorRef = useRef(null);
+
+  useEffect(() => {
+    setLines(code.split("\n").length);
+  }, [code]);
+
+  function handleMount(editor: any, monaco: any) {
+    editorRef.current = editor;
   }
-}
-if (typeof window !== 'undefined') {
-  window.JSHINT = JSHINT;
-}
-
-//Change the height in global.css file
-const CodeEditor = ({ language, code, setCode }: { language: string, code: string, setCode: (code: string) => void }) => {
-  const editorRef = useRef();
 
   return (
-    <ControlledEditor
-    className='h-full'
-      value={code}
+    <Editor
+      height={lines * 21 + "px"}
+      width="100%"
+      language={language === "c++" ? "cpp" : language}
+      defaultValue={code}
       options={{
-        mode: language,
-        lineNumbers: true,
-        lint: true,
-        linewrapping: true,
+        fontSize: fontSize,
       }}
-      onBeforeChange={(editor, data, value) => {
-        setCode(value);
-      }}
-      editorDidMount={(editor) => {
-        editorRef.current = editor;
-      }}
+      onChange={(value) => setCode(value || "")}
+      onMount={handleMount}
     />
   );
-};
 
-export default CodeEditor;
+} 

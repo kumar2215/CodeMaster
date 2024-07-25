@@ -1,13 +1,15 @@
 "use client";
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { createClient } from '@/utils/supabase/client';
 import submitFreestyle from '@/app/utils/Submissions/submitFreestyle';
-import saveFreestyle from '@/app/utils/Saving/saveFreestyle';
+import { SubmitButton } from '@/components/buttons/SubmitButton';
 import dropdownBtn from "@/assets/dropdown-btn.jpg"
+import { toast } from 'react-toastify';
 
 const CodeEditor = dynamic(() => import('@/components/codeBoxes/CodeEditor'), { ssr: false });
 
-export default function FreeStyle ({data}: {data: any}) {
+export default function FreeStyleRefactoring({data}: {data: any}) {
 
   const question: string = data.question;
   const part: string = data.part;
@@ -18,38 +20,19 @@ export default function FreeStyle ({data}: {data: any}) {
   const inputs: any[] = data.inputs;
   const points: number[] = data.points;
   const source = data.source;
-  const partOfCompetition: any = data.partOfCompetition; 
   let verified: boolean = data.verified;
   
   let results: any[] = Array(inputs.length).fill('').map(x => useState({
     actual: '',
-    expected: '',
+    passed: '',
     error: ''
   }));
   let status: string = "Not Attempted";
 
-  if (partOfCompetition) {
-    status = partOfCompetition.status;
-    if (status === "Attempted" && partOfCompetition.data[part]) {
-      codeData = partOfCompetition.data[part].savedCode;      
-    } else if (status === "Completed") {
-      codeData = partOfCompetition.data[part].answered;
-      results = Array(inputs.length).fill('').map((x: any, i: number) => {
-        let value = partOfCompetition.data[part].status[i];
-        value = value === "Correct" ? `${points[i]}/${points[i]} ✅` : `0/${points[i]} ❌`;
-        return useState({
-          actual: value,
-          expected: value,
-          error: ''
-        });
-      });
-    }
-    verified = partOfCompetition.verified
-  } 
-
   const [code, setCode] = useState(codeData);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [ranOnce, setRanOnce] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [accPoints, setAccPoints] = useState(0);
   
@@ -59,26 +42,60 @@ export default function FreeStyle ({data}: {data: any}) {
   }
   const [showTestCases, setShowTestCases] = useState(false);
 
-  const runCodeAndSumbit = async () => {
-    return await submitFreestyle(data, code, results, setIsLoading, setSubmitted, setAccPoints, setError);
+  const runCode = async () => {
+    setRanOnce(true);
+    return await submitFreestyle(data, code, results, setIsLoading, setSubmitted, setAccPoints, setError, false);
   };
 
-  const handleSave = async () => {
-    await saveFreestyle(data, code);
-  };
+  const submitForVoting = async () => {
+    if (submitted) {
+      toast.info("You have already submitted for voting.", {autoClose: 3000});
+      return;
+    }
+    if (!ranOnce) {
+      toast.error("Please run the code first at least once before submitting.", {autoClose: 3000});
+      return;
+    }
+    if (!results.every((result) => result[0].passed)) {
+      toast.error("Please run the code again with all test cases passed before submitting.", {autoClose: 3000});
+      return;
+    }
+
+    const supabase = createClient();
+
+    const res = await supabase
+      .from("Votes")
+      .insert({
+        submitted_by: data.username,
+        freestyle_id: data.partId,
+        code: code,
+        rankings: {}
+      })
+    
+    if (res.error) { 
+      console.error(res.error); 
+      toast.error("Something went wrong. Please try again.", {autoClose: 3000});
+      return;
+    } else {
+      setSubmitted(true);
+      toast.success("Submitted for voting successfully!", {autoClose: 3000});
+    }
+  }
   
   return (
     <div className={!source ? "w-full max-w-5xl bg-slate-50 p-3 border-4" : ""}>
     {part !== "null"
     ? (
     <div className="flex flex-row p-2">
-      <span className="text-lg font-bold pr-2">{`(${part})`}</span>
+      <span className="pr-2 text-lg font-bold">{`(${part})`}</span>
       <p className="text-lg font-medium">{question}</p>
     </div>)
     : (
     <div className="text-lg text-gray-500 min-h-10">{question}</div>
     )}
-    <CodeEditor language={language} code={code} setCode={setCode} />
+    <div className='w-full'>
+      <CodeEditor language={language} code={code} setCode={setCode} />
+    </div>
     { source
       ? source.link
       ? <div className="text-lg font-medium leading-10">
@@ -87,7 +104,7 @@ export default function FreeStyle ({data}: {data: any}) {
       href={source.src}
       target="_blank"
       rel="noopener noreferrer"
-      className="hover:text-blue-500 hover:underline cursor-pointer px-2"
+      className="px-2 cursor-pointer hover:text-blue-500 hover:underline"
       >{source.src}</a>
       </p>
       </div>
@@ -97,7 +114,7 @@ export default function FreeStyle ({data}: {data: any}) {
 
     <div>
       <button
-        className="flex flex-row gap-1 font-medium py-2 px-4"
+        className="flex flex-row gap-1 px-4 py-2 font-medium"
         onClick={() => setShowTestCases(!showTestCases)}
       >
         <img src={dropdownBtn.src} alt="button" className="w-4 h-4 pt-1" />
@@ -111,7 +128,7 @@ export default function FreeStyle ({data}: {data: any}) {
         <div 
         style={{
           display: "grid",
-          gridTemplateColumns: `repeat(${format.length+2}, 1fr)`,
+          gridTemplateColumns: `repeat(${format.length+3}, 1fr)`,
           paddingLeft: "2rem",
           paddingRight: "2rem"
         }}
@@ -134,8 +151,13 @@ export default function FreeStyle ({data}: {data: any}) {
           </div>
           <div 
           className="flex flex-row justify-center text-lg font-bold"
-          style={{border: "2px solid black", borderRight: "2px solid black"}}
+          style={{border: "2px solid black", borderRight: "none"}}
           >{status === "Completed" ? "score" : "actual"}
+          </div>
+          <div 
+          className="flex flex-row justify-center text-lg font-bold"
+          style={{border: "2px solid black", borderRight: "2px solid black"}}
+          >stdout
           </div>
         </div>
 
@@ -153,21 +175,21 @@ export default function FreeStyle ({data}: {data: any}) {
             key={idx}
             style={{
               display: "grid",
-              gridTemplateColumns: `repeat(${format.length+2}, 1fr)`
+              gridTemplateColumns: `repeat(${format.length+3}, 1fr)`
             }}
             >
-            {Object.values(input).slice(0, format.length).map((value: any, idx2: number) => (
-              <div key={idx2} 
-              className="flex flex-row justify-center text-lg text-nowrap font-medium overflow-x-auto" 
+            {Object.values(input).slice(0, format.length).map((value: any, idx2: number) => {
+              return <div key={idx2} 
+              className="flex flex-row justify-center text-lg font-medium" 
               style={{
                 border: "2px solid black",
                 borderRight: idx2 === format.length ? "2px solid black" : "none",
                 borderBottom: idx === inputs.length-1 ? "2px solid black" : "none",
                 borderTop: idx === 0 ? "none" : "2px solid black"
               }}>
-              {typeof value === "object" ? JSON.stringify(value).split(",").join(", ") : value}
+                <p>{value.toString().trim('""').split(",").join(", ")}</p>
               </div>
-            ))}
+            })}
             <div 
             key={idx}
             style={{
@@ -177,7 +199,7 @@ export default function FreeStyle ({data}: {data: any}) {
               borderTop: "none"}}
             >
               <div
-              className="w-full h-full text-lg text-center font-medium overflow-x-auto"
+              className="w-full h-full overflow-x-auto text-lg font-medium text-center"
               >
                 {typeof input.expected === "object" ? JSON.stringify(input.expected).split(",").join(", ") : input.expected}
               </div>
@@ -186,6 +208,7 @@ export default function FreeStyle ({data}: {data: any}) {
             style={{
               border: "2px solid black", 
               borderBottom: idx === inputs.length ? "none" : "2px solid black", 
+              borderRight: idx === inputs.length ? "2px solid black" : "none",
               borderTop: "none"}}
             >
               <div
@@ -193,10 +216,23 @@ export default function FreeStyle ({data}: {data: any}) {
               >
                 {typeof results[idx][0].actual === "object" 
                 ? JSON.stringify(results[idx][0].actual).split(",").join(", ")
-                : results[idx][0].actual !== ''
+                : results[idx][0].actual
                 ? results[idx][0].actual
                 : results[idx][0].error
                 }
+              </div>
+            </div>
+            <div 
+            style={{
+              border: "2px solid black", 
+              borderBottom: idx === inputs.length ? "none" : "2px solid black", 
+              borderTop: "none"
+            }}
+            >
+              <div
+              className="w-full h-full overflow-x-auto text-lg font-medium text-center"
+              >
+                {results[idx][0].output?.trim('""').split(",").join(", ")}
               </div>
             </div>
           </div>
@@ -205,35 +241,30 @@ export default function FreeStyle ({data}: {data: any}) {
       </div>
     }    
 
-    <div className="max-w-full mt-2 ml-2 whitespace-pre-wrap break-words text-red-600">
+    <div className="max-w-full mt-2 ml-2 text-red-600 break-words whitespace-pre-wrap">
       {error}
     </div>
      
     <div className={`flex flex-row ${verified ? `justify-between`: "justify-end"} p-2 pl-4 mb-0`}>
-      {status !== "Completed" && verified &&
       <button 
-      className="text-lg font-medium bg-blue-500 text-white p-2 rounded-lg" 
-      onClick={partOfCompetition ? handleSave : runCodeAndSumbit}>
+      className="p-2 text-lg font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-700" 
+      onClick={runCode}>
       { isLoading 
-        ? <span className="loading loading-spinner w-10"></span>
-        : <div className='flex justify-center'>{partOfCompetition ? "Save" : "Submit"}</div>
+        ? <span className="w-10 loading loading-spinner"></span>
+        : <div className='flex justify-center'>Run</div>
       }
       </button>
-      }
-      {status !== "Completed"
-       ? <span className="text-lg font-medium pr-5 pt-2">{
-        !submitted || isLoading
-        ? `[${points.reduce((a: number, b: number) => a + b, 0)} points]`
-        :  accPoints === totalPoints && submitted && !isLoading
-        ? `${totalPoints} / ${totalPoints} ✅` 
-        : `${accPoints} / ${totalPoints} ❌`
-        }</span>
-       : <span className="text-lg font-medium pr-5 pt-2">{
-        partOfCompetition.data[part].pointsAccumulated === totalPoints
-        ? `${totalPoints} / ${totalPoints} ✅`
-        : `${partOfCompetition.data[part].pointsAccumulated} / ${totalPoints} ❌`
-        }</span>
-      }
+      {verified &&
+      <form>
+      <SubmitButton
+      type="submit"
+      formAction={submitForVoting}
+      className="flex items-center justify-center h-10 p-2 text-lg font-medium text-white bg-green-500 rounded-md hover:bg-green-700"
+      pendingText='Submitting...'
+      >
+        Submit for voting
+      </SubmitButton>
+      </form>}
     </div>            
   </div>
   );

@@ -6,7 +6,7 @@ import AddButtonImage from '@/components/images/add_button';
 import RemoveButton from '@/components/buttons/RemoveButton';
 
 const CodeEditor = dynamic(
-  () => import('../codeBoxes/CodeEditor'),
+  () => import('@/components/codeBoxes/CodeEditor'),
   { ssr: false }  // This component will only be imported on the client-side
 );
 

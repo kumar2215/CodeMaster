@@ -1,6 +1,7 @@
 import Navbar from "@/components/misc/navbar";
 import ReviewVerification from "@/components/misc/reviewVerification";
 import checkInUser from "@/app/utils/Misc/checkInUser";
+import { redirect } from "next/navigation";
 
 const thisLink = "/others";
 
@@ -17,6 +18,10 @@ export default async function Verify({params: {id}}: {params: {id: string}}) {
 
   const { data, error } = await supabase.from("Verifications").select("*").eq("id", id);
   if (error) { console.error(error) }
+
+  if (!data) {
+    redirect("/empty");
+  }
 
   if (data?.length === 0) {
     return (
