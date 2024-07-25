@@ -1,5 +1,6 @@
 "use server";
 import { createClient } from "@/utils/supabase/server";
+import sendNotification from "@/app/utils/Misc/sendNotification";
 
 export default async function upload(question, purpose, username, isVerified = true) {
 
@@ -55,7 +56,6 @@ export default async function upload(question, purpose, username, isVerified = t
         inputs[j] = testcase_id;
       }
       const points = part.points;
-      total_points += points.reduce((a, b) => a + b, 0);
       const { data: res, error } = await supabase.from("Multiple-Responses").insert({
         part: partValue, question: question, format: format, inputs: inputs, points: points, verified: isVerified
       }).select();
@@ -73,8 +73,6 @@ export default async function upload(question, purpose, username, isVerified = t
     }
 
     else if (questionType === "Freestyle") {
-      
-      // TODO: need to change this
       const parameters = part.parameters;
       const inputs = part.inputs;
       const expected = inputs.map(input => input.expected);
@@ -86,12 +84,16 @@ export default async function upload(question, purpose, username, isVerified = t
         const testcase_id =  res && res[0].id;
         inputs[j] = testcase_id;
       }
-      const points = part.points;
-      total_points += points.reduce((a, b) => a + b, 0);
+      let points = part.points;
+      if  (type === "Refactoring") {
+        total_points += Math.max(...points);
+      } else {
+        total_points += points.reduce((a, b) => a + b, 0);
+      }
       const { data: res, error } = await supabase.from("Freestyle").insert({
-        question: question, parameters: parameters, inputs: inputs, points: points, part: partValue, code: part.code, 
-        pre_code: part.pre_code, post_code: part.post_code, class_name: part.className, function_name: part.functionName, 
-        return_type: part.returnType, refactoring: part.refactoring, verified: isVerified
+        question: question, language: language, parameters: parameters, inputs: inputs, points: points, part: partValue, 
+        code: part.code, pre_code: part.pre_code, post_code: part.post_code, class_name: part.className, 
+        function_name: part.functionName, return_type: part.returnType, refactoring: part.refactoring, verified: isVerified
       }).select();
       if (error) { console.error(error); return;}
       const part_id = res && res[0].id;
@@ -149,6 +151,8 @@ export default async function upload(question, purpose, username, isVerified = t
     }
   }
 
+  console.log("Total points: " + total_points);
+
   const { data: res, error } = await supabase.from("Questions").insert({
     type: type, title: title, content: content, language: language, difficulty: difficulty, 
     source: source, parts: parts, points: total_points, verified: isVerified, purpose: purpose, created_by: username
@@ -170,15 +174,7 @@ export default async function upload(question, purpose, username, isVerified = t
       link: `/questions/${question_id}`
     }
 
-    for (const admin of admins) {
-      const { data, error } = await supabase.from("Users").select("notifications").eq("username", admin).single();
-      if (error) { console.error(error); return; }
-
-      const notifications = data.notifications || [];
-      notifications.push(notification);
-      const res = await supabase.from("Users").update({notifications: notifications}).eq("username", admin);
-      if (res.error) { console.error(res.error); return; }
-    }
+    await sendNotification(admins, notification);
   }
 
   return [question_id, answers];

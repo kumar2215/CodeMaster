@@ -1,6 +1,7 @@
 "use server";
 import { createClient } from '@/utils/supabase/server';
 import upload from '@/app/api/uploadQuestion/upload';
+import sendNotification from '@/app/utils/Misc/sendNotification';
 
 const supabase = createClient();
 
@@ -57,21 +58,7 @@ async function uploadData(formData, createdBy, type) {
         link: `/questions/tournament/${data[0].id}`
       }
 
-      for (const admin of admins) {
-        const { data, error } = await supabase.from("Users").select("notifications").eq("username", admin).single();
-        if (error) { 
-          console.error(error); 
-          return [false, "Something went wrong. Please try again later."]; 
-        }
-
-        const notifications = data.notifications || [];
-        notifications.push(notification);
-        const res = await supabase.from("Users").update({notifications: notifications}).eq("username", admin);
-        if (res.error) { 
-          console.error(res.error); 
-          return [false, "Something went wrong. Please try again later."]; 
-        }
-      }
+      await sendNotification(admins, notification);
     }
 
     return [true, ""];

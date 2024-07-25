@@ -2,11 +2,14 @@
 import { createClient } from "@/utils/supabase/client";
 import bcrypt from 'bcryptjs';
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-export default function VerifyPassword({ id, link, btnText }: { id: string, link: string, btnText: string }) {
-
+export default function VerifyPassword(
+  { table, id, link, btnText, promptText, className, style }: 
+  { table: string, id: string, link: string, btnText: string, promptText: string, className: string, style: React.CSSProperties }) 
+{
+   
   const [passwordHash, setPasswordHash] = useState<string>("");
   const router = useRouter();
 
@@ -14,7 +17,7 @@ export default function VerifyPassword({ id, link, btnText }: { id: string, link
     async function getData() {
       const supabase = createClient();
       const { data, error } = await supabase
-        .from("Tournaments")
+        .from(table)
         .select(`password_hash`)
         .eq("id", id)
         .single();
@@ -26,7 +29,7 @@ export default function VerifyPassword({ id, link, btnText }: { id: string, link
   }, []);
 
   const askForPassword = async () => {
-    let password: string | null = prompt("Enter the password for this tournament: ");
+    let password: string | null = prompt(promptText);
     if (!password) { return; }
     const result = await bcrypt.compare(password, passwordHash);
     if (result) {
@@ -38,8 +41,8 @@ export default function VerifyPassword({ id, link, btnText }: { id: string, link
 
   return (
     <button 
-      className="p-2 text-base font-medium text-center bg-green-400 rounded-2xl" 
-      style={{border: "1px solid black"}} 
+      className={className} 
+      style={style} 
       onClick={askForPassword}
       >
         {btnText}

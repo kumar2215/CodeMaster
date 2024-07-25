@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import hljs from 'highlight.js';
 import { toast } from "react-toastify";
 
-const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+// const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 function interceptKeys(evt: any) {
   evt = evt || window.event; // IE support
@@ -28,9 +28,9 @@ const CodeBlock = ({ language, value, colorTheme } : {language: string, value: s
   useEffect(() => {
     hljs.highlightAll();
     
-    document.addEventListener('keydown', interceptKeys);
-    document.addEventListener('contextmenu', (e) => e.preventDefault());
-    document.addEventListener('dragstart', (e) => e.preventDefault());
+    // document.addEventListener('keydown', interceptKeys);
+    // document.addEventListener('contextmenu', (e) => e.preventDefault());
+    // document.addEventListener('dragstart', (e) => e.preventDefault());
     
     return () => {
       document.removeEventListener('keydown', interceptKeys);

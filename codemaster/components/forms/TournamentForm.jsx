@@ -63,6 +63,7 @@ export default function TournamentForm() {
               watch={watch}
               index={index}
               single={false}
+              partOfCompetition={true}
             />
           </div>
           </>

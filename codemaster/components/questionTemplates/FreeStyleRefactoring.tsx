@@ -1,13 +1,15 @@
 "use client";
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { createClient } from '@/utils/supabase/client';
 import submitFreestyle from '@/app/utils/Submissions/submitFreestyle';
-import saveFreestyle from '@/app/utils/Saving/saveFreestyle';
+import { SubmitButton } from '@/components/buttons/SubmitButton';
 import dropdownBtn from "@/assets/dropdown-btn.jpg"
+import { toast } from 'react-toastify';
 
 const CodeEditor = dynamic(() => import('@/components/codeBoxes/CodeEditor'), { ssr: false });
 
-export default function FreeStyle ({data}: {data: any}) {
+export default function FreeStyleRefactoring({data}: {data: any}) {
 
   const question: string = data.question;
   const part: string = data.part;
@@ -18,7 +20,6 @@ export default function FreeStyle ({data}: {data: any}) {
   const inputs: any[] = data.inputs;
   const points: number[] = data.points;
   const source = data.source;
-  const partOfCompetition: any = data.partOfCompetition; 
   let verified: boolean = data.verified;
   
   let results: any[] = Array(inputs.length).fill('').map(x => useState({
@@ -28,28 +29,10 @@ export default function FreeStyle ({data}: {data: any}) {
   }));
   let status: string = "Not Attempted";
 
-  if (partOfCompetition) {
-    status = partOfCompetition.status;
-    if (status === "Attempted" && partOfCompetition.data[part]) {
-      codeData = partOfCompetition.data[part].savedCode;      
-    } else if (status === "Completed") {
-      codeData = partOfCompetition.data[part].answered;
-      results = Array(inputs.length).fill('').map((x: any, i: number) => {
-        let value = partOfCompetition.data[part].status[i];
-        value = value === "Correct" ? `${points[i]}/${points[i]} ✅` : `0/${points[i]} ❌`;
-        return useState({
-          actual: value,
-          expected: value,
-          error: ''
-        });
-      });
-    }
-    verified = partOfCompetition.verified
-  } 
-
   const [code, setCode] = useState(codeData);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [ranOnce, setRanOnce] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [accPoints, setAccPoints] = useState(0);
   
@@ -59,13 +42,45 @@ export default function FreeStyle ({data}: {data: any}) {
   }
   const [showTestCases, setShowTestCases] = useState(false);
 
-  const runCodeAndSumbit = async () => {
-    return await submitFreestyle(data, code, results, setIsLoading, setSubmitted, setAccPoints, setError);
+  const runCode = async () => {
+    setRanOnce(true);
+    return await submitFreestyle(data, code, results, setIsLoading, setSubmitted, setAccPoints, setError, false);
   };
 
-  const handleSave = async () => {
-    await saveFreestyle(data, code);
-  };
+  const submitForVoting = async () => {
+    if (submitted) {
+      toast.info("You have already submitted for voting.", {autoClose: 3000});
+      return;
+    }
+    if (!ranOnce) {
+      toast.error("Please run the code first at least once before submitting.", {autoClose: 3000});
+      return;
+    }
+    if (!results.every((result) => result[0].passed)) {
+      toast.error("Please run the code again with all test cases passed before submitting.", {autoClose: 3000});
+      return;
+    }
+
+    const supabase = createClient();
+
+    const res = await supabase
+      .from("Votes")
+      .insert({
+        submitted_by: data.username,
+        freestyle_id: data.partId,
+        code: code,
+        rankings: {}
+      })
+    
+    if (res.error) { 
+      console.error(res.error); 
+      toast.error("Something went wrong. Please try again.", {autoClose: 3000});
+      return;
+    } else {
+      setSubmitted(true);
+      toast.success("Submitted for voting successfully!", {autoClose: 3000});
+    }
+  }
   
   return (
     <div className={!source ? "w-full max-w-5xl bg-slate-50 p-3 border-4" : ""}>
@@ -231,30 +246,25 @@ export default function FreeStyle ({data}: {data: any}) {
     </div>
      
     <div className={`flex flex-row ${verified ? `justify-between`: "justify-end"} p-2 pl-4 mb-0`}>
-      {status !== "Completed" && verified &&
       <button 
-      className="p-2 text-lg font-medium text-white bg-blue-500 rounded-lg" 
-      onClick={partOfCompetition ? handleSave : runCodeAndSumbit}>
+      className="p-2 text-lg font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-700" 
+      onClick={runCode}>
       { isLoading 
         ? <span className="w-10 loading loading-spinner"></span>
-        : <div className='flex justify-center'>{partOfCompetition ? "Save" : "Submit"}</div>
+        : <div className='flex justify-center'>Run</div>
       }
       </button>
-      }
-      {status !== "Completed"
-       ? <span className="pt-2 pr-5 text-lg font-medium">{
-        !submitted || isLoading
-        ? `[${points.reduce((a: number, b: number) => a + b, 0)} points]`
-        :  accPoints === totalPoints && submitted && !isLoading
-        ? `${totalPoints} / ${totalPoints} ✅` 
-        : `${accPoints} / ${totalPoints} ❌`
-        }</span>
-       : <span className="pt-2 pr-5 text-lg font-medium">{
-        partOfCompetition.data[part].pointsAccumulated === totalPoints
-        ? `${totalPoints} / ${totalPoints} ✅`
-        : `${partOfCompetition.data[part].pointsAccumulated} / ${totalPoints} ❌`
-        }</span>
-      }
+      {verified &&
+      <form>
+      <SubmitButton
+      type="submit"
+      formAction={submitForVoting}
+      className="flex items-center justify-center h-10 p-2 text-lg font-medium text-white bg-green-500 rounded-md hover:bg-green-700"
+      pendingText='Submitting...'
+      >
+        Submit for voting
+      </SubmitButton>
+      </form>}
     </div>            
   </div>
   );

@@ -60,6 +60,7 @@ export default function ContestForm() {
               watch={watch}
               index={index}
               single={false}
+              partOfCompetition={true}
             />
           </div>
           </>

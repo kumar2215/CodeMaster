@@ -4,13 +4,17 @@ import { useFieldArray, Controller } from 'react-hook-form';
 import AddButtonImage from "@/components/images/add_button";
 import RemoveButton from '@/components/buttons/RemoveButton';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import gold_medal from "@/assets/gold_medal.jpg";
+import silver_medal from "@/assets/silver_medal.jpg";
+import bronze_medal from "@/assets/bronze_medal.jpg";
 
 const CodeEditor = dynamic(
   () => import('@/components/codeBoxes/CodeEditor'),
   { ssr: false }  // This component will only be imported on the client-side
 );
 
-export default function FreestyleForm({ part, control, register, parentIndex, removePart, watch, qnNum, language}) {
+export default function FreestyleForm({ part, control, register, parentIndex, removePart, watch, qnNum, language, type}) {
 
   const { fields: testcases, append: appendTestcase, remove: removeTestcase } = useFieldArray({
     control,
@@ -243,6 +247,7 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
               />
             </label>
           </div>
+          {type !== "Refactoring" &&
           <div className='flex flex-row gap-2 my-2 ml-10'>
             <p>Points:</p>
             <label className="leading-5" style={{borderWidth: "1.5px"}}>
@@ -255,7 +260,7 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
               className='h-6 pl-1 input-info'
               />
             </label>
-          </div>
+          </div>}
         </div>
       ))
       : testcases.length > 0
@@ -273,6 +278,54 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
         <h1 className="w-full pt-1 text-lg font-medium bg-green-400 rounded-lg hover:bg-green-700 text-slate-50">Add Testcase</h1>
         <h1></h1>
       </button>
+
+      {/* Points used for top voted if refactoring */}
+      {type === "Refactoring" &&
+      <div className='flex flex-col gap-2 my-2'>
+        <h2>Points awarded for top voted refactoring:</h2>
+        <div className='flex flex-row gap-2'>
+          <Image src={gold_medal} alt="gold medal" className="h-12 w-9"/>
+          <h2 className='mt-2 font-bold' >:</h2>
+          <label className="h-8 mt-2 leading-5" style={{borderWidth: "1.5px"}}>
+          <input
+          {...register(`questions.${qnNum-1}.parts.${parentIndex}.points.${0}`, 
+          { required: "Points are required",
+            validate: value => value >= 0 || "Points cannot be negative"
+          })}
+          type='number'
+          className='h-[28px] pl-1 input-info'
+          />
+          </label> 
+        </div>
+        <div className='flex flex-row gap-2'>
+          <Image src={silver_medal} alt="gold medal" className="h-12 w-9"/>
+          <h2 className='mt-2 font-bold' >:</h2>
+          <label className="h-8 mt-2 leading-5" style={{borderWidth: "1.5px"}}>
+          <input
+          {...register(`questions.${qnNum-1}.parts.${parentIndex}.points.${1}`, 
+          { required: "Points are required",
+            validate: value => value >= 0 || "Points cannot be negative"
+          })}
+          type='number'
+          className='h-[28px] pl-1 input-info'
+          />
+          </label> 
+        </div>
+        <div className='flex flex-row gap-2'>
+          <Image src={bronze_medal} alt="gold medal" className="h-12 w-9"/>
+          <h2 className='mt-2 font-bold' >:</h2>
+          <label className="h-8 mt-2 leading-5" style={{borderWidth: "1.5px"}}>
+          <input
+          {...register(`questions.${qnNum-1}.parts.${parentIndex}.points.${2}`, 
+          { required: "Points are required",
+            validate: value => value >= 0 || "Points cannot be negative"
+          })}
+          type='number'
+          className='h-[28px] pl-1 input-info'
+          />
+          </label> 
+        </div>
+      </div>}
       
     </div>
   );

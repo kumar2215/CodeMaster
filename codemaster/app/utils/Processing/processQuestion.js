@@ -54,23 +54,11 @@ export default function processAndValidateQuestion(question, idx) {
     return false;
   }
 
-  let total_points = 0;
-  question.parts.forEach((part) => {
-    if (typeof part.points === 'object') {
-      part.points.forEach((point) => {
-        total_points += Number(point);
-      });
-    } else {
-      total_points += Number(part.points);
-    }
-  });
-  
   return {
     ...question,
     content: question.contents,
-    points: total_points,
     source: {
-      link: question.source.src.includes('https'),
+      link: question.source.src.includes('https') || question.source.src.includes('wwww'),
       src: question.source.src
     },
     parts: question.parts.map((part, index) => {
@@ -107,7 +95,6 @@ export default function processAndValidateQuestion(question, idx) {
             return false;
           }
           const formatArray = part.format.split(',').map(f => f.trim() !== '' ? f.trim() : '').filter(f => f !== '');
-          console.log(formatArray);
 
           // check if inputs are not empty
           if (part.inputs.length === 0) {
@@ -155,6 +142,12 @@ export default function processAndValidateQuestion(question, idx) {
           // check if user code has main class name if given
           if (part.className !== '' && !part.code.includes(part.className)) {
             toast.error(`Question ${i} ${partValue}'s usercode needs to contain the main class name given`, {autoClose: 3000})
+            return false;
+          }
+
+          // check if class name is given if language is java
+          if (question.language.toLowerCase() === 'java' && part.className === '') {
+            toast.error(`Question ${i} ${partValue} needs to have a class name since language set is Java`, {autoClose: 3000})
             return false;
           }
 

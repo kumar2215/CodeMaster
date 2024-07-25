@@ -73,39 +73,39 @@ export default function ReviewVerification(params: any) {
   return (
     <div>
     {status === "pending" && review === null 
-    ? <div className="w-full max-w-5xl flex flex-row mt-4">
-      <form className="w-full bg-slate-50 p-3 gap-3">
-        <div className="flex flex-row items-center focus:outline-none p-2 mb-2">
+    ? <div className="flex flex-row w-full max-w-5xl mt-4">
+      <form className="w-full gap-3 p-3 bg-slate-50">
+        <div className="flex flex-row items-center p-2 mb-2 focus:outline-none">
           <div className="flex flex-row gap-2"
             aria-haspopup="menu" aria-expanded="false" data-headlessui-state=""
             >
-              <span id="navbar_user_avatar" className="relative ml-1 h-10 w-10">
+              <span id="navbar_user_avatar" className="relative w-10 h-10 ml-1">
                 <ProfilePic username={adminReviewing} />
               </span>
               <div className="flex flex-col">
-              <h1 className="text-gray-500 font-medium">{adminReviewing}</h1>
+              <h1 className="font-medium text-gray-500">{adminReviewing}</h1>
               <h1>{convertDate(new Date().toString())}</h1>
               </div>
             </div>
         </div>
         <textarea 
-          className="w-full rounded-md px-2 py-2 bg-inherit border"
+          className="w-full px-2 py-2 border rounded-md bg-inherit"
           style={{height: "150px"}}
           name="content"
           placeholder="Write your review here..."
           required
         />
-        <div className="w-full flex flex-row justify-between">
+        <div className="flex flex-row justify-between w-full">
           <SubmitButton
             formAction={reject}
-            className="w-1/6 bg-red-400 border border-foreground/20 rounded-md px-4 py-2 font-semibold text-foreground mt-2"
+            className="w-1/6 px-4 py-2 mt-2 font-semibold bg-red-400 border rounded-md border-foreground/20 text-foreground"
             pendingText="Reviewing..."
           >Reject
           </SubmitButton>
 
           <SubmitButton
             formAction={approve}
-            className="w-1/6 bg-green-400 border border-foreground/20 rounded-md px-4 py-2 font-semibold text-foreground mt-2"
+            className="w-1/6 px-4 py-2 mt-2 font-semibold bg-green-400 border rounded-md border-foreground/20 text-foreground"
             pendingText="Approving..."
             >Approve
           </SubmitButton>
@@ -113,21 +113,21 @@ export default function ReviewVerification(params: any) {
       </form>
     </div>
   : review && 
-    <div className="w-full flex flex-col bg-white p-3 gap-3 border-2">
-      <div className="flex flex-row items-center focus:outline-none p-2 justify-between border-b-2 border-gray-300">
+    <div className="flex flex-col w-full gap-3 p-3 bg-white border-2">
+      <div className="flex flex-row items-center justify-between p-2 border-b-2 border-gray-300 focus:outline-none">
         <div className="flex flex-row gap-2"
         aria-haspopup="menu" aria-expanded="false" data-headlessui-state=""
         >
-          <span id="navbar_user_avatar" className="relative ml-1 h-10 w-10">
+          <span id="navbar_user_avatar" className="relative w-10 h-10 ml-1">
             <ProfilePic username={review.written_by} />
           </span>
           <div className="flex flex-col">
-          <h1 className="text-gray-500 font-medium">{review.written_by}</h1>
+          <h1 className="font-medium text-gray-500">{review.written_by}</h1>
           <h1>{review.created_at}</h1>
           </div>
         </div>
       </div>
-      <div className="flex flex-col pl-2 gap-2">
+      <div className="flex flex-col gap-2 pl-2">
         <div className="flex flex-row gap-2 text-lg">
           <h1 className="font-semibold">Status: </h1>
           <h1 className={`font-semibold ${status === "approved" ? "text-green-500" : "text-red-500"}`}>{status.toUpperCase()}</h1>

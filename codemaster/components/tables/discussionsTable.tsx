@@ -1,5 +1,6 @@
 "use client";
-import {createClient} from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/client";
+import VerifyPassword from "@/components/buttons/VerifyPassword";
 import convertDate from "@/app/utils/dateConversion/convertDateV1";
 import Link from "next/link";
 
@@ -61,15 +62,25 @@ export default function DiscussionsTable(data: any) {
                 borderTop: '1px solid rgb(156 163 175)'
               }}>
             <div style={{borderRight: '1px solid rgb(156 163 175)'}}>{convertDate(entry.created_at)}</div>
-            <div
-            className="hover:text-blue-500 hover:leading-8 hover:font-medium cursor-pointer"
-            style={{
-              borderRight: '1px solid rgb(156 163 175)',
-              textAlign: "start",
-              paddingLeft: "1rem"
-            }}>
-              <Link href={link} onClick={() => updateViews(index)}>{entry.title}</Link>
-            </div>
+            {entry.password_hash === null
+            ? <div
+              className="cursor-pointer hover:text-blue-500 hover:leading-8 hover:font-medium"
+              style={{
+                borderRight: '1px solid rgb(156 163 175)',
+                textAlign: "start",
+                paddingLeft: "1rem"
+              }}>
+                <Link href={link} onClick={() => updateViews(index)}>{entry.title}</Link>
+              </div>
+            : <VerifyPassword 
+              table="Discussions" id={entry.id} link={link} btnText={entry.title}
+              promptText="Enter the password for this discussion: "
+              className="cursor-pointer hover:text-blue-500 hover:leading-8 hover:font-medium"
+              style={{
+                borderRight: '1px solid rgb(156 163 175)',
+                textAlign: "start",
+                paddingLeft: "1rem"
+              }}/>}
             <div style={{borderRight: '1px solid rgb(156 163 175)'}}>{entry.created_by}</div>
             <div>{entry.posts}</div>
             <div style={{borderLeft: '1px solid rgb(156 163 175)'}}>{entry.views}</div>
