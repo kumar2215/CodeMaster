@@ -13,7 +13,7 @@ export default async function Discussions({params: {topic}}: {params: {topic: st
   }
 
   const preferences = userData.preferences;
-  const allowed_topics = ["General", "Contests", "Tournaments", "Feedback", "Others"];
+  const allowed_topics = ["general", "contests", "tournaments", "feedback", "others"];
 
   const res = await supabase.from("Discussions").select("*").eq("type", topic);
   if (res.error) { console.error(res.error) }
