@@ -105,11 +105,13 @@ export default async function VotingPage({params: {id}}: {params: {id: string}})
   }
 
   return (
-    <div className="flex flex-col items-center flex-1 w-full gap-6" style={preferences.body}>
+    <div className="flex flex-col items-center flex-1 gap-6 lg:w-full" style={preferences.body}>
       <Navbar thisLink={thisLink} style={preferences.header} />
-      <div className="flex flex-col w-full max-w-4xl gap-2 mt-4">
-        <h1 className="text-2xl font-semibold text-left">Original code:</h1>
-        {placeInCodeBox(data.code, data.language, preferences.codeColorTheme)}
+      <div className="flex flex-col w-screen gap-2 p-2 mt-4 lg:max-w-4xl">
+        <h1 className="text-lg font-semibold text-left lg:text-2xl">Original code:</h1>
+        <div className="pr-2">
+          {placeInCodeBox(data.code, data.language, preferences.codeColorTheme)}
+        </div>
       </div>
       {voting_status === "Open" 
       ? <Voting 

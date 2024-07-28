@@ -39,18 +39,19 @@ export default async function CodeUnderstanding() {
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
     <Navbar thisLink={thisLink} style={preferences.header} />
-    <div className="grid max-w-4xl grid-rows-2 max-h-24">
-    <h2 className="text-2xl font-bold">Code Understanding</h2>
-    <p className="text-base leading-7">
-    Code understanding is the ability to read and comprehend code. It is a
-    crucial skill for any programmer, as it allows you to understand how
-    existing code works and make changes to it. In this section, the programming 
-    problems provided require you to read and understand code snippets.
-    </p>
+    <div className="flex flex-col max-w-4xl gap-6 p-4 mx-auto lg:p-0">
+      <div className="flex flex-col gap-2">
+        <h2 className="text-xl font-bold lg:text-2xl">Code Understanding</h2>
+        <p className="text-sm leading-7 lg:text-base">
+          Code understanding is the ability to read and comprehend code. It is a
+          crucial skill for any programmer, as it allows you to understand how
+          existing code works and make changes to it. In this section, the programming 
+          problems provided require you to read and understand code snippets.
+        </p>
+      </div>
+      {questions && <QuestionsTable data={questions} />}
+      <br/>
     </div>
-    <h2 className="leading-3 max-h-3"/>
-    {questions && <QuestionsTable data={questions} />}
-    <br/>
     </div>
   );
 }
