@@ -237,13 +237,12 @@ export default async function submitCompetition(data: any) {
               })
             });
             
-            // Changed done. But not tested.
             if (response.ok) {
               const data = await response.json();
               const result = data.results;
   
               if (!result.error) {
-                result.forEach((res: any, index: number) => {
+                result.tests.forEach((res: any, index: number) => {
                   if (res.passed) {
                     answeredRight[index] = "Correct";
                     pointsAwarded += points[index];
