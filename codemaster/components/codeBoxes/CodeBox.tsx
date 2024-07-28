@@ -11,7 +11,7 @@ function placeInCodeBox(code: string, language: string, colorTheme: string) {
     <div className="flex flex-col items-end pr-2 text-gray-500 border-r border-gray-300">
     {lines.map((line: string, index: number) => (
       index <= lastLine &&
-      <span key={index} className="text-base text-end">
+      <span key={index} className="text-sm lg:text-base text-end">
       {index+1}
       </span>
     ))}

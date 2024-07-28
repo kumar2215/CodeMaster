@@ -3,25 +3,20 @@ import logo from "@/assets/CodeMaster-logo.jpg";
 export default function Body() {
   return (
     <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "500px auto",
-      columnGap: "50px",
-      alignItems: "center",
-      justifyContent: "center",
-    }}>
+      className="grid items-center justify-center gap-10 md:grid-cols-2"
+      style={{ columnGap: "50px" }}
+    >
       <img 
         src={logo.src} 
         alt="CodeMaster Logo"
-        style={{ width: "500px", height: "auto"}}
-      >
-      </img>
-      <div className="max-w-lg h-full flex flex-col justify-start">
+        className="w-full h-auto max-w-md"
+      />
+      <div className="flex flex-col justify-start h-full max-w-lg">
         <h1 className="text-4xl font-bold text-center">
           Welcome to CodeMaster!
         </h1>
         <br/>
-        <p className="text-left text-xl text-foreground/60 text-pretty">
+        <p className="text-xl text-left text-foreground/60 text-pretty">
           While many other coding platforms like leetcode and codeforces focus on the problem solving 
           aspect of programming, CodeMaster provides a way for programmers to practice the other aspects 
           of it such as debugging, understanding complex code, using good code practices and refactoring. 

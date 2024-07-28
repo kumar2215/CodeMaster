@@ -104,12 +104,12 @@ export default function Voting({freestyle_id, refactorings, language, username, 
   }
 
   return (
-    <form className="flex flex-col w-full max-w-4xl gap-6">
-      <h1 className="text-2xl font-semibold text-left">Submitted refactorings:</h1>
+    <form className="flex flex-col w-screen gap-6 p-2 lg:max-w-4xl lg:w-full">
+      <h1 className="text-lg font-semibold text-left lg:text-2xl">Submitted refactorings:</h1>
       {numOfRefactorings === 0 
       ? <p>No refactorings submitted yet</p> 
       : refactorings.map((refactoring: any, idx: number) => 
-        <div key={idx} className="flex flex-row w-full bg-gray-200">
+        <div key={idx} className="flex flex-row overflow-x-auto bg-gray-200 lg:w-full">
           {placeInCodeBox(refactoring.code, language, colorTheme)}
           <select 
           className="bg-gray-200"
@@ -130,7 +130,7 @@ export default function Voting({freestyle_id, refactorings, language, username, 
       {!voted_alr && !voted &&
       <div className="flex flex-row justify-end w-full mt-2">
         <SubmitButton
-        className="flex items-center justify-center w-1/6 h-10 p-2 text-lg font-medium text-white bg-green-500 rounded-md hover:bg-green-700"
+        className="flex items-center justify-center w-1/6 h-10 p-2 text-base font-medium text-white bg-green-500 rounded-md lg:text-lg hover:bg-green-700"
         formAction={submitVote}
         pendingText="Voting..."
         >

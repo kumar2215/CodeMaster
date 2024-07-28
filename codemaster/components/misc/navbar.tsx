@@ -59,30 +59,37 @@ export default async function Navbar({thisLink, style}: {thisLink: string, style
 
   return (
     <div className="w-full" style={style}>
-    <nav 
-    style={{
-      display: "grid",
-      gridTemplateColumns: "550px 550px",
-      justifyContent: "center",
-      border: "1px solid #e5e7eb",
-    }}
-    >
-    <div className="display-flex m-auto h-[50px] w-full items-center justify-center px-6 md:flex max-w-[1200px]">
-    <ul className="relative flex items-center self-end h-full gap-6 p-0 m-0 grow">
-    {createListElement("/problemset", "Problems")}
-    {createListElement("/contests", "Contests")}
-    {createListElement("/tournaments", "Tournaments")}
-    {createListElement("/leaderboards", "Leaderboards")}
-    {createListElement("/forum", "Forum")}
-    {createListElement("/profile", "Profile")}
-    {createListElement("/others", "Others")}
-    </ul>
-    </div>
-    <div className="flex justify-end w-full max-w-4xl gap-3 p-3 text-sm">
-    <AuthButton username={username} />
-    <PremiumButton />
-    </div>
-    </nav>
+      <nav className="container flex justify-center w-full mx-auto border-gray-300">
+        <div className="flex flex-col w-full lg:flex-row lg:max-w-6xl">
+
+          <ul className="flex flex-col items-center justify-center w-full gap-6 lg:justify-start lg:flex-row">
+
+            <div className="flex items-center justify-center w-full gap-6 p-0 mt-2 lg:justify-start lg:mt-0">
+              {createListElement("/problemset", "Problems")}
+              {createListElement("/contests", "Contests")}
+            </div>
+
+            <div className="flex items-center justify-center w-full gap-6 p-0 lg:justify-start">
+
+              {createListElement("/tournaments", "Tournaments")}
+              {createListElement("/leaderboards", "Leaderboards")}
+
+            </div>
+            
+            <div className="flex items-center justify-center w-full gap-6 p-0 lg:justify-start">
+              {createListElement("/forum", "Forum")}
+              {createListElement("/profile", "Profile")}
+              {createListElement("/others", "Others")}
+            </div>
+
+          </ul>
+
+          <div className="flex items-center justify-center w-full gap-3 p-3 text-sm lg:justify-end">
+            <AuthButton username={username} />
+            <PremiumButton />
+          </div>
+        </div>
+      </nav>
     </div>
   );
 }
