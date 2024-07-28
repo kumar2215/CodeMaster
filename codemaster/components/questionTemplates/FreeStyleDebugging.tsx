@@ -76,18 +76,18 @@ export default function FreeStyleDebugging({data}: {data: any}) {
     {part !== "null"
     ? (
     <div className="flex flex-row p-2">
-      <span className="pr-2 text-lg font-bold">{`(${part})`}</span>
-      <p className="text-lg font-medium">{question}</p>
+      <span className="pr-2 text-base font-bold lg:text-lg">{`(${part})`}</span>
+      <p className="text-base font-medium lg:text-lg">{question}</p>
     </div>)
     : (
-    <div className="text-lg text-gray-500 min-h-10">{question}</div>
+    <div className="text-base text-gray-500 lg:text-lg min-h-10">{question}</div>
     )}
-    <div className='w-full'>
+    <div className='w-full mt-4 lg:mt-2'>
       <CodeEditor language={language} code={code} setCode={setCode} />
     </div>
     { source
       ? source.link
-      ? <div className="text-lg font-medium leading-10">
+      ? <div className="overflow-x-auto text-base font-medium leading-10 lg:text-lg lg:mt-2">
       <p>source: 
       <a 
       href={source.src}
@@ -97,7 +97,7 @@ export default function FreeStyleDebugging({data}: {data: any}) {
       >{source.src}</a>
       </p>
       </div>
-      : <div className="text-lg font-medium leading-10">source: {source.src}</div>
+      : <div className="overflow-x-auto text-base font-medium leading-10 lg:text-lg lg:mt-2">source: {source.src}</div>
       : <></>
     }
 
@@ -124,7 +124,7 @@ export default function FreeStyleDebugging({data}: {data: any}) {
         >
           {format.map((header: string, index: number) => (
             <div key={index} 
-            className="flex flex-row justify-center text-lg font-bold"
+            className="flex flex-row justify-center overflow-x-auto text-base font-bold lg:text-lg"
             style={{
               border: "2px solid black", 
               borderRight: index === format.length ? "2px solid black" : "none", 
@@ -134,17 +134,17 @@ export default function FreeStyleDebugging({data}: {data: any}) {
             </div>
           ))}
           <div 
-          className="flex flex-row justify-center text-lg font-bold"
+          className="flex flex-row justify-center overflow-x-auto text-base font-bold lg:text-lg"
           style={{border: "2px solid black", borderRight: "none"}}
           >expected
           </div>
           <div 
-          className="flex flex-row justify-center text-lg font-bold"
+          className="flex flex-row justify-center overflow-x-auto text-base font-bold lg:text-lg"
           style={{border: "2px solid black", borderRight: "none"}}
           >{status === "Completed" ? "score" : "actual"}
           </div>
           <div 
-          className="flex flex-row justify-center text-lg font-bold"
+          className="flex flex-row justify-center overflow-x-auto text-base font-bold lg:text-lg"
           style={{border: "2px solid black", borderRight: "2px solid black"}}
           >stdout
           </div>
@@ -169,7 +169,7 @@ export default function FreeStyleDebugging({data}: {data: any}) {
             >
             {Object.values(input).slice(0, format.length).map((value: any, idx2: number) => {
               return <div key={idx2} 
-              className="flex flex-row justify-center text-lg font-medium" 
+              className="flex flex-row justify-center overflow-x-auto text-base font-medium lg:text-lg" 
               style={{
                 border: "2px solid black",
                 borderRight: idx2 === format.length ? "2px solid black" : "none",
@@ -188,9 +188,9 @@ export default function FreeStyleDebugging({data}: {data: any}) {
               borderTop: "none"}}
             >
               <div
-              className="w-full h-full overflow-x-auto text-lg font-medium text-center"
+              className="w-full h-full overflow-x-auto text-base font-medium text-center lg:text-lg"
               >
-                {typeof input.expected === "object" ? JSON.stringify(input.expected).split(",").join(", ") : input.expected}
+                {input.expected.toString().trim('""').split(",").join(", ")}
               </div>
             </div>
             <div 
@@ -201,14 +201,13 @@ export default function FreeStyleDebugging({data}: {data: any}) {
               borderTop: "none"}}
             >
               <div
-              className={`w-full h-full text-lg text-center font-medium ${results[idx][0].error ? "text-red-600" : ""}`}
+              className={`w-full h-full text-base overflow-x-auto lg:text-lg text-center font-medium ${results[idx][0].error ? "text-red-600" : ""}`}
               >
                 {typeof results[idx][0].actual === "object" 
                 ? JSON.stringify(results[idx][0].actual).split(",").join(", ")
                 : results[idx][0].actual
                 ? results[idx][0].actual
-                : results[idx][0].error
-                }
+                : results[idx][0].error}
               </div>
             </div>
             <div 
@@ -219,7 +218,7 @@ export default function FreeStyleDebugging({data}: {data: any}) {
             }}
             >
               <div
-              className="w-full h-full overflow-x-auto text-lg font-medium text-center"
+              className="w-full h-full overflow-x-auto text-base font-medium text-center lg:text-lg"
               >
                 {results[idx][0].output?.trim('""').split(",").join(", ")}
               </div>
@@ -237,7 +236,7 @@ export default function FreeStyleDebugging({data}: {data: any}) {
     <div className={`flex flex-row ${verified ? `justify-between`: "justify-end"} p-2 pl-4 mb-0`}>
       {!verified
       ? <button 
-        className="p-2 text-lg font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-700" 
+        className="p-2 text-base font-medium text-white bg-blue-500 rounded-lg lg:text-lg hover:bg-blue-700" 
         onClick={runCode}>
         { isLoading 
           ? <span className="w-10 loading loading-spinner"></span>
@@ -246,7 +245,7 @@ export default function FreeStyleDebugging({data}: {data: any}) {
         </button>
       : status !== "Completed" && verified &&
         <button 
-        className="p-2 text-lg font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-700" 
+        className="p-2 text-base font-medium text-white bg-blue-500 rounded-lg lg:text-lg hover:bg-blue-700" 
         onClick={partOfCompetition ? handleSave : runCodeAndSumbit}>
         { isLoading 
           ? <span className="w-10 loading loading-spinner"></span>
@@ -255,14 +254,14 @@ export default function FreeStyleDebugging({data}: {data: any}) {
         </button>
       }
       {status !== "Completed"
-       ? <span className="pt-2 pr-5 text-lg font-medium">{
+       ? <span className="pt-2 pr-5 text-base font-medium lg:text-lg">{
         !submitted || isLoading
         ? `[${points.reduce((a: number, b: number) => a + b, 0)} points]`
         :  accPoints === totalPoints && submitted && !isLoading
         ? `${totalPoints} / ${totalPoints} ✅` 
         : `${accPoints} / ${totalPoints} ❌`
         }</span>
-       : <span className="pt-2 pr-5 text-lg font-medium">{
+       : <span className="pt-2 pr-5 text-base font-medium lg:text-lg">{
         partOfCompetition.data[part].pointsAccumulated === totalPoints
         ? `${totalPoints} / ${totalPoints} ✅`
         : `${partOfCompetition.data[part].pointsAccumulated} / ${totalPoints} ❌`

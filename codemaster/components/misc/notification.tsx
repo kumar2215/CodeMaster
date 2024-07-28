@@ -50,20 +50,20 @@ export default function Notification(params: any) {
   };
 
   return (
-    <div className="flex flex-col relative group">
+    <div className="relative flex flex-col group">
       <button 
       className="relative bottom-[-10px] left-[-8px] opacity-0 group-hover:opacity-100 transition-opacity"
       onClick={deleteNotification}
       >
         <img src={remove_btn.src} className="w-4 h-4 rounded-full"/>
       </button> 
-      <div className="w-full h-16 py-5 bg-green-200 shadow-md rounded-lg flex items-center justify-between px-4">
+      <div className="flex items-center justify-between w-full px-2 bg-green-200 rounded-lg shadow-md lg:h-16 lg:px-4 lg:py-5">
         <div className="flex flex-row gap-3">
-          <div className="text-lg text-gray-500 font-semibold">{`From ${from}:`}</div>
-          <div className="text-lg font-semibold">{message}</div>
+          <div className="text-sm font-semibold text-gray-500 lg:text-lg">{`From ${from}:`}</div>
+          <div className="text-sm font-semibold lg:text-lg">{message}</div>
         </div>
         <button className="flex items-center">
-          <Link href={link} className="ml-4 text-base text-blue-500">{type}</Link>
+          <Link href={link} className="ml-4 text-sm text-blue-500 lg:text-base">{type}</Link>
         </button>
       </div>
     </div>

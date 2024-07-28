@@ -39,17 +39,18 @@ export default async function Debugging() {
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
     <Navbar thisLink={thisLink} style={preferences.header} />
-    <div className="grid max-w-4xl grid-rows-2 max-h-24">
-    <h2 className="text-2xl font-bold">Good Code Principles</h2>
-    <p className="text-base leading-7">
-    Good code principles are a set of guidelines that help developers write clean, maintainable, and efficient code. 
-    By following these principles, developers can create code that is easy to read, understand, and modify. 
-    In this section, you will learn about some of the most important code principles and how to apply them in your own projects.
-    </p>
+    <div className="flex flex-col max-w-4xl gap-6 p-4 mx-auto lg:p-0">
+      <div className="flex flex-col gap-2">
+        <h2 className="text-xl font-bold lg:text-2xl">Good Code Principles</h2>
+        <p className="text-sm leading-7 lg:text-base">
+          Good code principles are a set of guidelines that help developers write clean, maintainable, and efficient code. 
+          By following these principles, developers can create code that is easy to read, understand, and modify. 
+          In this section, you will learn about some of the most important code principles and how to apply them in your own projects.
+        </p>
+      </div>
+      {questions && <QuestionsTable data={questions} />}
+      <br/>
     </div>
-    <h2 className="leading-3 max-h-3"/>
-    {questions && <QuestionsTable data={questions} />}
-    <br/>
     </div>
   );
 }

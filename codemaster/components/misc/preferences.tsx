@@ -166,7 +166,7 @@ export default function Preferences({ preferences, username }: {preferences: any
   function colorInputHandler(name: string, value: string, setter: any) {
     return (
       <div className="flex flex-row gap-2 mt-1">
-        <label className="font-semibold">{`${name}:`}</label>
+        <label className="text-sm font-semibold lg:text-base">{`${name}:`}</label>
         <input
           type="color"
           value={value}
@@ -209,33 +209,34 @@ export default function Preferences({ preferences, username }: {preferences: any
   return (
     <div className="flex flex-col w-full">
       <div className="w-full mb-2" style={{borderBottom: "1px solid black"}}>
-        <h1 className="mb-2 text-xl font-bold">Preferences</h1>
+        <h1 className="mb-2 text-lg font-bold lg:text-xl">Preferences</h1>
       </div>
 
       <div className="flex flex-col gap-6 mt-4"> 
-        <div className="flex flex-row justify-between">
-          <h1 className="text-lg font-semibold">Body:</h1>
+        <div className="flex flex-row justify-between gap-2">
+          <h1 className="text-sm font-semibold lg:text-lg">Body:</h1>
           {colorInputHandler("Background Color", bodyBackgroundColor, setBodyBackgroundColor)}
           {colorInputHandler("Text Color", bodyTextColor, setBodyTextColor)}
           <h1></h1>
         </div>
 
-        <div className="flex flex-row justify-between">
-          <h1 className="text-lg font-semibold">Navbar:</h1>
+        <div className="flex flex-row justify-between gap-2">
+          <h1 className="text-sm font-semibold lg:text-lg">Navbar:</h1>
           {colorInputHandler("Background Color", headerBackgroundColor, setHeaderBackgroundColor)}
           {colorInputHandler("Text Color", headerTextColor, setHeaderTextColor)}
           <h1></h1>
         </div>
 
         <div className="flex flex-row justify-between">
-          <h1 className="text-lg font-semibold">Code color theme:</h1>
+          <h1 className="text-sm font-semibold lg:text-lg">Code color theme:</h1>
           <select
-            className='h-8 w-fit input-info'
+            className='h-8 text-sm lg:text-lg w-fit input-info '
             value={theme}
             onChange={(e) => setTheme(e.target.value)}
           >
             {codeThemes.map((theme) => (
-              <option key={theme} value={theme}>
+              <option 
+              key={theme} value={theme}>
                 {theme}
               </option>
             ))}
@@ -245,7 +246,7 @@ export default function Preferences({ preferences, username }: {preferences: any
         </div>
 
         <button
-          className="flex items-center justify-center w-1/12 h-10 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-700"
+          className="flex items-center justify-center h-10 p-2 font-medium text-white bg-blue-500 rounded-md w-fit lg:w-1/12 hover:bg-blue-700"
           onClick={savePreferences}
         >
           Save

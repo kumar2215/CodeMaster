@@ -18,25 +18,15 @@ export default async function Index() {
   }
 
   return (
-    <div className="flex flex-col flex-1 w-full gap-10 grow" style={{backgroundColor: "#f9fafb"}}>
-      <nav 
-        style={{
-          display: "grid",
-          gridTemplateColumns: "550px 550px",
-          justifyContent: "center",
-          border: "1px solid #e5e7eb",
-        }}
-        >
-        <div className="flex justify-start w-full max-w-4xl p-3 text-sm">
-          <PremiumButton />
-        </div>
-        <div className="flex justify-end w-full max-w-4xl gap-5 p-3 text-sm">
+    <div className="flex flex-col flex-1 w-full gap-10 grow" style={{ backgroundColor: "#f9fafb" }}>
+      <nav className="flex flex-row justify-center w-full border border-gray-300">
+        <div className="flex flex-row justify-end w-full gap-5 p-3 text-sm lg:max-w-5xl">
           <AuthButton />
           <SignUpButton />
         </div>
       </nav>
-
-      <div className="flex flex-col flex-1 gap-10 px-3 opacity-0 animate-in">
+    
+      <div className="flex flex-row justify-center gap-10 px-3 opacity-0 animate-in">
         <Body />
       </div>
     </div>

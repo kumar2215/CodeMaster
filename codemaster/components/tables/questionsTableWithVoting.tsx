@@ -24,7 +24,7 @@ export default function QuestionsTable(data: any) {
       style={{borderWidth: "1px", borderBottom: "none"}}
       onClick={() => selectedLanguage !== language && (setFilteredQuestions(questions), setSelectedLanguage(language))}
       >
-        <button className="px-1 pt-1 text-lg font-semibold align-middle">{language}</button>
+        <button className="px-1 pt-1 text-[0.9rem] font-semibold align-middle lg:text-lg">{language}</button>
     </li>
     );
   }
@@ -40,24 +40,17 @@ export default function QuestionsTable(data: any) {
 
     <div className="border-2 border-gray-400">
     <div
-    style={{
-      display: 'grid',
-      gridTemplateColumns: '0.8fr 5.2fr 1.2fr 1.1fr 1.1fr',
-      width: '100%',
-      maxWidth: '56rem',
-      minHeight: '2rem',
-      lineHeight: '2rem',
-      textAlign: 'center',
-      alignItems: 'center',
-      fontSize: '1rem',
-      fontWeight: '600',
-      backgroundColor: '#f0f0f0'
-    }}>
+     className={`grid 
+      grid-cols-[1.2fr_4fr_1.7fr_1.4fr_1.2fr]
+      lg:grid-cols-[0.8fr_5.2fr_1.2fr_1.1fr_1.1fr] 
+      w-full max-w-4xl lg:min-h-8 lg:leading-8 text-center items-center text-[0.7rem] lg:text-base font-semibold`
+    }
+    style={{backgroundColor: '#f0f0f0'}}>
     <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Status</div>
-    <div style={{ borderRight: '1px solid rgb(156 163 175)', textAlign: 'left', paddingLeft: '1rem'}}>Title</div>
+    <div className="pl-1 lg:pl-4" style={{ borderRight: '1px solid rgb(156 163 175)', textAlign: 'left'}}>Title</div>
     <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Difficulty</div>
-    <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Max Points</div>
-    <div>Voting</div>
+    <div className="text-[0.5rem] lg:text-base" >Max Points</div>
+    <div style={{ borderLeft: '1px solid rgb(156 163 175)'}}>Voting</div>
     </div>
     
     {filteredQuestions.map((entry: any, index: number) => {
@@ -79,33 +72,27 @@ export default function QuestionsTable(data: any) {
       }
       return <div
       key={index}
+      className={`grid 
+        grid-cols-[1.2fr_4fr_1.7fr_1.4fr_1.2fr]
+        lg:grid-cols-[0.8fr_5.2fr_1.2fr_1.1fr_1.1fr] 
+        w-full max-w-4xl lg:min-h-8 lg:leading-8 text-center items-center text-[0.65rem] lg:text-sm`
+      }
       style={{
-        display: 'grid',
-        gridTemplateColumns: '0.8fr 5.2fr 1.2fr 1.1fr 1.1fr',
-        width: '100%',
-        maxWidth: '56rem',
-        minHeight: '2rem',
-        lineHeight: '2rem',
-        textAlign: 'center',
-        alignItems: 'center',
-        fontSize: '0.875rem',
-        fontWeight: '400',
         backgroundColor: 'white',
         borderTop: '1px solid rgb(156 163 175)'
       }}>
       <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>
       {entry.status === "Completed" 
-      ? <img src={completedLogo.src} alt="Completed" width={0.6 * completedLogo.width}/>
+      ? <img src={completedLogo.src} alt="Completed" className="w-4 lg:w-8" />
       : entry.status === "Attempted" 
-      ? <img src={attemptedLogo.src} alt="Attempted" width={0.6 * attemptedLogo.width}/>
+      ? <img src={attemptedLogo.src} alt="Attempted" className="w-4 lg:w-8" />
       : <div className="text-gray-400">-</div>}
       </div>
     <div 
-    className="cursor-pointer hover:text-blue-500 hover:leading-8 hover:font-medium"
+    className="pl-1 cursor-pointer hover:text-blue-500 hover:leading-8 hover:font-medium lg:pl-4"
     style={{ 
       borderRight: '1px solid rgb(156 163 175)', 
-      textAlign: 'left', 
-      paddingLeft: '1rem'
+      textAlign: 'left'
     }}>
     {entry.voting_status === "Open"
     ? <Link href={questionlink}>{entry.title}</Link>
@@ -114,9 +101,10 @@ export default function QuestionsTable(data: any) {
     <div style={{ borderRight: '1px solid rgb(156 163 175)', fontWeight: "600" }}>{
       <div className={color}>{entry.difficulty}</div>
     }</div>
-    <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>{entry.points}</div>
+    <div>{entry.points}</div>
     <div
     className={`font-semibold ${entry.voting_status === "Open" ? "text-green-500" : "text-red-400"} cursor-pointer`}
+    style={{ borderLeft: '1px solid rgb(156 163 175)'}}
     >
       <button onClick={redirection}>{entry.voting_status.toUpperCase()}</button>
     </div>
