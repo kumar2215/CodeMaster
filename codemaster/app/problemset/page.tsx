@@ -21,9 +21,8 @@ export default async function ProblemSet() {
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
       <Navbar thisLink={thisLink} style={preferences.header} />
-      <div 
-      className="grid w-3/4 h-full grid-cols-2 grid-rows-2 gap-20 px-3 opacity-0 animate-in"
-      > 
+      <div className="grid w-3/4 h-full grid-cols-1 grid-rows-4 gap-20 px-3 mb-4 opacity-0 lg:mb-0 animate-in lg:grid-cols-2 lg:grid-rows-2">
+
         {section(
           "Debugging", 
           "Spent countless hours debugging code, only to find silly bugs? Practice your debugging skills here!", 
@@ -48,8 +47,8 @@ export default async function ProblemSet() {
           "/problemset/refactoring", 
           codeRefactoringIcon
         )}
-      </div>
 
+      </div>
     </div>
   );
 }

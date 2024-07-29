@@ -8,13 +8,14 @@ import MultipleResponseForm from './MultipleResponseForm';
 import MRQForm from './MRQForm';
 import MCQForm from './MCQForm';
 import FreestyleForm from './FreestyleForm';
+import { toast } from 'react-toastify';
 
 const CodeEditor = dynamic(
-  () => import('../codeBoxes/CodeEditor'),
+  () => import('@/components/codeBoxes/CodeEditor'),
   { ssr: false }  
 );
 
-function QuestionForm({ control, register, remove, watch, index, single }) {
+function QuestionForm({ control, register, remove, watch, index, single, partOfCompetition=false }) {
   
   const QUESTION_COMPONENTS = {
     "Multiple-Responses": MultipleResponseForm,
@@ -37,6 +38,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
     appendContent({ category: type, value: "" });
   };
   
+  const type = watch(`questions.${index}.type`);
   const language = watch(`questions.${index}.language`);
   const qnNum = !single ? index + 1 : '';
   
@@ -72,7 +74,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
                 <option value="Debugging">Debugging</option>
                 <option value="Code Understanding">Code Understanding</option>
                 <option value="Code Principles">Code Principles</option>
-                <option value="Refactoring">Refactoring</option>
+                {!partOfCompetition && <option value="Refactoring">Refactoring</option>}
               </select>
             </label>
           </div>
@@ -213,7 +215,12 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
             <h1 className="w-full p-2 text-lg font-medium text-white bg-green-500 rounded-lg hover:bg-green-700">Add MCQ</h1>
           </button>
           
-          <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => appendPart({
+          <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => {
+          if (type !== "Debugging" && type !== "Refactoring") {
+            toast.error("Only Debugging and Refactoring questions are allowed to have freestyle parts.");
+            return;
+          }
+          appendPart({
             part: '',
             questionType: "Freestyle",
             question: '',
@@ -223,8 +230,10 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
             precode: '',
             code: '',
             postcode: '',
-            functionName: ''
-          })}>
+            functionName: '',
+            className: '',
+          })
+          }}>
             <AddButtonImage style={{marginTop: "5px"}} />
             <h1 className="w-full p-2 text-lg font-medium text-white bg-green-500 rounded-lg hover:bg-green-700">Add Freestyle</h1>
           </button>
@@ -232,7 +241,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
         </div>
 
         {parts.map((field, idx) => {
-          const QuestionComponent = QUESTION_COMPONENTS[field.questionType] || MCQForm; 
+          const QuestionComponent = QUESTION_COMPONENTS[field.questionType]; 
           const part = String.fromCharCode(idx + 65).toLowerCase();
           field.part = part;
           return (
@@ -246,6 +255,7 @@ function QuestionForm({ control, register, remove, watch, index, single }) {
             watch={watch}
             qnNum={!single ? qnNum : 1}
             language={language.toLowerCase()}
+            type={type}
             />
             </div>
           );

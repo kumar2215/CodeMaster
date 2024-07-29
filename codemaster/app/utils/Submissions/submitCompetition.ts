@@ -193,8 +193,11 @@ export default async function submitCompetition(data: any) {
           const language: string = res.data.language.toLowerCase();
           const precode: string = partData.pre_code;
           const postcode: string = partData.post_code;
-          const function_name: string = partData.function_name;
           const parameters: any = partData.parameters;
+          const function_name: string = partData.function_name;
+          const class_name: string = partData.class_name;
+          const return_type: string = partData.return_type;
+          const run_configuration: string = partData.run_configuration
           const inputs: any[] = partData.inputs;
           const testcases: any[] = Array.from({ length: inputs.length }, () => ({}));
 
@@ -220,23 +223,27 @@ export default async function submitCompetition(data: any) {
                 "Content-Type": "application/json"
               },
               body: JSON.stringify({
+                username,
                 code,
                 precode,
                 postcode,
                 language,
                 parameters,
                 function_name,
+                class_name,
+                return_type,
+                run_configuration,
                 testcases
               })
             });
-
+            
             if (response.ok) {
               const data = await response.json();
               const result = data.results;
   
               if (!result.error) {
-                result.forEach((res: any, index: number) => {
-                  if (res.actual === res.expected) {
+                result.tests.forEach((res: any, index: number) => {
+                  if (res.passed) {
                     answeredRight[index] = "Correct";
                     pointsAwarded += points[index];
                   }

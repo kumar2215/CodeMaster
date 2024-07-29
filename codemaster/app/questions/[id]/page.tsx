@@ -140,6 +140,10 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
   const { data: questionData, error: err } = await supabase.from("Questions").select(`*`).eq("id", ID).single();
   if (err) { console.error(err); }
 
+  if (!questionData) {
+    return redirect("/empty");
+  }
+
   // prevent users from accessing questions that are not part of a competition
   if (questionData === null || (questionData.purpose !== "general" && single)) { 
     return redirect("/problemset");
@@ -212,17 +216,17 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
     : "/tournaments";
   
   return (
-    <div className="flex flex-col items-center flex-1 w-full gap-8" style={preferences.body}>
+    <div className="flex flex-col items-center flex-1 w-full gap-4 lg:w-full lg:gap-8" style={preferences.body}>
       <Navbar thisLink={thisLink} style={preferences.header} />
-      <div className="w-full max-w-5xl p-3 border-4 bg-slate-50">
-        <div className="text-2xl font-bold min-h-10">{`Question ${current ? current : ""}: ${questionData.title}`}</div>
+      <div className="w-full p-3 border-4 lg:max-w-5xl bg-slate-50">
+        <div className="text-lg font-bold lg:text-2xl min-h-10">{`Question ${current ? current : ""}: ${questionData.title}`}</div>
 
         <div className="flex flex-row gap-2">
-          <div className="text-lg font-medium min-h-10">Difficulty:</div>
-          <div className={`text-lg font-medium min-h-10 ${color}`}>{questionData.difficulty}</div>
+          <div className="text-base font-medium lg:text-lg min-h-10">Difficulty:</div>
+          <div className={`text-base lg:text-lg font-medium min-h-10 ${color}`}>{questionData.difficulty}</div>
         </div>
 
-        <div className="text-lg text-gray-500 min-h-10">
+        <div className="text-base text-gray-500 lg:text-lg min-h-10">
           {questionData.content.map((content: any, index: number) => 
             content.category === "text"
             ? <p key={index}>{content.value}</p>
@@ -236,7 +240,7 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
 
         {questionData.parts.length > 1
         ? questionData.source.link
-        ? <div className="text-lg font-medium leading-10">
+        ? <div className="text-base font-medium leading-10 lg:text-lg">
           <p>source: 
           <a 
           href={questionData.source.src}
@@ -246,7 +250,7 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
           >{questionData.source.src}</a>
           </p>
           </div>
-        : <div className="text-lg font-medium leading-10">source: {questionData.source.src}</div>
+        : <div className="text-base font-medium leading-10 lg:text-lg">source: {questionData.source.src}</div>
         : <></>}
       </div>
       

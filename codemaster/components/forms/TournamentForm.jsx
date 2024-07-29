@@ -23,18 +23,18 @@ export default function TournamentForm() {
 
   return (
     <form className="w-full max-w-5xl">
-      <div className='w-full flex flex-col bg-gray-200 rounded-lg p-5 ml-6 gap-5'>
+      <div className='flex flex-col w-full gap-5 p-5 ml-6 bg-gray-200 rounded-lg'>
         {/* Tournament name field */}
         <div className='flex flex-row gap-4'>
-          <p className='text-xl pt-1'>Tournament name:</p>
+          <p className='pt-1 text-xl'>Tournament name:</p>
           <label className="leading-5" style={{borderWidth: "1.5px"}}>
-            <input className='input-info h-8 pl-2' {...register('name')} />
+            <input className='h-8 pl-2 input-info' {...register('name')} />
           </label>
         </div>
 
         {/* Deadline field */}
-        <div className='flex flex-row gap-4 h-10'>
-          <p className='text-xl pt-2'>Deadline:</p>
+        <div className='flex flex-row h-10 gap-4'>
+          <p className='pt-2 text-xl'>Deadline:</p>
           <label className="items-center gap-2">
             <input
               className='p-2'
@@ -54,7 +54,7 @@ export default function TournamentForm() {
         fields.map((field, index) => (
           <>
           <br/>
-          <div key={field.id} className='bg-gray-200 rounded-lg flex flex-col p-5 ml-6'>
+          <div key={field.id} className='flex flex-col p-5 ml-6 bg-gray-200 rounded-lg'>
             <QuestionForm
               key={field.id}
               control={control}
@@ -63,15 +63,16 @@ export default function TournamentForm() {
               watch={watch}
               index={index}
               single={false}
+              partOfCompetition={true}
             />
           </div>
           </>
         ))
       }
 
-      <div className='w-full flex flex-row gap-3 p-5 ml-6'>
+      <div className='flex flex-row w-full gap-3 p-5 ml-6'>
         {/* Button to add Questions*/}
-        <button className="btn btn-info bg-blue-500" type="button" onClick={() => append(
+        <button className="bg-blue-500 btn btn-info" type="button" onClick={() => append(
           {
             type: '',
             title: '',
@@ -86,7 +87,7 @@ export default function TournamentForm() {
         {/* Button to submit Tournament */}
         <SubmitButton
           formAction={handleSubmit(submitTournamentForm)}
-          className='btn btn-success'
+          className='bg-green-500 btn btn-success'
           disabled={!fields.length}
           pendingText='Submitting...'
         >

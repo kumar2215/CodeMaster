@@ -1,7 +1,7 @@
 import Navbar from "@/components/misc/navbar";
 import CommentSection from "@/components/pages/DiscussionPage";
 import checkInUser from "@/app/utils/Misc/checkInUser";
-
+import { redirect } from "next/navigation";
 
 export default async function Discussion({params: {id}}: {params: {id: string}}) {
 
@@ -18,6 +18,10 @@ export default async function Discussion({params: {id}}: {params: {id: string}})
   const res = await supabase.from("Discussions").select("*").eq("id", id).single();
   if (res.error) { console.error(res.error) }
   const discussion = res.data;
+
+  if (!discussion) {
+    redirect("/empty");
+  }
 
   const res2 = await supabase.from("Comments").select().eq("id", discussion.head_comment).single();
   if (res2.error) { console.error(res.error) }

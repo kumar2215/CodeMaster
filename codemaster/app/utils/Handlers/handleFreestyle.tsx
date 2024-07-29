@@ -1,4 +1,5 @@
-import FreeStyle from "@/components/questionTemplates/FreeStyle";
+import FreeStyleDebugging from "@/components/questionTemplates/FreeStyleDebugging";
+import FreeStyleRefactoring from "@/components/questionTemplates/FreeStyleRefactoring";
 import { createClient } from "@/utils/supabase/client";
 
 const supabase = createClient();
@@ -7,18 +8,7 @@ export default async function handleFreestyle(questionPart: any, username: any) 
 
   const questionId: string = questionPart.questionId;
   const partId: string = questionPart.partId;
-  const question: string = questionPart.question;
-  const precode = questionPart.pre_code;
-  const code = questionPart.code;
-  const postcode = questionPart.post_code;
-  const language = questionPart.language;
-  const part: string = questionPart.part; 
-  const parameters: any = questionPart.parameters; 
-  const inputs: any[] = questionPart.inputs;
   let points: number[] = questionPart.points;
-  const function_name: string = questionPart.function_name;
-  const source = questionPart.source;
-  const partOfCompetition: any = questionPart.partOfCompetition;
   
   const res = await supabase.from("Users").select("*").eq("username", username);
   if (res.error) { console.error(res.error); }
@@ -45,24 +35,14 @@ export default async function handleFreestyle(questionPart: any, username: any) 
   }
   
   const data = {
-    questionId: questionId,
-    partId: partId,
-    username: username,
-    question: question,
-    part: part,
-    code: code,
-    precode: precode ? precode : "",
-    postcode: postcode ? postcode : "",
-    language: language.toLowerCase(),
-    parameters: parameters,
-    inputs: inputs,
-    points: points,
-    source: source,
-    function_name: function_name,
-    verified: questionPart.verified,
-    partOfCompetition: partOfCompetition,
-    savedCode: questionPart.savedCode
+    username,
+    ...questionPart,
+    precode: questionPart.pre_code ? questionPart.pre_code : "",
+    postcode: questionPart.post_code ? questionPart.post_code : "",
+    language: questionPart.language.toLowerCase()
   }
 
-  return <FreeStyle data={data}></FreeStyle>;
+  return data.refactoring
+  ? <FreeStyleRefactoring data={data}></FreeStyleRefactoring>
+  : <FreeStyleDebugging data={data}></FreeStyleDebugging>;
 }

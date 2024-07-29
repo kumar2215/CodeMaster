@@ -1,15 +1,25 @@
 "use client";
 import processContent from "@/app/utils/Processing/processContent";
 import { createClient } from "@/utils/supabase/client";
+import bcrypt from 'bcryptjs';
 import { redirect } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default async function submitPost(formData: FormData, content: string, topic: string, username: string) {
-  const title = formData.get("title") as string;
+  let title = formData.get("title") as string;
+  const competition_name = formData.get("name") as string;
+  const password = formData.get("password") as string;
+  let hashedPassword: string | null = null;
 
   if (content === "" || content === "<p><br></p>") { 
     toast.error("Content cannot be empty.", {autoClose: 3000});
     return;
+  }
+
+  if (competition_name) title = `${competition_name}: ${title}`;
+  if (password) {
+    const saltRounds = 10;
+    hashedPassword = await bcrypt.hash(password, saltRounds);
   }
 
   const parser = new DOMParser();
@@ -99,7 +109,8 @@ export default async function submitPost(formData: FormData, content: string, to
     created_by: username,
     head_comment: commentData.id,
     title: title,
-    type: topic
+    type: topic,
+    password_hash: hashedPassword
   }).select();
   if (res.error) { 
     console.error(res.error);

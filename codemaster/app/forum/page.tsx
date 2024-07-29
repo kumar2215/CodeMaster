@@ -23,7 +23,7 @@ export default async function Forum() {
     <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
       <Navbar thisLink={thisLink} style={preferences.header} />
       <div
-          className="flex flex-col w-3/5 gap-10 px-3 opacity-0 animate-in"
+          className="flex flex-col gap-10 px-3 opacity-0 lg:w-3/5 animate-in"
       >
         {topicCard("General", "/forum/general", journalIcon)}
         {topicCard("Contests", "/forum/contests", contestIcon)}

@@ -8,6 +8,7 @@
     "cypress:open": "cypress open"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.6.0",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "autoprefixer": "10.4.17",
