@@ -17,7 +17,7 @@ export default async function CreateContestsPage() {
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-10" style={{backgroundColor: "#80bfff"}}>
       <Navbar thisLink={thisLink} style={preferences.header} />
-        <h2 className="pt-8 text-4xl">Design a contest</h2>
+        <h2 className="pt-2 text-2xl lg:pt-4 lg:text-4xl">Design a contest</h2>
         { verified ? <ContestForm /> : 
         <h1>You dont have access to create a contest</h1> }
       <br/>

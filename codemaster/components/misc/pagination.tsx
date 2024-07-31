@@ -44,7 +44,7 @@ export default function Pagination(params: any) {
   }, []);
 
   const className = 
-  `bg-green-300 text-base font-medium p-3 rounded-lg 
+  `bg-green-300 text-sm lg:text-base font-medium p-3 rounded-lg 
   hover:bg-green-400 cursor-pointer hover:font-semibold`;
 
   const setPassword = async () => {
@@ -76,7 +76,7 @@ export default function Pagination(params: any) {
   }
   
   return (
-    <div className="w-full max-w-5xl flex flex-row justify-between">
+    <div className="flex flex-row justify-between w-full max-w-5xl">
       {prevLink && 
         <Link href={`/questions/${prevLink}`}>
           <button 

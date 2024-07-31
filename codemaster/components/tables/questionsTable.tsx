@@ -77,7 +77,7 @@ export default function QuestionsTable(data: any) {
       : <div className="text-gray-400">-</div>}
       </div>
     <div 
-    className="pl-1 cursor-pointer hover:text-blue-500 hover:leading-8 hover:font-medium lg:pl-4"
+    className="pl-1 cursor-pointer hover:text-blue-500 hover:font-medium lg:pl-4"
     style={{ 
       borderRight: '1px solid rgb(156 163 175)', 
       textAlign: 'left'

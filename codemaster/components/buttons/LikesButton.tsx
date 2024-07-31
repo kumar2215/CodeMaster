@@ -89,13 +89,13 @@ export default function Likes(data: any) {
   return (
       <div className="flex flex-row gap-2">
         <button onClick={saveLike}>
-          <img alt="like" title="like" src={likesImage} className="w-8 h-8"/>
+          <img alt="like" title="like" src={likesImage} className="w-6 h-6 lg:w-8 lg:h-8"/>
         </button>
-        <h1 className="pt-1" >{likes}</h1>
+        <h1 className="pt-[6px] lg:pt-1 text-sm lg:text-base" >{likes}</h1>
         <button onClick={saveDislike}>
-          <img alt="dislike" title="dislike" src={dislikesImage} className="w-8 h-8"/>
+          <img alt="dislike" title="dislike" src={dislikesImage} className="w-6 h-6 lg:w-8 lg:h-8"/>
         </button>
-        <h1 className="pt-1">{dislikes}</h1>
+        <h1 className="pt-[6px] text-sm lg:pt-1 lg:text-base">{dislikes}</h1>
       </div>
   );
 

@@ -14,17 +14,16 @@ export const LeaderboardsRow = ({data, index, xpType}) => {
             </td>
 
             <td
-                className={`text-m font-medium py-4 pl-20 whitespace-nowrap text-left flex items-center`}
+                className={`flex text-m font-medium py-4 pl-15 whitespace-nowrap text-sm lg:text:base text-left items-center`}
               >
-                <div className='w-12 h-12'>
+                <div className='w-6 h-6 lg:w-12 lg:h-12'>
                   <ProfilePic username={data.username}/>
                 </div>
                 {data.username}
-
             </td>
 
             <td
-              className={`text-sm  font-semibold px-6 py-4 whitespace-nowrap text-center text-green-500
+              className={`text-sm font-semibold px-6 py-4 whitespace-nowrap text-center text-green-500
               `}
             >
               {data[xpType]}

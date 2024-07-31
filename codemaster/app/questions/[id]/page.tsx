@@ -218,7 +218,8 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-4 lg:w-full lg:gap-8" style={preferences.body}>
       <Navbar thisLink={thisLink} style={preferences.header} />
-      <div className="w-full p-3 border-4 lg:max-w-5xl bg-slate-50">
+      <div className="flex flex-col w-full gap-4 p-2 lg:p-0 lg:max-w-5xl">
+      <div className="p-3 border-4 bg-slate-50">
         <div className="text-lg font-bold lg:text-2xl min-h-10">{`Question ${current ? current : ""}: ${questionData.title}`}</div>
 
         <div className="flex flex-row gap-2">
@@ -233,7 +234,7 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
             : placeInCodeBox(content.value, questionData.language, preferences.codeColorTheme)
           )}
 
-          <div className="p-2 text-base text-black h-fit">
+          <div className="text-base text-black lg:p-2 h-fit">
             {questionData.parts.length === 1 && await handlePart(questionData, questionData.parts[0], true)}
           </div>
         </div>
@@ -254,6 +255,7 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
         : <></>}
       </div>
       
+      
       {questionData.parts.length > 1 && questionData.parts.map(async (part: any, index: number) =>
         await handlePart(questionData, part)
       )}
@@ -261,6 +263,7 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
       {/* pagination */}
       {!single && <Pagination paginationData={paginationData} />}
       <br/>
+      </div>
     </div>
   );
 }

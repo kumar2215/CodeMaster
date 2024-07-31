@@ -35,13 +35,15 @@ export default async function TournamentsPage() {
   }
 
   return (
-    <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
-        <Navbar thisLink={thisLink} style={preferences.header} />
-        <div className="flex flex-row w-full max-w-4xl text-3xl font-bold text-left">
+    <div className="flex flex-col items-center flex-1 w-full gap-5 lg:gap-10" style={preferences.body}>
+      <Navbar thisLink={thisLink} style={preferences.header} />
+      <div className="flex flex-col w-full max-w-4xl gap-5 p-2 lg:p-0 lg:gap-10">
+        <div className="flex flex-row text-xl font-bold text-left lg:text-3xl">
           Tournaments
         </div>
         <TournamentsTable tournaments={tournaments} />
-        <br/>
       </div>
+      <br/>
+    </div>
   );
 }

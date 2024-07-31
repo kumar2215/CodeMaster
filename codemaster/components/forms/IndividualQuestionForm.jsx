@@ -31,8 +31,8 @@ export default function IndividualQuestionForm({ user_data }) {
   };
 
   return (
-    <form>
-      <div className='flex flex-col w-full max-w-5xl p-5 ml-6 bg-gray-200 rounded-lg'>
+    <form className='w-full p-2 lg:p-0 lg:max-w-5xl'>
+      <div className='flex flex-col p-3 bg-gray-200 rounded-lg lg:p-5 lg:ml-6'>
         <QuestionForm
           control={control}
           register={register}
@@ -45,7 +45,7 @@ export default function IndividualQuestionForm({ user_data }) {
 
       <br/>
 
-      <div className='flex flex-row w-full gap-3 p-2 ml-3'>
+      <div className='flex flex-row w-full gap-3 p-2 ml-1 lg:ml-6'>
         <SubmitButton
         formAction={handleSubmit(onSubmit)}
         type='submit'

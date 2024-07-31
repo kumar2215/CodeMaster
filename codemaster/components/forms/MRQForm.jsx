@@ -24,14 +24,15 @@ export default function MRQForm({ control, register, parentIndex, removePart, wa
     <div className='flex flex-col w-full gap-y-4'>
       <div className='flex flex-row gap-2'>
         <RemoveButton remove={() => removePart(parentIndex)} style={{marginTop: "5px"}}/>
-        <h2 className='pt-2 text-xl text-blue-600'>{`(${String.fromCharCode(parentIndex + 65).toLowerCase()})`}</h2>
-        <p className='pt-2 text-xl'>MRQ</p>
+        <h2 className='pt-2 text-lg text-blue-600 lg:text-xl'>{`(${String.fromCharCode(parentIndex + 65).toLowerCase()})`}</h2>
+        <p className='pt-2 text-lg lg:text-xl'>MRQ</p>
       </div>
 
       <div>
         <h2>Question:</h2>
         <textarea 
-          className='w-full h-8 pt-1 pl-2 mt-2' {...register(`questions.${qnNum-1}.parts.${parentIndex}.question`)} />
+          className='w-full pt-[2px] lg:pt-1 pl-1 mt-2 lg:pl-2 h-7 lg:h-8'
+          {...register(`questions.${qnNum-1}.parts.${parentIndex}.question`)} />
       </div>
       
       <div className='flex flex-col'>
@@ -43,7 +44,7 @@ export default function MRQForm({ control, register, parentIndex, removePart, wa
             <div className='w-full'>
               {item.category === "text" ? (
                 <textarea {...register(`questions.${qnNum-1}.parts.${parentIndex}.options.${index}.value`)} 
-                className='w-full h-8 pt-2 pl-2 leading-4 textarea-bordered'
+                className='w-full pt-[6px] pl-1 leading-4 lg:pt-2 h-7 lg:pl-2 lg:h-8 textarea-bordered'
                 placeholder={`Enter text`} />
               ) : (
                 <Controller
@@ -67,25 +68,25 @@ export default function MRQForm({ control, register, parentIndex, removePart, wa
         <div className='flex flex-row w-full gap-3 mt-2 justify-evenly'>
           <button type="button" className="flex flex-row justify-between w-2/5 gap-2 mt-2" onClick={() => addOption('text')}>
             <AddButtonImage />
-            <h1 className="w-full pt-1 text-lg font-medium text-white bg-green-400 rounded-lg hover:bg-green-700">Add Text Option</h1>
+            <h1 className="w-full p-1 text-sm font-medium text-white bg-green-400 rounded-lg lg:text-lg hover:bg-green-700">Add Text Option</h1>
             <h1></h1>
           </button>
 
           <button type="button" className="flex flex-row justify-between w-2/5 gap-2 mt-2" onClick={() => addOption('code')}>
             <AddButtonImage />
-            <h1 className="w-full pt-1 text-lg font-medium text-white bg-green-400 rounded-lg hover:bg-green-700">Add Code Option</h1>
+            <h1 className="w-full p-1 text-sm font-medium text-white bg-green-400 rounded-lg lg:text-lg hover:bg-green-700">Add Code Option</h1>
             <h1></h1>
           </button>
         </div>
       </div>
 
       <div className='flex flex-row gap-2 mt-2'>
-        <p>Right options (enter as a comma-separated list) :</p>
-        <label className="leading-5" style={{borderWidth: "1.5px"}}>
+        <p className='overflow-x-auto text-nowrap'>Right options (enter as a comma-separated list) :</p>
+        <label className="leading-5 h-fit" style={{borderWidth: "1.5px"}}>
           <input
           {...register(`questions.${qnNum-1}.parts.${parentIndex}.expected`)}
           type='text'
-          className='h-6 pl-2 input-info'
+          className='pl-2 lg:h-6 input-info'
           />
         </label>
       </div>

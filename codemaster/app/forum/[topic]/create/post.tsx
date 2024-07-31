@@ -34,11 +34,11 @@ export default function Post(params: any) {
   return (
     <form className="flex flex-col gap-4">
       <div className="flex flex-row w-full">
-        <label className="pr-3 text-lg" htmlFor="title">
+        <label className="pr-3 text-base lg:text-lg" htmlFor="title">
           Title:
         </label>
         <input
-            className="w-3/5 px-2 py-1 border rounded-md bg-inherit"
+            className="w-3/5 px-2 border rounded-md lg:py-1 bg-inherit"
             name="title"
             placeholder=""
             required
@@ -46,11 +46,11 @@ export default function Post(params: any) {
       </div>
       {competition &&
       <div className="flex flex-row w-full">
-        <label className="pr-3 text-lg" htmlFor="name">
+        <label className="pr-3 text-base lg:text-lg" htmlFor="name">
           {`${competition}:`}
         </label>
         <select
-          className="w-3/5 px-2 py-1 border rounded-md bg-inherit"
+          className="w-3/5 px-2 border rounded-md lg:py-1 bg-inherit"
           name="name"
           required
         >
@@ -58,11 +58,11 @@ export default function Post(params: any) {
         </select>
       </div>}
       <div className="flex flex-row w-full">
-        <label className="pr-3 text-lg" htmlFor="password">
+        <label className="pr-3 text-base lg:text-lg" htmlFor="password">
           Password:
         </label>
         <input
-          className="w-3/5 px-2 py-1 border rounded-md bg-inherit"
+          className="w-3/5 px-2 border rounded-md lg:py-1 bg-inherit"
           name="password"
           placeholder="(optional)"
           type="password"
@@ -71,7 +71,7 @@ export default function Post(params: any) {
       <Toolbar placeholder="Write your post here..." content={content} setContent={setContent} style={{height: "200px"}} />
       <SubmitButton
           formAction={formData => submitPost(formData, content, topic, username)}
-          className="w-1/6 px-4 py-2 mb-2 bg-green-300 border rounded-md border-foreground/20 text-foreground"
+          className="w-1/3 px-2 py-2 mb-2 bg-green-300 border rounded-md lg:w-1/6 lg:px-4 border-foreground/20 text-foreground"
           pendingText="Creating..."
       >
         Create

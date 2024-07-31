@@ -49,11 +49,11 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
 
       <div className='flex flex-row gap-2'>
         <RemoveButton remove={() => removePart(parentIndex)} style={{marginTop: "5px"}}/>
-        <h2 className='pt-2 text-xl text-blue-600'>{`(${part})`}</h2>
-        <p className='pt-2 text-xl'>Freestyle</p>
+        <h2 className='pt-2 text-lg text-blue-600 lg:text-xl'>{`(${part})`}</h2>
+        <p className='pt-2 text-lg lg:text-xl'>Freestyle</p>
       </div>
 
-      <div>
+      <div className='text-sm lg:text-base'>
         The Freestyle part consists of only code and inputs/testcases to test the code. The parameters field is used to 
         specify the name of the parameters used in the main function. The testcases are the values of the arguments themselves.
         This part should only be used for the Debugging and Refactoring question types. For Debugging, there should be testcases
@@ -133,8 +133,8 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
       render={({ field }) => (
         <div className='flex flex-col gap-2'>
           <h2>Main class name (used in usercode if any) :</h2>
-          <label className="leading-5" style={{borderWidth: "1.5px"}}>
-            <input className='w-full h-8 pl-2' {...field} required={language === "java"} />
+          <label className="leading-5 h-fit" style={{borderWidth: "1.5px"}}>
+            <input className='w-full pl-1 lg:h-8 lg:pl-2' {...field} required={language === "java"} />
           </label>
         </div>
       )}
@@ -146,8 +146,8 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
       render={({ field }) => (
         <div className='flex flex-col gap-2'>
           <h2>Main function name (used in usercode) :</h2>
-          <label className="leading-5" style={{borderWidth: "1.5px"}}>
-            <input className='w-full h-8 pl-2' {...field} required={true} />
+          <label className="leading-5 h-fit" style={{borderWidth: "1.5px"}}>
+            <input className='w-full pl-1 lg:h-8 lg:pl-2' {...field} required={true} />
           </label>
         </div>
       )}
@@ -172,7 +172,7 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
 
       {/* Parameters field */}
       <h2>Main function parameters:</h2>
-      <div className='flex flex-row w-5/12 justify-evenly'>
+      <div className='flex flex-row w-full md:w-5/12 lg:w-5/12 justify-evenly'>
         <h2 className='pb-1 border-b-2'>Name</h2>
         <h2 className='pb-1 border-b-2'> Type</h2>  
       </div>
@@ -183,7 +183,7 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
           return (
           <div key={i} className='flex flex-row gap-4'>
             <RemoveButton remove={() => removeParameter(i)} />
-            <label className="leading-5 w-44" style={{borderWidth: "1.5px"}}>
+            <label className="leading-5 w-[136px] lg:w-44" style={{borderWidth: "1.5px"}}>
               <input
               className='w-full pl-1'
               {...register(`questions.${qnNum-1}.parts.${parentIndex}.parameters.${i}.name`)}
@@ -204,11 +204,11 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
         )})
       : null}
 
-      <button type="button" className="flex flex-row justify-between w-2/5 gap-2 mt-2" onClick={() => {
+      <button type="button" className="flex flex-row justify-between w-full gap-2 mt-2 lg:w-2/5" onClick={() => {
         appendParameter({ name: '', type: '' });
       }}>
         <AddButtonImage />
-        <h1 className="w-full pt-1 text-lg font-medium text-white bg-green-400 rounded-lg hover:bg-green-700">Add Parameter</h1>
+        <h1 className="w-full p-1 text-sm font-medium text-white bg-green-400 rounded-lg text-nowrap lg:text-lg hover:bg-green-700">Add Parameter</h1>
         <h1></h1>
       </button>
       
@@ -226,38 +226,38 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
             p.name.trim() !== '' &&
             <div key={i} className='flex flex-row gap-2 my-2 ml-10'>
               <p>{p.name}:</p>
-              <label className="leading-5" style={{borderWidth: "1.5px"}}>
+              <label className="leading-5 h-fit" style={{borderWidth: "1.5px"}}>
                 <input
                 {...register(`questions.${qnNum-1}.parts.${parentIndex}.inputs.${index}.${p.name}`, 
                 { required: "Input is required" }
                 )}
-                className='h-6 pl-1 input-info'
+                className='pl-1 lg:h-6 input-info'
                 />
               </label>
             </div>
           )})}
           <div className='flex flex-row gap-2 my-2 ml-10'>
             <p>expected:</p>
-            <label className="leading-5" style={{borderWidth: "1.5px"}}>
+            <label className="leading-5 h-fit" style={{borderWidth: "1.5px"}}>
               <input
               {...register(`questions.${qnNum-1}.parts.${parentIndex}.inputs.${index}.expected`, 
               { required: "Input is required" }
               )}
-              className='h-6 pl-1 input-info'
+              className='pl-1 lg:h-6 input-info'
               />
             </label>
           </div>
           {type !== "Refactoring" &&
           <div className='flex flex-row gap-2 my-2 ml-10'>
             <p>Points:</p>
-            <label className="leading-5" style={{borderWidth: "1.5px"}}>
+            <label className="leading-5 h-fit" style={{borderWidth: "1.5px"}}>
               <input
               {...register(`questions.${qnNum-1}.parts.${parentIndex}.points.${index}`,
               { required: "Points are required",
                 validate: value => value >= 0 || "Points cannot be negative"
               })}
               type='number'
-              className='h-6 pl-1 input-info'
+              className='pl-1 lg:h-6 input-info'
               />
             </label>
           </div>}
@@ -267,7 +267,7 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
       ? <p className='text-red-600'>Please enter the parameters first.</p>
       : null}
       
-      <button type="button" className="flex flex-row justify-between w-2/5 gap-2" onClick={() => {
+      <button type="button" className="flex flex-row justify-between w-full gap-2 lg:w-2/5" onClick={() => {
         const obj = {};
         params.forEach((p, i) => {
           if (p.name.trim() !== '') obj[p.name.trim()] = '';
@@ -275,7 +275,7 @@ export default function FreestyleForm({ part, control, register, parentIndex, re
         appendTestcase(obj);
       }}>
         <AddButtonImage />
-        <h1 className="w-full pt-1 text-lg font-medium bg-green-400 rounded-lg hover:bg-green-700 text-slate-50">Add Testcase</h1>
+        <h1 className="w-full p-1 text-sm font-medium bg-green-400 rounded-lg text-flex-nowrap lg:text-lg hover:bg-green-700 text-slate-50">Add Testcase</h1>
         <h1></h1>
       </button>
 
