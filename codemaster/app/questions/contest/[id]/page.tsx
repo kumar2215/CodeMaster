@@ -56,29 +56,29 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
       <Navbar thisLink={thisLink} style={preferences.header} />
-      <div className='flex flex-col w-full max-w-5xl gap-5 p-5 ml-6 bg-gray-200 rounded-lg'>
-        <div className="flex flex-row gap-20">
-          <img src={contestIcon.src} alt="contest-icon" className="ml-4 w-80 h-80" />
+      <div className='flex flex-col self-center w-10/12 max-w-5xl p-5 mx-auto bg-gray-200 rounded-lg lg:w-full'>
+        <div className="flex flex-col lg:flex-row">
+          <img src={contestIcon.src} alt="contest-icon" className="mx-auto lg:w-80 lg:h-80 lg:mx-0 h-60 w-60" />
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 mx-auto mt-4 lg:mt-0 lg:ml-10">
             <div className='flex flex-row gap-2'>
-              <p className='text-xl font-semibold'>Contest name:</p>
-              <p className='text-xl'>{contestData.name}</p>
+              <p className='text-lg font-semibold lg:text-xl'>Contest name:</p>
+              <p className='text-lg lg:text-xl'>{contestData.name}</p>
             </div>
 
             <div className='flex flex-row gap-2'>
-              <p className='text-xl font-semibold'>Closes by:</p>
-              <p className='text-xl'>{convertDate(contestData.deadline)}</p>
+              <p className='text-lg font-semibold lg:text-xl'>Closes by:</p>
+              <p className='text-lg lg:text-xl'>{convertDate(contestData.deadline)}</p>
             </div>
 
             <div className='flex flex-row gap-2'>
-              <p className='text-xl font-semibold'>Points:</p>
-              <p className='text-xl'>{contestData.points}</p>
+              <p className='text-lg font-semibold lg:text-xl'>Points:</p>
+              <p className='text-lg lg:text-xl'>{contestData.points}</p>
             </div>
 
             <div className='flex flex-row gap-2'>
-              <p className='text-xl font-semibold'>Status:</p>
-              <p className='text-xl'>{contestData.status}</p>
+              <p className='text-lg font-semibold lg:text-xl'>Status:</p>
+              <p className='text-lg lg:text-xl'>{contestData.status}</p>
             </div>
 
             {Array.from({length: 5}).map(x => <br/>)}
@@ -100,7 +100,6 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
               </button>
             }
           </div>
-
         </div>  
       </div>
       <br/>

@@ -24,17 +24,19 @@ export default async function Discussions({params: {topic}}: {params: {topic: st
   }
 
   return (
-      <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
+      <div className="flex flex-col items-center flex-1 w-full gap-5 lg:gap-10" style={preferences.body}>
         <Navbar thisLink={thisLink} style={preferences.header} />
-        <div className="flex flex-row justify-between w-full max-w-4xl text-xl font-bold">
-          <h1 className="text-3xl">{`${topic.charAt(0).toUpperCase() + topic.slice(1)}`}</h1>
-          <a href={`/forum/${topic}/create`}>
-            <button className="p-2 text-base font-medium bg-green-200 rounded-2xl" style={{border: "1px solid black"}}>
-              Create Discussion
-            </button>
-          </a>
+        <div className="flex flex-col w-full max-w-4xl gap-5 p-2 lg:p-0 lg:gap-10">
+          <div className="flex flex-row justify-between font-bold">
+            <h1 className="text-xl lg:mt-2 lg:text-3xl">{`${topic.charAt(0).toUpperCase() + topic.slice(1)}`}</h1>
+            <a href={`/forum/${topic}/create`}>
+              <button className="p-1 text-sm font-medium bg-green-200 rounded-lg lg:p-2 lg:text-base lg:rounded-2xl" style={{border: "1px solid black"}}>
+                Create Discussion
+              </button>
+            </a>
+          </div>
+          <DiscussionsTable discussions={discussions} />
         </div>
-        <DiscussionsTable discussions={discussions} />
         <br/>
       </div>
   );

@@ -26,7 +26,8 @@ export default function CommentSection(params: any) {
   const discussionId = params.discussionId;
   const title = params.title;
   const posts = params.posts;
-  
+  const primary = params.primary;
+
   const commentData = params.commentData;
 
   const commentId = commentData.id;
@@ -83,18 +84,18 @@ export default function CommentSection(params: any) {
   }
   
   return (
-    <div className="flex flex-row w-full max-w-5xl">
-      <div style={{width: "2.5rem"}}></div>
+    <div className="flex flex-row w-full p-2 lg:max-w-5xl lg:p-0">
+      {!primary && <div className="w-4 lg:w-10"></div>}
       <div className="flex flex-col w-full gap-4">
         <div className="flex flex-col w-full gap-3 p-3 bg-white border-2">
           <div className="flex flex-row items-center justify-between p-2 border-b-2 border-gray-300 focus:outline-none">
             <div className="flex flex-row gap-2"
             aria-haspopup="menu" aria-expanded="false" data-headlessui-state=""
             >
-              <span id="navbar_user_avatar" className="relative w-10 h-10 ml-1">
+              <span id="navbar_user_avatar" className="relative w-8 h-8 ml-1 lg:w-10 lg:h-10">
                 <ProfilePic username={written_by} />
               </span>
-              <div className="flex flex-col">
+              <div className="flex flex-col text-sm lg:text-base">
                 <h1 className="font-medium text-gray-500">{written_by}</h1>
                 <h1>{convertDate(created_time) + (commentData.editted ? " (edited)" : "")}</h1>
               </div>
@@ -109,7 +110,7 @@ export default function CommentSection(params: any) {
               <Toolbar content={editingContent} setContent={setEditingContent} editMode={true} style={{height: "150px"}}/>
               <SubmitButton
                 formAction={formData => editComment(formData, editData)}
-                className="w-1/6 px-4 py-2 mt-2 bg-blue-400 border rounded-md border-foreground/20 text-foreground"
+                className="w-1/3 px-2 py-2 mt-2 text-sm bg-blue-400 border rounded-md lg:w-1/6 lg:px-4 lg:text-base border-foreground/20 text-foreground"
                 pendingText="Editing..."
               >Edit
               </SubmitButton>
@@ -127,14 +128,14 @@ export default function CommentSection(params: any) {
               </div>
             }
             <button className="flex flex-row items-center gap-1" onClick={showComments}>
-              <img className="w-8 h-8" src={repliesBtn} alt="comment button"/>
-              <h1>{numOfReplies}</h1>
+              <img className="w-6 h-6 lg:w-8 lg:h-8" src={repliesBtn} alt="comment button"/>
+              <h1 className="text-sm lg:text-base">{numOfReplies}</h1>
             </button>
           </div>
         </div>
         {createReply && 
         <div className="flex flex-row w-full max-w-5xl mt-4">
-          <div style={{width: "2.5rem"}} ></div>
+          <div className="w-4 lg:w-10"></div>
           <form className="w-full gap-3 p-3 bg-white border-2">
             <div className="flex flex-row items-center p-2 mb-2 focus:outline-none">
               <div className="flex flex-row gap-2"
@@ -152,7 +153,7 @@ export default function CommentSection(params: any) {
             <Toolbar placeholder="Write your reply here..." content={content} setContent={setContent} style={{height: "150px"}} />
             <SubmitButton
               formAction={formData => submitReply(content, replyData)}
-              className="w-1/6 px-4 py-2 mt-2 bg-blue-400 border rounded-md border-foreground/20 text-foreground"
+              className="w-1/3 px-2 py-2 mt-2 text-sm bg-blue-400 border rounded-md lg:w-1/6 lg:px-4 lg:text-base border-foreground/20 text-foreground"
               pendingText="Replying..."
             >Reply
             </SubmitButton>

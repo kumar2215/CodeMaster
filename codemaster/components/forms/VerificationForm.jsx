@@ -158,39 +158,39 @@ export default function VerificationForm({ username }) {
   }
 
   return (
-    <form className="w-full max-w-5xl">
-      <div className='flex flex-col w-full gap-10 p-5 ml-6 bg-gray-200 rounded-lg'>
+    <form className="w-full p-2 lg:p-0 lg:max-w-5xl">
+      <div className='flex flex-col w-full gap-5 p-2 bg-gray-200 rounded-lg lg:p-5 lg:ml-6'>
 
-        <div className='flex flex-row justify-between'>
+        <div className='flex flex-col gap-5 lg:gap-0 lg:flex-row lg:justify-between'>
           <div className="flex flex-row gap-2">
-            <p className='text-lg'>Firstname:</p>
-            <label className="leading-5 h-[28px]" style={{borderWidth: "1.5px"}}>
-              <input className='h-6 pl-2 input-info' {...register('firstName')} />
+            <p className='text-base lg:text-lg'>Firstname:</p>
+            <label className="leading-5 h-fit" style={{borderWidth: "1.5px"}}>
+              <input className='pl-1 lg:pl-2 lg:h-6 input-info' {...register('firstName')} />
             </label>
           </div>
           
           <div className="flex flex-row gap-2">
-            <p className='text-lg'>Lastname:</p>
-            <label className="leading-5 h-[28px]" style={{borderWidth: "1.5px"}}>
-              <input className='h-6 pl-2 input-info' {...register('lastName')} />
+            <p className='text-base lg:text-lg'>Lastname:</p>
+            <label className="leading-5 h-fit" style={{borderWidth: "1.5px"}}>
+              <input className='pl-1 lg:h-6 lg:pl-2 input-info' {...register('lastName')} />
             </label>
           </div>
 
           <div></div>
         </div>
 
-        <div className="flex flex-row gap-2">
-          <p className='text-lg'>Email:</p>
-          <label className="leading-5 h-[28px]" style={{borderWidth: "1.5px"}}>
-            <input className='h-6 pl-2 input-info' type="email" {...register('email')} />
+        <div className="flex flex-row gap-2 mt-[-1.25rem] lg:mt-0">
+          <p className='text-base lg:text-lg'>Email:</p>
+          <label className="leading-5 h-fit" style={{borderWidth: "1.5px"}}>
+            <input className='pl-1 lg:h-6 lg:pl-2 input-info' type="email" {...register('email')} />
           </label>
         </div>
 
-        <div className='flex flex-row justify-between'>
+        <div className='flex flex-col gap-5 lg:gap-0 lg:flex-row lg:justify-between'>
           <div className="flex flex-row gap-2">
-            <p className='text-lg'>Role:</p>
-            <label className="leading-5 h-[28px]" style={{borderWidth: "1.5px"}}>
-              <select className='h-6 input-info' {...register('role')}>
+            <p className='text-base lg:text-lg'>Role:</p>
+            <label className="leading-5 h-fit" style={{borderWidth: "1.5px"}}>
+              <select className='lg:h-6 input-info' {...register('role')}>
                 <option value="TA">Student TA</option>
                 <option value="Teacher">Teacher</option>
                 <option value="SchoolAdmin">School Admin</option>
@@ -201,24 +201,24 @@ export default function VerificationForm({ username }) {
 
           {role === "Other" && 
           <div className="flex flex-row gap-2">
-            <p className='text-lg'>Specify:</p>
-            <label className="leading-5 h-[28px]" style={{borderWidth: "1.5px"}}>
-              <input className='h-6 pl-2 input-info' {...register('otherRole')} />
+            <p className='text-base lg:text-lg'>Specify:</p>
+            <label className="leading-5 h-fit" style={{borderWidth: "1.5px"}}>
+              <input className='pl-1 lg:h-6 lg:pl-2 input-info' {...register('otherRole')} />
             </label>
           </div>}
 
           <div></div>
         </div>
 
-        <div className="flex flex-row gap-2">
-          <p className='text-lg'>Organization:</p>
-          <label className="leading-5 h-[28px]" style={{borderWidth: "1.5px"}}>
-            <input className='h-6 pl-2 input-info' {...register('organizationName')} />
+        <div className="flex flex-row gap-2 mt-[-1.25rem] lg:mt-0">
+          <p className='text-base lg:text-lg'>Organization:</p>
+          <label className="leading-5 h-fit" style={{borderWidth: "1.5px"}}>
+            <input className='pl-1 lg:h-6 lg:pl-2 input-info' {...register('organizationName')} />
           </label>
         </div>
 
-        <div className="flex flex-row gap-2">
-          <p className='text-lg'>Proof of role (file size must not exceed 2MB):</p>
+        <div className="flex flex-col gap-2 lg:flex-row">
+          <p className='text-base lg:text-lg text-nowrap'>Proof of role (file size must not exceed 2MB):</p>
           <label className="mt-1 leading-4">
             <input className='h-6 input-info' type="file" accept="image/*, application/pdf" {...register('proofOfRole')} />
           </label>
@@ -232,7 +232,7 @@ export default function VerificationForm({ username }) {
 
       </div>
       
-      <div className='flex flex-row w-full gap-3 p-5 ml-2'>
+      <div className='flex flex-row w-full gap-3 p-3 pl-0 lg:p-5 lg:ml-2'>
         <SubmitButton
           formAction={handleSubmit(submitVerification)}
           className='btn btn-success'

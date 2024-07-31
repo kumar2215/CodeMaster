@@ -15,8 +15,8 @@ export default function ReplyButton(data: any) {
         <img 
         title="reply"
         src={replyBtn.src} alt="reply button" 
-        className="w-8 h-8" />
-        <h1 className="hover:text-[#4d9de0]">Reply</h1>
+        className="w-6 h-6 lg:w-8 lg:h-8" />
+        <h1 className="text-sm lg:text-base hover:text-[#4d9de0]">Reply</h1>
       </button>
     </div>
   );

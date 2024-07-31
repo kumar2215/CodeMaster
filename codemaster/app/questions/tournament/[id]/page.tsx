@@ -47,7 +47,6 @@ export default async function TournamentStartPage({params: {id}}: {params: {id: 
     tournamentData.status = "Not Attempted";
   }
 
-  // TODO: add functionality to ask for password after successful review
   const questions = tournamentData.questions;
   const link = `/questions/tournament-${tournamentData.id}[1-${questions.length}]`;
   
@@ -66,35 +65,35 @@ export default async function TournamentStartPage({params: {id}}: {params: {id: 
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-10" style={{backgroundColor: "#80bfff"}}>
       <Navbar thisLink={thisLink} style={preferences.header} />
-      <div className='flex flex-col w-full max-w-5xl gap-5 p-5 ml-6 bg-gray-200 rounded-lg'>
-        <div className="flex flex-row gap-20">
-          <img src={tournamentIcon.src} alt="contest-icon" className="ml-4 w-80 h-80" />
+      <div className='flex flex-col self-center w-10/12 max-w-5xl p-5 mx-auto bg-gray-200 rounded-lg lg:w-full'>
+        <div className="flex flex-col lg:flex-row">
+          <img src={tournamentIcon.src} alt="contest-icon" className="mx-auto lg:w-80 lg:h-80 lg:mx-0 h-60 w-60" />
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 mx-auto mt-4 lg:mt-0 lg:ml-10">
             <div className='flex flex-row gap-2'>
-              <p className='text-xl font-semibold'>Tournament name:</p>
-              <p className='text-xl'>{tournamentData.name}</p>
+              <p className='text-lg font-semibold lg:text-xl'>Tournament name:</p>
+              <p className='text-lg lg:text-xl'>{tournamentData.name}</p>
             </div>
 
             <div className='flex flex-row gap-2'>
-              <p className='text-xl font-semibold'>Created by:</p>
-              <p className='text-xl'>{tournamentData.created_by}</p>
+              <p className='text-lg font-semibold lg:text-xl'>Created by:</p>
+              <p className='text-lg lg:text-xl'>{tournamentData.created_by}</p>
             </div>
 
             <div className='flex flex-row gap-2'>
-              <p className='text-xl font-semibold'>Closes by:</p>
-              <p className='text-xl'>{convertDate(tournamentData.deadline)}</p>
+              <p className='text-lg font-semibold lg:text-xl'>Closes by:</p>
+              <p className='text-lg lg:text-xl'>{convertDate(tournamentData.deadline)}</p>
             </div>
 
             <div className='flex flex-row gap-2'>
-              <p className='text-xl font-semibold'>Points:</p>
-              <p className='text-xl'>{tournamentData.points}</p>
+              <p className='text-lg font-semibold lg:text-xl'>Points:</p>
+              <p className='text-lg lg:text-xl'>{tournamentData.points}</p>
             </div>
 
             {verified && tournamentData.password_hash &&
             <div className='flex flex-row gap-2'>
-              <p className='text-xl font-semibold'>Status:</p>
-              <p className='text-xl'>{tournamentData.status}</p>
+              <p className='text-lg font-semibold lg:text-xl'>Status:</p>
+              <p className='text-lg lg:text-xl'>{tournamentData.status}</p>
             </div>
             }
 

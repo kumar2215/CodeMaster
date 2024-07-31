@@ -16,7 +16,7 @@ export default async function CreateQuestionsPage() {
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
       <Navbar thisLink={thisLink} style={preferences.header} />
-        <h2 className="pt-4 text-4xl">Create a question</h2>
+        <h2 className="pt-2 text-2xl lg:pt-4 lg:text-4xl">Create a question</h2>
         <IndividualQuestionForm user_data={userData} />
       <br/>
     </div>

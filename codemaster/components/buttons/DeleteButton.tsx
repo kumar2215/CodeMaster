@@ -6,7 +6,7 @@ export default function DeleteButton({ commentId } : any) {
   return (
     <div >
       <button onClick={() => commentId && deleteComment(commentId)}>
-        <img alt="delete" title="delete" src={binIcon.src} className="w-6 h-6 mt-1"/>
+        <img alt="delete" title="delete" src={binIcon.src} className="w-5 h-5 mt-2 lg:mt-1 lg:w-6 lg:h-6"/>
       </button>
     </div>
   );

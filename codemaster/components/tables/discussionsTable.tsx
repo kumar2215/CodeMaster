@@ -23,22 +23,15 @@ export default function DiscussionsTable(data: any) {
   return (
       <div className="w-full max-w-4xl border-2 border-gray-400" suppressHydrationWarning={true}>
         <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1.8fr 5.2fr 1.2fr 1fr 1fr',
-              width: '100%',
-              maxWidth: '56rem',
-              minHeight: '2rem',
-              lineHeight: '2rem',
-              textAlign: 'center',
-              alignItems: 'center',
-              fontSize: '1rem',
-              fontWeight: '600',
-              backgroundColor: '#f0f0f0'
-            }}>
-          <div style={{borderRight: '1px solid rgb(156 163 175)'}}>Created on</div>
-          <div style={{borderRight: '1px solid rgb(156 163 175)', textAlign: 'left', paddingLeft: '1rem'}}>Title</div>
-          <div style={{borderRight: '1px solid rgb(156 163 175)'}}>Created by</div>
+          className={`grid 
+            grid-cols-[1.4fr_4.5fr_1.6fr_1.1fr_1.1fr]
+            lg:grid-cols-[1.8fr_5.2fr_1.2fr_1fr_1fr] 
+            w-full max-w-4xl lg:min-h-8 lg:leading-8 text-center items-center text-[0.8rem] lg:text-base font-semibold`
+          }
+          style={{backgroundColor: '#f0f0f0'}}>
+          <div className="px-1 overflow-x-auto text-nowrap" style={{borderRight: '1px solid rgb(156 163 175)'}}>Created on</div>
+          <div className="pl-1 lg:pl-4" style={{borderRight: '1px solid rgb(156 163 175)', textAlign: 'left'}}>Title</div>
+          <div className="px-1 overflow-x-auto text-nowrap" style={{borderRight: '1px solid rgb(156 163 175)'}}>Created by</div>
           <div>Posts</div>
           <div style={{borderLeft: '1px solid rgb(156 163 175)'}}>Views</div>
         </div>
@@ -47,41 +40,42 @@ export default function DiscussionsTable(data: any) {
           const link = `/forum/discussion/${entry.id}`
           return <div
               key={index}
+              className={`grid 
+                grid-cols-[1.4fr_4.5fr_1.6fr_1.1fr_1.1fr]
+                lg:grid-cols-[1.8fr_5.2fr_1.2fr_1fr_1fr] 
+                w-full max-w-4xl lg:min-h-8 lg:leading-8 text-center items-center text-[0.7rem] lg:text-sm`
+              }
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1.8fr 5.2fr 1.2fr 1fr 1fr',
-                width: '100%',
-                maxWidth: '56rem',
-                minHeight: '2rem',
-                lineHeight: '2rem',
-                textAlign: 'center',
-                alignItems: 'center',
-                fontSize: '0.875rem',
-                fontWeight: '400',
                 backgroundColor: 'white',
                 borderTop: '1px solid rgb(156 163 175)'
               }}>
-            <div style={{borderRight: '1px solid rgb(156 163 175)'}}>{convertDate(entry.created_at)}</div>
+            <div 
+            className="px-1 overflow-x-auto text-nowrap" 
+            style={{borderRight: '1px solid rgb(156 163 175)'}}>
+              {convertDate(entry.created_at)}
+            </div>
             {entry.password_hash === null
             ? <div
-              className="cursor-pointer hover:text-blue-500 hover:leading-8 hover:font-medium"
+              className="pl-1 cursor-pointer lg:pl-4 hover:text-blue-500 hover:font-medium"
               style={{
                 borderRight: '1px solid rgb(156 163 175)',
-                textAlign: "start",
-                paddingLeft: "1rem"
+                textAlign: "left"
               }}>
                 <Link href={link} onClick={() => updateViews(index)}>{entry.title}</Link>
               </div>
             : <VerifyPassword 
               table="Discussions" id={entry.id} link={link} btnText={entry.title}
               promptText="Enter the password for this discussion: "
-              className="cursor-pointer hover:text-blue-500 hover:leading-8 hover:font-medium"
+              className="pl-1 cursor-pointer lg:pl-4 hover:text-blue-500 hover:font-medium"
               style={{
                 borderRight: '1px solid rgb(156 163 175)',
-                textAlign: "start",
-                paddingLeft: "1rem"
+                textAlign: "left"
               }}/>}
-            <div style={{borderRight: '1px solid rgb(156 163 175)'}}>{entry.created_by}</div>
+            <div 
+            className="px-1 overflow-x-auto text-nowrap" 
+            style={{borderRight: '1px solid rgb(156 163 175)'}}>
+              {entry.created_by}
+            </div>
             <div>{entry.posts}</div>
             <div style={{borderLeft: '1px solid rgb(156 163 175)'}}>{entry.views}</div>
           </div>

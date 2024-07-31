@@ -32,7 +32,9 @@ export default async function Discussion({params: {id}}: {params: {id: string}})
   return (
       <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
         <Navbar thisLink={thisLink} style={preferences.header} />
-        <CommentSection discussionId={id} commentData={commentData} title={discussion.title} posts={posts} userData={userData} />
+        <CommentSection 
+        discussionId={id} commentData={commentData} title={discussion.title} 
+        posts={posts} userData={userData} primary={true} />
       </div>
   );
 }

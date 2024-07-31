@@ -19,7 +19,7 @@ export default async function Verify() {
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
       <Navbar thisLink={thisLink} style={preferences.header} />
-      <h2 className="pt-2 text-4xl">Verification Form</h2>
+      <h2 className="pt-2 text-2xl lg:pt-4 lg:text-4xl">Verification Form</h2>
       {user_type.includes("verified") ? <h1>You are already verified</h1> : <VerificationForm username={username} />}
     </div>
   );

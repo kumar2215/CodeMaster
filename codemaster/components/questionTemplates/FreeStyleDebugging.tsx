@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import submitFreestyle from '@/app/utils/Submissions/submitFreestyle';
 import saveFreestyle from '@/app/utils/Saving/saveFreestyle';
-import dropdownBtn from "@/assets/dropdown-btn.jpg"
+import dropdownBtn from "@/assets/dropdown-btn.jpg";
 
 const CodeEditor = dynamic(() => import('@/components/codeBoxes/CodeEditor'), { ssr: false });
 

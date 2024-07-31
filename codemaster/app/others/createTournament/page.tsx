@@ -17,7 +17,7 @@ export default async function CreateContestsPage() {
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
       <Navbar thisLink={thisLink} style={preferences.header} />
-        <h2 className="pt-8 text-4xl">Design your own tournament</h2>
+        <h2 className="pt-2 text-2xl lg:pt-4 lg:text-4xl">Design your own tournament</h2>
         { verified ? <TournamentForm /> : 
         <h1>You dont have access to create a tournament</h1> }
       <br/>

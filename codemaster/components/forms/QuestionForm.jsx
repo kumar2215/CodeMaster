@@ -49,7 +49,7 @@ function QuestionForm({ control, register, remove, watch, index, single, partOfC
         {remove !== null && 
         <>
           <RemoveButton remove={() => remove(index)} />
-          <h1 className='text-3xl text-left text-blue-600'>{`Question ${qnNum}`}</h1>
+          <h1 className='text-2xl text-left text-blue-600 lg:text-3xl'>{`Question ${qnNum}`}</h1>
         </>
         }
       </div>
@@ -59,16 +59,16 @@ function QuestionForm({ control, register, remove, watch, index, single, partOfC
 
           <div className='flex flex-row gap-2'>
             <p className='pt-1 text-lg'>Title:</p>
-            <label className="leading-5" style={{borderWidth: "1.5px"}}>
-            <input className='h-8 pl-2 input-info' {...register(`questions.${index}.title`)} />
+            <label className="mt-[6px] lg:mt-0 leading-5 h-fit" style={{borderWidth: "1.5px"}}>
+            <input className='pl-1 lg:pl-2 lg:h-8 input-info' {...register(`questions.${index}.title`)} />
             </label>
           </div>
           
           <div className='flex flex-row gap-2'>
             <p className='pt-1 text-lg'>Question Type:</p>
-            <label className="leading-5" style={{borderWidth: "1.5px"}}>
+            <label className="mt-[6px] lg:mt-0 leading-5 h-fit" style={{borderWidth: "1.5px"}}>
               <select {...register(`questions.${index}.type`)}
-                className='h-8 input-info'  
+                className='lg:h-8 input-info'  
               >
                 <option value=""></option>
                 <option value="Debugging">Debugging</option>
@@ -81,9 +81,9 @@ function QuestionForm({ control, register, remove, watch, index, single, partOfC
           
           <div className='flex flex-row gap-2'>
             <p className='pt-1 text-lg'>Difficulty:</p>
-            <label className="leading-5" style={{borderWidth: "1.5px"}}>
+            <label className="mt-[6px] lg:mt-0 leading-5 h-fit" style={{borderWidth: "1.5px"}}>
               <select {...register(`questions.${index}.difficulty`)}
-                className='h-8 input-info'
+                className='lg:h-8 input-info'
               >
                 <option value=""></option>
                 <option value="Easy">Easy</option>
@@ -95,9 +95,9 @@ function QuestionForm({ control, register, remove, watch, index, single, partOfC
           
           <div className='flex flex-row gap-2'>
             <p className='pt-1 text-lg'>Language:</p>
-            <label className="leading-5" style={{borderWidth: "1.5px"}}>
+            <label className="mt-[6px] lg:mt-0 leading-5 h-fit" style={{borderWidth: "1.5px"}}>
               <select {...register(`questions.${index}.language`)}
-                className='h-8 input-info'
+                className='lg:h-8 input-info'
               >
                 <option value=""></option>
                 <option value="Python">Python</option>
@@ -115,8 +115,8 @@ function QuestionForm({ control, register, remove, watch, index, single, partOfC
               It can be a link or just a brief description. If it is your own work, enter your name 
               or enter "Anonymous" if you do not want to be known.
             </p>
-            <label className="leading-5 w-fit" style={{borderWidth: "1.5px"}}>
-              <input className='h-8 pl-2 input-info' {...register(`questions.${index}.source.src`)} />
+            <label className="mt-[6px] lg:mt-0 leading-5 h-fit w-fit" style={{borderWidth: "1.5px"}}>
+              <input className='pl-1 lg:pl-2 lg:h-8 input-info' {...register(`questions.${index}.source.src`)} />
             </label> 
           </div>
         </div>
@@ -135,7 +135,7 @@ function QuestionForm({ control, register, remove, watch, index, single, partOfC
               <div className='w-full'>
                 {item.category === "text" ? (
                   <textarea {...register(`questions.${index}.contents.${idx}.value`)} 
-                  className='w-full h-8 pt-2 pl-2 leading-4 textarea-bordered'
+                  className='w-full pt-[6px] pl-1 leading-4 lg:pt-2 h-7 lg:pl-2 lg:h-8 textarea-bordered'
                   placeholder={`Enter text`} />
                 ) : (
                   <Controller
@@ -159,13 +159,13 @@ function QuestionForm({ control, register, remove, watch, index, single, partOfC
           <div className='flex flex-row w-full mt-2 gap-x-3 justify-evenly'>
             <button type="button" className="flex flex-row justify-between w-2/5 gap-2 mt-2" onClick={() => addContent('text')}>
               <AddButtonImage />
-              <h1 className="w-full pt-1 text-lg font-medium text-white bg-green-500 rounded-lg hover:bg-green-700">Add text block</h1>
+              <h1 className="w-full p-1 text-sm font-medium text-white bg-green-500 rounded-lg lg:text-lg hover:bg-green-700">Add text block</h1>
               <h1></h1>
             </button>
 
             <button type="button" className="flex flex-row justify-between w-2/5 gap-2 mt-2" onClick={() => addContent('code')}>
               <AddButtonImage />
-              <h1 className="w-full pt-1 text-lg font-medium text-white bg-green-500 rounded-lg hover:bg-green-700">Add code block</h1>
+              <h1 className="w-full p-1 text-sm font-medium text-white bg-green-500 rounded-lg lg:text-lg hover:bg-green-700">Add code block</h1>
               <h1></h1>
             </button>
           </div>
@@ -177,7 +177,7 @@ function QuestionForm({ control, register, remove, watch, index, single, partOfC
       <div className='flex flex-col gap-4'>
         <p className='my-2 text-lg' >Question Parts:</p>
 
-        <div className='flex flex-row justify-between gap-3'>
+        <div className='flex flex-col justify-between gap-3 lg:flex-row'>
 
           <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => appendPart({
             part: '',
@@ -188,7 +188,7 @@ function QuestionForm({ control, register, remove, watch, index, single, partOfC
             points: []
           })}>
             <AddButtonImage style={{marginTop: "5px"}} />
-            <h1 className="w-full p-2 text-lg font-medium text-white bg-green-500 rounded-lg hover:bg-green-700">Add Multiple Responses</h1>
+            <h1 className="w-full p-1 text-sm font-medium text-white bg-green-500 rounded-lg lg:p-2 lg:text-lg hover:bg-green-700">Add Multiple Responses</h1>
           </button>
           
           <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => appendPart({
@@ -200,7 +200,7 @@ function QuestionForm({ control, register, remove, watch, index, single, partOfC
             points: 0
           })}>
             <AddButtonImage style={{marginTop: "5px"}} />
-            <h1 className="w-full p-2 text-lg font-medium text-white bg-green-500 rounded-lg hover:bg-green-700">Add MRQ</h1>
+            <h1 className="w-full p-1 text-sm font-medium text-white bg-green-500 rounded-lg lg:p-2 lg:text-lg hover:bg-green-700">Add MRQ</h1>
           </button>
           
           <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => appendPart({
@@ -212,7 +212,7 @@ function QuestionForm({ control, register, remove, watch, index, single, partOfC
             points: 0
           })}>
             <AddButtonImage style={{marginTop: "5px"}} />
-            <h1 className="w-full p-2 text-lg font-medium text-white bg-green-500 rounded-lg hover:bg-green-700">Add MCQ</h1>
+            <h1 className="w-full p-1 text-sm font-medium text-white bg-green-500 rounded-lg lg:p-2 lg:text-lg hover:bg-green-700">Add MCQ</h1>
           </button>
           
           <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => {
@@ -235,7 +235,7 @@ function QuestionForm({ control, register, remove, watch, index, single, partOfC
           })
           }}>
             <AddButtonImage style={{marginTop: "5px"}} />
-            <h1 className="w-full p-2 text-lg font-medium text-white bg-green-500 rounded-lg hover:bg-green-700">Add Freestyle</h1>
+            <h1 className="w-full p-1 text-sm font-medium text-white bg-green-500 rounded-lg lg:p-2 lg:text-lg hover:bg-green-700">Add Freestyle</h1>
           </button>
 
         </div>

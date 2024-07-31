@@ -25,11 +25,11 @@ export const LeaderboardsPage = ({sortedByContestXP, sortedByTotalXP, sortedByTo
       }
 
   return (
-    <div className="text-xl font-bold w-full flex flex-col items-center justify-center">
-        <div className='flex w-1/2'>
-            <button className="btn btn-neutral mr-4 w-4/12" value="codemasters" onClick={buttonHandler}>General Leaderboards</button>
-            <button className="btn btn-neutral  w-4/12" value="tournament" onClick={buttonHandler}>Tournaments Leaderboards</button>
-            <button className="btn btn-neutral ml-4 w-4/12" value="contest" onClick={buttonHandler}>Contests Leaderboards</button>
+    <div className="flex flex-col items-center justify-center w-full text-xl font-bold">
+        <div className='flex flex-col w-1/2 gap-4 lg:flex-row'>
+            <button className="lg:w-4/12 btn btn-neutral" value="codemasters" onClick={buttonHandler}>General Leaderboards</button>
+            <button className="lg:w-4/12 btn btn-neutral" value="tournament" onClick={buttonHandler}>Tournaments Leaderboards</button>
+            <button className="lg:w-4/12 btn btn-neutral" value="contest" onClick={buttonHandler}>Contests Leaderboards</button>
         </div>
 
         <div className='w-full mt-4'>

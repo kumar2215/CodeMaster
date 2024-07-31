@@ -1,5 +1,5 @@
 import { screen, render } from "@testing-library/react"
-import OthersPage from "@/app/others/page"
+import OthersPage from "@/app/others/page";
 import { supabase } from "../db";
 
 //Have to mock the inner Navbar components as inner async function components
@@ -8,50 +8,50 @@ jest.mock('../../components/misc/navbar', () => {
     return jest.fn().mockReturnValue(<div>Dummy Navbar</div>)
 })
 
-jest.mock('../../app/utils/misc/checkInUser', () => {
-    const  data =            {
-        XP: 500,
-        username: 'user123',
-        tournament_XP: 200,
-        contest_XP: 300,
-        XP: 100,
-        user_type: 'admin',
-        preferences : null
-      }
-    return [supabase, data]
-  });
+jest.mock('../../app/utils/Misc/checkInUser', () => {
+  const  data = {
+      XP: 500,
+      username: 'user123',
+      tournament_XP: 200,
+      contest_XP: 300,
+      XP: 100,
+      user_type: 'admin',
+      preferences : null
+    }
+  return [supabase, {data}];
+});
 
-  jest.mock('../../utils/supabase/server', () => {
-    // Mock the structure of supabase client
-    const supabaseMock = {
-      auth: {
-        getUser: jest.fn().mockResolvedValue({
-          data: { user: { 
-            user_metadata : { username: "test" }
-           } },
-        }),
-      },
-      from: jest.fn().mockReturnThis(),
-      select: jest.fn().mockReturnThis(),
-      eq: jest.fn().mockReturnThis(),
-      single: jest.fn().mockResolvedValue({
-        data:             {
-            XP: 500,
-            username: 'user123',
-            tournament_XP: 200,
-            contest_XP: 300,
-            XP: 100,
-            user_type: 'admin',
-            preferences: {"body":{"backgroundColor":"#80bfff","color":"#000000"},"header":{"backgroundColor":"#e1e1ea","color":"#000000"},"codeColorTheme":"github"}
-          },
-        error: null,
+jest.mock('../../utils/supabase/server', () => {
+  // Mock the structure of supabase client
+  const supabaseMock = {
+    auth: {
+      getUser: jest.fn().mockResolvedValue({
+        data: { user: { 
+          user_metadata : { username: "test" }
+          } },
       }),
-    };
-  
-    return {
-      createClient: () => supabaseMock,
-    };
-  });
+    },
+    from: jest.fn().mockReturnThis(),
+    select: jest.fn().mockReturnThis(),
+    eq: jest.fn().mockReturnThis(),
+    single: jest.fn().mockResolvedValue({
+      data:             {
+          XP: 500,
+          username: 'user123',
+          tournament_XP: 200,
+          contest_XP: 300,
+          XP: 100,
+          user_type: 'admin',
+          preferences: {"body":{"backgroundColor":"#80bfff","color":"#000000"},"header":{"backgroundColor":"#e1e1ea","color":"#000000"},"codeColorTheme":"github"}
+        },
+      error: null,
+    }),
+  };
+
+  return {
+    createClient: () => supabaseMock,
+  };
+});
 // Mock the supabase module
 // jest.mock('../../utils/supabase/server', () => {
 //     // Mock the structure of supabase client

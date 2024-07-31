@@ -22,17 +22,19 @@ export default function ContestForm() {
   });
 
   return (
-    <form className="w-full max-w-5xl">
-      <div className='flex flex-col w-full gap-5 p-5 ml-6 bg-gray-200 rounded-lg'>
-        <div className='flex flex-row gap-4'>
-          <p className='pt-1 text-xl'>Contest name:</p>
-          <label className="leading-5" style={{borderWidth: "1.5px"}}>
-            <input className='h-8 pl-2 input-info' {...register('name')} />
+    <form className="w-full p-2 lg:p-0 lg:max-w-5xl">
+      <div className='flex flex-col w-full gap-5 p-2 bg-gray-200 rounded-lg lg:p-5 lg:ml-6'>
+        {/* Contest name field */}
+        <div className='flex flex-row gap-2 lg:gap-4'>
+          <p className='pt-1 text-lg lg:text-xl text-nowrap'>Contest name:</p>
+          <label className="mt-[6px] leading-5 lg:mt-0 h-fit" style={{borderWidth: "1.5px"}}>
+            <input className='w-full pl-1 lg:pl-2 lg:h-8 input-info' {...register('name')} />
           </label>
         </div>
 
-        <div className='flex flex-row h-10 gap-4'>
-          <p className='pt-2 text-xl'>Deadline:</p>
+        {/* Deadline field */}
+        <div className='flex flex-row gap-4 h-fit lg:h-10'>
+          <p className='pt-2 text-lg lg:text-xl'>Deadline:</p>
           <label className="items-center gap-2">
             <input
               className='p-2'
@@ -51,7 +53,7 @@ export default function ContestForm() {
         fields.map((field, index) => (
           <>
           <br/>
-          <div key={field.id} className='flex flex-col p-5 ml-6 bg-gray-200 rounded-lg'>
+          <div key={field.id} className='flex flex-col p-3 bg-gray-200 rounded-lg lg:p-5 lg:ml-6'>
             <QuestionForm
               key={field.id}
               control={control}
@@ -67,7 +69,7 @@ export default function ContestForm() {
         ))
       }
 
-      <div className='flex flex-row w-full gap-3 p-5 ml-6'>
+      <div className='flex flex-row justify-between w-full mt-4 lg:mt-0 lg:gap-3 lg:p-5 lg:ml-6 lg:justify-normal'>
         <button className="bg-blue-500 btn btn-info" type="button" onClick={() => append(
           {
             type: '',
