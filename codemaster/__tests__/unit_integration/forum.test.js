@@ -4,7 +4,7 @@ import { screen, render } from "@testing-library/react"
 //Have to mock the inner Navbar components as inner async function components
 //Not supported by jest
 jest.mock('../../components/misc/navbar', () => {
-    return jest.fn().mockReturnValue(<div>Dummy Navbar</div>)
+  return jest.fn().mockReturnValue(<div>Dummy Navbar</div>)
 })
 
 // Mock the supabase module

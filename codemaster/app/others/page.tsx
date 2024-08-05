@@ -6,6 +6,8 @@ import Link from "next/link";
 import contestIcon from "@/assets/contest-icon.jpg";
 import tournamentIcon from "@/assets/tournament-icon.jpg";
 import problemsetIcon from "@/assets/problem-solving-icon.jpg";
+import reviewIcon from "@/assets/review-icon.jpg";
+import reportIcon from "@/assets/reporting-icon.jpg";
 
 const thisLink = "/others";
 
@@ -27,10 +29,11 @@ export default async function OthersPage() {
   const user_type: string = userData.user_type;
 
   return (
-    <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
-      <Navbar thisLink={thisLink} style={preferences.header} />
+    <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences?.body}>
+      <Navbar thisLink={thisLink} style={preferences?.header} />
       <div className="flex flex-col gap-4 p-2 lg:w-full lg:max-w-4xl">
 
+        {/* Become a verified user section */}
         {!(user_type.includes("admin") || user_type.includes("verified")) &&
         <div className="flex flex-col w-full">
           <div className="w-full mb-2" style={{borderBottom: "1px solid black"}}>
@@ -49,8 +52,10 @@ export default async function OthersPage() {
           </div>
         </div>}
         
+        {/* Preferences section */}
         <Preferences preferences={preferences} username={username} />
-
+        
+        {/* Create section */}
         <div className="flex flex-col w-full gap-6">
           <div className="w-full mb-2" style={{borderBottom: "1px solid black"}}>
             <h1 className="mb-2 text-lg font-bold lg:text-xl">Create</h1>
@@ -58,9 +63,25 @@ export default async function OthersPage() {
 
           {topicCard("Create a question", "/others/createQuestion", problemsetIcon)}
 
-          {(user_type.includes("admin") || user_type.includes("verified"))  && topicCard("Create a tournament", "/others/createTournament", tournamentIcon)}
+          {(user_type.includes("admin") || user_type.includes("verified")) && topicCard("Create a tournament", "/others/createTournament", tournamentIcon)}
 
           {user_type.includes("admin") && topicCard("Create a contest", "/others/createContest", contestIcon)}
+        </div>
+        
+        {/* Review section */}
+        <div className="flex flex-col w-full gap-6">
+          <div className="w-full mb-2" style={{borderBottom: "1px solid black"}}>
+            <h1 className="mb-2 text-base font-bold lg:text-xl">Review</h1>
+          </div>
+          {topicCard("View submissions made to questions and tournaments created by you", "/others/createQuestion", reviewIcon)}
+        </div>
+        
+        {/* Report section */}
+        <div className="flex flex-col w-full gap-6">
+          <div className="w-full mb-2" style={{borderBottom: "1px solid black"}}>
+            <h1 className="mb-2 text-lg font-bold lg:text-xl">Report</h1>
+          </div>
+          {topicCard("Report an issue", "/others/createQuestion", reportIcon)}
         </div>
 
         <br />

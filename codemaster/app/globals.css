@@ -13,7 +13,7 @@
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --background: 200 50% 3%;
+      --background: 200 50% 98%;
       --foreground: 200 50% 3%; 
       --text-color: black !important;
     }

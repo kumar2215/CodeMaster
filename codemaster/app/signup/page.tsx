@@ -17,7 +17,7 @@ export default function SignUp({
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     const supabase = createClient();
-
+    
     const { data, error } = await supabase.auth.signUp({
       email,
       password,

@@ -2,7 +2,9 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from '@testing-library/user-event'; 
 import ProblemSet from "@/app/problemset/page";
 import QuestionsTable  from "@/components/tables/questionsTable";
-import { supabase } from "../db";
+import { createClient } from "../../utils/supabase/client";
+
+const supabase = createClient();
 
 import '@testing-library/jest-dom';
 

@@ -12,6 +12,18 @@ export async function GET(request: Request) {
   if (code) {
     const supabase = createClient();
     await supabase.auth.exchangeCodeForSession(code);
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user?.user_metadata.username) {
+      const username = user.user_metadata.username;
+      const avatar = {
+        url: `https://api.dicebear.com/8.x/personas/svg?seed=${username}`,
+        location: null
+      }
+      const res = await supabase.from("Users").insert({username: username, email: user?.email, avatar});
+      if (res.error) { console.error(res.error); }
+    }
   }
 
   // URL to redirect to after sign up process completes

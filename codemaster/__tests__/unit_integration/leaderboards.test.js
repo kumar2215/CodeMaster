@@ -2,7 +2,9 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from '@testing-library/user-event'; 
 import { describe } from "node:test";
 import { LeaderboardsPage } from "@/app/leaderboards/LeaderboardsPage";
-import { supabase } from "../db";
+import { createClient } from "../../utils/supabase/client";
+
+const supabase = createClient();
 
 jest.mock('../../app/utils/Misc/checkInUser', () => {
   const data = {
