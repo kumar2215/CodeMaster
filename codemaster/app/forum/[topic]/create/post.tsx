@@ -1,7 +1,7 @@
 "use client";
 import submitPost from "@/app/utils/Submissions/submitPost";
 import { createClient } from "@/utils/supabase/client";
-import { SubmitButton } from "@/components/buttons/SubmitButton";
+import SubmitButton from "@/components/buttons/SubmitButton";
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 

@@ -2,7 +2,7 @@
 import { createClient } from "@/utils/supabase/client";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import { SubmitButton } from "@/components/buttons/SubmitButton";
+import SubmitButton from "@/components/buttons/SubmitButton";
 import { toast } from "react-toastify";
 
 export default function VerificationForm({ username }) {

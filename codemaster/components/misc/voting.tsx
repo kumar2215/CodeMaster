@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import placeInCodeBox from "@/components/codeBoxes/CodeBox";
-import { SubmitButton } from "@/components/buttons/SubmitButton";
+import SubmitButton from "@/components/buttons/SubmitButton";
 import { toast } from "react-toastify";
 
 export default function Voting({freestyle_id, refactorings, language, username, colorTheme, voted_alr} : 

@@ -1,6 +1,6 @@
 "use client";
 import { createClient } from "@/utils/supabase/client";
-import { SubmitButton } from "@/components/buttons/SubmitButton";
+import SubmitButton from "@/components/buttons/SubmitButton";
 import ProfilePic from "@/components/images/profilepic";
 import convertDate from "@/app/utils/dateConversion/convertDateV2";
 import { useRouter } from "next/navigation";
