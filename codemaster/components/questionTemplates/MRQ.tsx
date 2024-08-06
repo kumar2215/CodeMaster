@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { SubmitButton } from '@/components/buttons/SubmitButton';
+import SubmitButton from '@/components/buttons/SubmitButton';
 import submitMRQ from '@/app/utils/Submissions/submitMRQ';
 import saveMRQ from '@/app/utils/Saving/saveMRQ';
 import placeInCodeBox from '@/components/codeBoxes/CodeBox';

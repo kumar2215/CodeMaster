@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import QuestionForm from './QuestionForm';
 import processAndValidateQuestion from '@/app/utils/Processing/processQuestion';
-import { SubmitButton } from '@/components/buttons/SubmitButton';
+import SubmitButton from '@/components/buttons/SubmitButton';
 import upload from '@/app/api/uploadQuestion/upload';
 import { toast } from 'react-toastify';
 

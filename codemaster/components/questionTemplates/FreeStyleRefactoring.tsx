@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { createClient } from '@/utils/supabase/client';
 import submitFreestyle from '@/app/utils/Submissions/submitFreestyle';
-import { SubmitButton } from '@/components/buttons/SubmitButton';
+import SubmitButton from '@/components/buttons/SubmitButton';
 import dropdownBtn from "@/assets/dropdown-btn.jpg"
 import { toast } from 'react-toastify';
 
