@@ -1,13 +1,27 @@
+// 'use client';
+// import Link from "next/link";
+
+// export default function PremiumButton() {
+//   return (
+//     <Link
+//     className="flex px-3 py-2 no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
+//     href="/pricing"
+//     >
+//       <button>Get Premium</button>
+//     </Link>
+//   );
+// }
+
 'use client';
-import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function PremiumButton() {
   return (
-    <Link
-    className="py-2 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
-    href="/pricing"
+    <button
+      className="flex px-3 py-2 no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
+      onClick={() => toast("Just a placeholder for now!", {type: "info", autoClose: 3000}) }
     >
-      <button>Get Premium</button>
-    </Link>
+      Get Premium
+    </button>
   );
 }
