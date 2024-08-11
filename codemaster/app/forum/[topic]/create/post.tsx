@@ -35,7 +35,7 @@ export default function Post(params: any) {
     <form className="flex flex-col gap-4">
       <div className="flex flex-row w-full">
         <label className="pr-3 text-base lg:text-lg" htmlFor="title">
-          Title:
+          {topic === "reports" ? "Issue:" : "Title:"}
         </label>
         <input
             className="w-3/5 px-2 border rounded-md lg:py-1 bg-inherit"
@@ -57,6 +57,7 @@ export default function Post(params: any) {
           {lst.map((item: any) => <option key={item} value={item}>{item}</option>)}
         </select>
       </div>}
+      {topic !== "reports" &&
       <div className="flex flex-row w-full">
         <label className="pr-3 text-base lg:text-lg" htmlFor="password">
           Password:
@@ -67,14 +68,14 @@ export default function Post(params: any) {
           placeholder="(optional)"
           type="password"
         />
-      </div>
+      </div>}
       <Toolbar placeholder="Write your post here..." content={content} setContent={setContent} style={{height: "200px"}} />
       <SubmitButton
           formAction={formData => submitPost(formData, content, topic, username)}
           className="w-1/3 px-2 py-2 mb-2 bg-green-300 border rounded-md lg:w-1/6 lg:px-4 border-foreground/20 text-foreground"
-          pendingText="Creating..."
+          pendingText="Posting..."
       >
-        Create
+        {topic === "reports" ? "Report" : "Post"}
       </SubmitButton>
     </form>
   );

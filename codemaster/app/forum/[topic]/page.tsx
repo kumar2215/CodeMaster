@@ -1,5 +1,5 @@
 import Navbar from "@/components/misc/navbar";
-import DiscussionsTable from "@/components/tables/discussionsTable";
+import DiscussionsTable from "@/components/tables/DiscussionsTable";
 import checkInUser from "@/app/utils/Misc/checkInUser";
 import { redirect } from "next/navigation";
 
@@ -13,7 +13,7 @@ export default async function Discussions({params: {topic}}: {params: {topic: st
   }
 
   const preferences = userData.preferences;
-  const allowed_topics = ["general", "contests", "tournaments", "feedback", "others"];
+  const allowed_topics = ["general", "contests", "tournaments", "feedback", "others", "reports"];
 
   const res = await supabase.from("Discussions").select("*").eq("type", topic);
   if (res.error) { console.error(res.error) }

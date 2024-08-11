@@ -34,7 +34,7 @@ export default function MRQ(params: any) {
   const points: number = data.points;
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition;
-  let verified: boolean = data.verified
+  let verified: boolean = data.verified;
 
   let selectedOptions : any[] = options.map(() => useState(false));
   let status: string = "Not Attempted";

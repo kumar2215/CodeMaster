@@ -52,6 +52,7 @@ export default function SignUpPage() {
     const message = await emailSignUp(formData, passwordStrength);
     if (message === "Check email to continue sign in process") {
       toast.success(message, { autoClose: 3000 });
+      return;
     }
     toast.error(message, { autoClose: 3000 });
   }
@@ -190,15 +191,15 @@ export default function SignUpPage() {
         >
           Sign Up
         </SubmitButton>
-        <div className="my-2 py-2 relative">
+        <div className="relative py-2 my-2">
           <div className="absolute inset-0 flex items-center" aria-hidden="true">
             <div className="w-full border-t border-gray-200"></div>
           </div>
           <div className="relative flex justify-center leading-6">
-            <span className="bg-slate-50 px-4 text-black text-opacity-75">or sign up with</span>
+            <span className="px-4 text-black text-opacity-75 bg-slate-50">or sign up with</span>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <OAuthButton provider="Github" icon={GitHubIcon} action={signUpWithGithub} />
           <OAuthButton provider="Google" icon={GoogleIcon} action={signUpWithGoogle} />
         </div>

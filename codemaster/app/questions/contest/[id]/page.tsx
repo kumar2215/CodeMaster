@@ -45,6 +45,7 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
 
   const questions = contestData.questions;
   const link = `/questions/contest-${contestData.id}[1-${questions.length}]`;
+  // const link = `/questions/${contestData.id}?contest=true&question=1`;
   const btnText = new Date(contestData.deadline).getTime() < new Date().getTime() && contestData.status !== "Completed"
     ? "Contest closed"
     : contestData.status === "Not Attempted"

@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 export default function ResetPassword({
   searchParams
 } : {
-  searchParams: { reset: string, code: string, email: string }
+  searchParams: { reset: string, code: string }
 }) {
 
   const sendLink = async (formData: FormData) => {
@@ -60,7 +60,7 @@ export default function ResetPassword({
       hasAtLeastOneNumber,
       hasAtLeastOneSpecialCharacter
     };
-    const message = await updatePassword(password, passwordStrength, searchParams.code, searchParams.email);
+    const message = await updatePassword(password, passwordStrength, searchParams.code);
     if (message === "Password updated successfully.") {
       toast.success(message, { autoClose: 3000 });
       redirect("/login");

@@ -31,7 +31,7 @@ export default async function OthersPage() {
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences?.body}>
       <Navbar thisLink={thisLink} style={preferences?.header} />
-      <div className="flex flex-col gap-4 p-2 lg:w-full lg:max-w-4xl">
+      <div className="flex flex-col gap-6 p-2 lg:w-full lg:max-w-4xl">
 
         {/* Become a verified user section */}
         {!(user_type.includes("admin") || user_type.includes("verified")) &&
@@ -40,7 +40,7 @@ export default async function OthersPage() {
             <h1 className="mb-2 text-lg font-bold lg:text-xl">Apply to become a verified user</h1>
           </div>
           <div className="flex flex-col w-full gap-2">
-            <h1 className="text-base lg:text-lg">Verified users have access to more features and can create tournaments.</h1>
+            <h1 className="text-base lg:text-lg">Verified users have the ability to create tournaments.</h1>
             {appliedAlr 
             ? <h1 className="text-base text-red-600 lg:text-lg">You have already applied.</h1>
             : <Link 
@@ -73,7 +73,11 @@ export default async function OthersPage() {
           <div className="w-full mb-2" style={{borderBottom: "1px solid black"}}>
             <h1 className="mb-2 text-base font-bold lg:text-xl">Review</h1>
           </div>
-          {topicCard("View submissions made to questions and tournaments created by you", "/others/createQuestion", reviewIcon)}
+          {user_type.includes("user") 
+          ? topicCard("View stats for questions you have created", "/review", reviewIcon)
+          : user_type.includes("verified")
+          ? topicCard("View submissions made to questions and tournaments created by you", "/review", reviewIcon)
+          : topicCard("View submissions made to questions, tournaments and contests created by you", "/review", reviewIcon)}
         </div>
         
         {/* Report section */}
@@ -81,11 +85,10 @@ export default async function OthersPage() {
           <div className="w-full mb-2" style={{borderBottom: "1px solid black"}}>
             <h1 className="mb-2 text-lg font-bold lg:text-xl">Report</h1>
           </div>
-          {topicCard("Report an issue", "/others/createQuestion", reportIcon)}
+          {topicCard("Report an issue", "/forum/reports/create", reportIcon)}
         </div>
 
         <br />
-
       </div>
     </div>
   );

@@ -20,6 +20,9 @@ export default function FreeStyleDebugging({data}: {data: any}) {
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition; 
   let verified: boolean = data.verified;
+
+  const submitted: boolean = data.submitted;
+  const setSubmitted: any = data.setSubmitted;
   
   let results: any[] = Array(inputs.length).fill('').map(x => useState({
     actual: '',
@@ -50,7 +53,6 @@ export default function FreeStyleDebugging({data}: {data: any}) {
   const [code, setCode] = useState(codeData);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [accPoints, setAccPoints] = useState(0);
   
   let totalPoints = 0;

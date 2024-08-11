@@ -135,7 +135,7 @@ export default async function submitFreestyle(
     }
   } catch (error) {
     console.error('Error:', error);
-    toast.error("Server is down. Please contact admin.", {autoClose: 3000});
+    toast.error("Server is down. Please report to admin.", {autoClose: 3000});
   }
 
   if (!submit) {
@@ -256,5 +256,6 @@ export default async function submitFreestyle(
   else { console.log("Freestyle stats updated") };
 
   setIsLoading(false);
+  setSubmitted(false);
   return true;
 }

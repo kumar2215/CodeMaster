@@ -28,7 +28,7 @@ export async function sendEmail(email: string) {
   return "Check your email for a password reset link.";
 }
 
-export async function updatePassword(newPassword: string, passwordStrength: any, code: string, email: string) {
+export async function updatePassword(newPassword: string, passwordStrength: any, code: string) {
 
   if (!passwordStrength.hasAtLeastOneLowercase) {
     return "Password must contain at least one lowercase letter.";

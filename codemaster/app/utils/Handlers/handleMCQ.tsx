@@ -1,19 +1,14 @@
 import MCQ from "@/components/questionTemplates/MCQ";
 import { createClient } from "@/utils/supabase/client";
 
-const supabase = createClient();
+export default async function HandleMCQ({questionPart, username}: {questionPart: any, username: string}) {
 
-export default async function handleMCQ(questionPart: any, username: any) {
   const questionId: string = questionPart.questionId;
   const partId: string = questionPart.partId;
-  const question: string = questionPart.question;
-  const part: string = questionPart.part;
-  const options: string[] = questionPart.options;
-  const expected: number = questionPart.expected;
   let points: number = questionPart.points;
-  const source: any = questionPart.source;
-  const partOfCompetition: any = questionPart.partOfCompetition;
-  
+
+  const supabase = createClient();
+
   const res = await supabase.from("Users").select("*").eq("username", username);
   if (res.error) { console.error(res.error); }
 
@@ -43,20 +38,11 @@ export default async function handleMCQ(questionPart: any, username: any) {
       }
     }
   }
-  
+
   const data = {
-    questionId: questionId,
-    partId: partId,
-    username: username,
-    question: question,
-    part: part,
-    options: options,
-    points: points,
-    expected: expected,
-    source: source,
-    verified: questionPart.verified,
-    partOfCompetition: partOfCompetition,
-    selectedOption: questionPart.selectedOption
+    ...questionPart,
+    username,
+    points
   }
   
   return <MCQ data={data} />;

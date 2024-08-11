@@ -215,12 +215,7 @@ function QuestionForm({ control, register, remove, watch, index, single, partOfC
             <h1 className="w-full p-1 text-sm font-medium text-white bg-green-500 rounded-lg lg:p-2 lg:text-lg hover:bg-green-700">Add MCQ</h1>
           </button>
           
-          <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => {
-          if (type !== "Debugging" && type !== "Refactoring") {
-            toast.error("Only Debugging and Refactoring questions are allowed to have freestyle parts.");
-            return;
-          }
-          appendPart({
+          <button type="button" className="flex flex-row justify-between gap-2 mt-2" onClick={() => appendPart({
             part: '',
             questionType: "Freestyle",
             question: '',
@@ -232,8 +227,7 @@ function QuestionForm({ control, register, remove, watch, index, single, partOfC
             postcode: '',
             functionName: '',
             className: '',
-          })
-          }}>
+          })}>
             <AddButtonImage style={{marginTop: "5px"}} />
             <h1 className="w-full p-1 text-sm font-medium text-white bg-green-500 rounded-lg lg:p-2 lg:text-lg hover:bg-green-700">Add Freestyle</h1>
           </button>

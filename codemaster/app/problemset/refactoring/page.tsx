@@ -1,5 +1,5 @@
 import Navbar from "@/components/misc/navbar";
-import QuestionsTableWithVoting  from "@/components/tables/questionsTableWithVoting";
+import QuestionsTableWithVoting  from "@/components/tables/QuestionsTableWithVoting";
 import checkInUser from "@/app/utils/Misc/checkInUser";
 
 const thisLink = "/problemset";

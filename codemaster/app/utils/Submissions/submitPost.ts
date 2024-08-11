@@ -136,6 +136,41 @@ export default async function submitPost(formData: FormData, content: string, to
     return;
   }
 
+  if (topic === "reports") {
+    const admins = process.env.NEXT_PUBLIC_ADMINS?.split(",");
+
+    const notification = {
+      from: username,
+      message: `Report: ${title}`,
+      type: "View",
+      link: `/forum/discussion/${res.data[0].id}`
+    }
+
+    if (!admins) { 
+      toast.error("Something went wrong. Please try again.", {autoClose: 3000});
+      return;
+    }
+    
+    for (let i = 0; i < admins.length; i++) {
+      const res = await supabase.from("Users").select("notifications").eq("username", admins[i]).single();
+      if (res.error) { 
+        console.error(res.error);
+        toast.error("Something went wrong. Please try again.", {autoClose: 3000});
+        return;
+      }
+
+      const notifications = res.data.notifications;
+      notifications.push(notification);
+
+      const res2 = await supabase.from("Users").update({notifications}).eq("username", admins[i]);
+      if (res2.error) { 
+        console.error(res2.error);
+        toast.error("Something went wrong. Please try again.", {autoClose: 3000});
+        return;
+      }
+    }
+  }
+
   toast.success("Post created successfully!", {autoClose: 3000});
   redirect(`/forum/discussion/${res.data[0].id}`);
 }

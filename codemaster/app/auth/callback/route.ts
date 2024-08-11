@@ -23,7 +23,7 @@ export async function GET(request: Request) {
       return NextResponse.redirect(`${origin}/login?message=Could not authenticate user`);
     }
 
-    const username = user.user_metadata.username;
+    const username = user.user_metadata.username || user.user_metadata.full_name;
     const { data, error } = await supabase.from("Users").select("*").eq("username", username);
     if (error) { 
       console.error(error); 
@@ -39,7 +39,7 @@ export async function GET(request: Request) {
       if (res.error) { console.error(res.error); }
     }
   } else if (code && reset) {
-    return NextResponse.redirect(`${origin}/reset-password?reset=true&code=${code}&email=${email}`);
+    return NextResponse.redirect(`${origin}/reset-password?reset=true&code=${code}`);
   }
 
   // URL to redirect to after sign up process completes

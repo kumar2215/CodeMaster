@@ -1,5 +1,5 @@
 import Navbar from "@/components/misc/navbar";
-import TournamentsTable from "@/components/tables/tournamentsTable";
+import TournamentsTable from "@/components/tables/TournamentsTable";
 import checkInUser from "@/app/utils/Misc/checkInUser";
 const thisLink = "/tournaments";
 

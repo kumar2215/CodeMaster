@@ -16,7 +16,6 @@ export default function IndividualQuestionForm({ user_data }) {
   async function onSubmit(data) {
     const question = data.questions[0];
     const processedQuestion = processAndValidateQuestion(question, null);    
-    console.log(processedQuestion);
     if (!processedQuestion || processedQuestion.parts.some(q => !q)) return;
     const successful = await upload(processedQuestion, "general", username, verified); 
     if (successful) {

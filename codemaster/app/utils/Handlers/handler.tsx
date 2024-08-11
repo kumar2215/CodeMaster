@@ -1,17 +1,17 @@
-import handleMCQ from "./handleMCQ";
-import handleMRQ from "./handleMRQ";
-import handleFreestyle from "./handleFreestyle";
-import handleMultipleResponses from "./handleMultipleResponses";
+import HandleMCQ from "./handleMCQ";
+import HandleMRQ from "./handleMRQ";
+import HandleFreestyle from "./handleFreestyle";
+import HandleMultipleResponses from "./handleMultipleResponses";
 
 export default function handler(questionType: string, questionData: any, username: any) {
   switch (questionType) {
     case "Multiple-Responses":
-      return handleMultipleResponses(questionData, username);
+      return <HandleMultipleResponses questionPart={questionData} username={username} />;
     case "MCQ":
-      return handleMCQ(questionData, username);
+      return <HandleMCQ questionPart={questionData} username={username} />;
     case "MRQ":
-      return handleMRQ(questionData, username);
+      return <HandleMRQ questionPart={questionData} username={username} />;
     case "Freestyle":
-      return handleFreestyle(questionData, username);
+      return <HandleFreestyle questionPart={questionData} username={username} />
   }
 }
