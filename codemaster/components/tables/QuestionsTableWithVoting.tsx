@@ -3,6 +3,7 @@ import Link  from "next/link";
 import { useState } from "react";
 import completedLogo from "@/assets/completed-mark.jpg";
 import attemptedLogo from "@/assets/attempted-mark.jpg";
+import convertDate from "@/app/utils/dateConversion/convertDateV1";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
@@ -41,16 +42,16 @@ export default function QuestionsTable(data: any) {
     <div className="border-2 border-gray-400">
     <div
      className={`grid 
-      grid-cols-[1.2fr_4fr_1.7fr_1.4fr_1.2fr]
-      lg:grid-cols-[0.8fr_5.2fr_1.2fr_1.1fr_1.1fr] 
+      grid-cols-[1.2fr_4fr_1.7fr_1.4fr_2fr]
+      lg:grid-cols-[0.8fr_4.5fr_1.2fr_1.1fr_1.6fr] 
       w-full max-w-4xl lg:min-h-8 lg:leading-8 text-center items-center text-[0.7rem] lg:text-base font-semibold`
     }
     style={{backgroundColor: '#f0f0f0'}}>
     <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Status</div>
     <div className="pl-1 lg:pl-4" style={{ borderRight: '1px solid rgb(156 163 175)', textAlign: 'left'}}>Title</div>
     <div style={{ borderRight: '1px solid rgb(156 163 175)' }}>Difficulty</div>
-    <div className="text-[0.5rem] lg:text-base" >Max Points</div>
-    <div style={{ borderLeft: '1px solid rgb(156 163 175)'}}>Voting</div>
+    <div className="overflow-x-auto text-nowrap" style={{ borderRight: '1px solid rgb(156 163 175)' }}>Max Points</div>
+    <div className="overflow-x-auto text-nowrap" >Voting deadline</div>
     </div>
     
     {filteredQuestions.map((entry: any, index: number) => {
@@ -73,8 +74,8 @@ export default function QuestionsTable(data: any) {
       return <div
       key={index}
       className={`grid 
-        grid-cols-[1.2fr_4fr_1.7fr_1.4fr_1.2fr]
-        lg:grid-cols-[0.8fr_5.2fr_1.2fr_1.1fr_1.1fr] 
+        grid-cols-[1.2fr_4fr_1.7fr_1.4fr_2fr]
+        lg:grid-cols-[0.8fr_4.5fr_1.2fr_1.1fr_1.6fr] 
         w-full max-w-4xl lg:min-h-8 lg:leading-8 text-center items-center text-[0.65rem] lg:text-sm`
       }
       style={{
@@ -103,10 +104,11 @@ export default function QuestionsTable(data: any) {
     }</div>
     <div>{entry.points}</div>
     <div
-    className={`font-semibold ${entry.voting_status === "Open" ? "text-green-500" : "text-red-400"} cursor-pointer`}
+    className={`font-semibold overflow-x-auto text-nowrap
+      ${entry.voting_status === "Open" ? "text-green-500" : "text-red-400"} cursor-pointer`}
     style={{ borderLeft: '1px solid rgb(156 163 175)'}}
     >
-      <button onClick={redirection}>{entry.voting_status.toUpperCase()}</button>
+      <button onClick={redirection}>{convertDate(entry.voting_deadline)}</button>
     </div>
     </div>
   })}
