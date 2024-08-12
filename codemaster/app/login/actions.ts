@@ -2,6 +2,7 @@
 import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
 import { Provider } from "@supabase/supabase-js";
 
 const origin = headers().get("origin");

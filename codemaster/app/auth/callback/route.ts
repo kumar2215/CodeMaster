@@ -21,7 +21,8 @@ export async function GET(request: Request) {
     } = await supabase.auth.getUser();
     
     if (!user) {
-      return NextResponse.redirect(`${origin}/login?message=Could not authenticate user`);
+      NextResponse.redirect(`${origin}/login?message=Could not authenticate user`);
+      return;
     }
 
     const username = getUsername(user);
@@ -29,7 +30,8 @@ export async function GET(request: Request) {
     const { data, error } = await supabase.from("Users").select("*").eq("username", username);
     if (error) { 
       console.error(error); 
-      return NextResponse.redirect(`${origin}/login?message=Someting went wrong. Please try again.`);
+      NextResponse.redirect(`${origin}/login?message=Someting went wrong. Please try again.`);
+      return;
     }
 
     if (data.length === 0) {
@@ -41,9 +43,10 @@ export async function GET(request: Request) {
       if (res.error) { console.error(res.error); }
     }
   } else if (code && reset) {
-    return NextResponse.redirect(`${origin}/reset-password?reset=true&code=${code}`);
+    NextResponse.redirect(`${origin}/reset-password?reset=true&code=${code}`);
+    return;
   }
 
   // URL to redirect to after sign up process completes
-  return NextResponse.redirect(`${origin}/problemset`);
+  NextResponse.redirect(`${origin}/problemset`);
 }
