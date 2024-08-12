@@ -5,6 +5,7 @@ import Pagination from "@/components/misc/pagination";
 import ReviewPart from "@/components/misc/reviewPart";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import getUsername from "@/app/utils/Misc/getUsername";
 
 let previewMode: boolean = false;
 
@@ -22,7 +23,7 @@ async function handlePart(questionData: any, part: any, singlePart: boolean = fa
   const [Supabase, User] = await createSupabase();
   const supabase: any = Supabase;
   const user: any = User;
-  const username = user.user_metadata.username;
+  const username = getUsername(user);
 
   const questionType = part.type;
   const partId = part.part_id;

@@ -1,3 +1,4 @@
+import getUsername from "@/app/utils/Misc/getUsername";
 import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 
@@ -14,7 +15,7 @@ export async function GET(request: Request) {
 
   if (code && !reset) {
     await supabase.auth.exchangeCodeForSession(code);
-    
+
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -23,7 +24,8 @@ export async function GET(request: Request) {
       return NextResponse.redirect(`${origin}/login?message=Could not authenticate user`);
     }
 
-    const username = user.user_metadata.username || user.user_metadata.full_name;
+    const username = getUsername(user);
+
     const { data, error } = await supabase.from("Users").select("*").eq("username", username);
     if (error) { 
       console.error(error); 
