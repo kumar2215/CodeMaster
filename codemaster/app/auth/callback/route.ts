@@ -14,24 +14,27 @@ export async function GET(request: Request) {
   const supabase = createClient();
 
   if (code && !reset) {
-    await supabase.auth.exchangeCodeForSession(code);
+    const { error: err } = await supabase.auth.exchangeCodeForSession(code);
+    if (err) {
+      console.error(err);
+      return NextResponse.redirect(`${origin}/login?message=Someting went wrong. Please try again.`);
+    }
 
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    
+
     if (!user) {
-      NextResponse.redirect(`${origin}/login?message=Could not authenticate user`);
-      return;
+      return NextResponse.redirect(`${origin}/login?message=Could not authenticate user`);
     }
 
     const username = getUsername(user);
+    console.log(user, username);
 
     const { data, error } = await supabase.from("Users").select("*").eq("username", username);
     if (error) { 
       console.error(error); 
-      NextResponse.redirect(`${origin}/login?message=Someting went wrong. Please try again.`);
-      return;
+      return NextResponse.redirect(`${origin}/login?message=Someting went wrong. Please try again.`);
     }
 
     if (data.length === 0) {
@@ -43,10 +46,9 @@ export async function GET(request: Request) {
       if (res.error) { console.error(res.error); }
     }
   } else if (code && reset) {
-    NextResponse.redirect(`${origin}/reset-password?reset=true&code=${code}`);
-    return;
+    return NextResponse.redirect(`${origin}/reset-password?reset=true&code=${code}`);
   }
 
   // URL to redirect to after sign up process completes
-  NextResponse.redirect(`${origin}/problemset`);
+  return NextResponse.redirect(`${origin}/problemset`);
 }
