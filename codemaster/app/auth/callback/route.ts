@@ -10,9 +10,8 @@ export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
   const reset = requestUrl.searchParams.get("reset");
-  const email = requestUrl.searchParams.get("email");
   const origin = requestUrl.origin;
-  
+
   try {
     const supabase = createClient();
 
@@ -20,7 +19,6 @@ export async function GET(request: Request) {
       const { error: err } = await supabase.auth.exchangeCodeForSession(code);
       if (err) {
         console.error("Error exchanging code for session:", err);
-        // console.error(err);
         return NextResponse.redirect(`${origin}/login?message=Someting went wrong. Please try again.`);
       }
 
@@ -33,7 +31,6 @@ export async function GET(request: Request) {
       }
 
       const username = getUsername(user);
-      console.log(user, username);
 
       const { data, error } = await supabase.from("Users").select("*").eq("username", username);
       if (error) { 
@@ -57,6 +54,5 @@ export async function GET(request: Request) {
     return NextResponse.redirect(`${origin}/problemset`);
   } catch (error) {
     console.error("Overall error: ", error);
-    // return NextResponse.redirect(`${origin}/login?message=Someting went wrong. Please try again.`);
   };
 }

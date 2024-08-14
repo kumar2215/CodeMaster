@@ -133,6 +133,10 @@ export default function SignUpPage() {
       <form className="flex flex-col lg:my-0 mt-20 mb-4 justify-center p-4 rounded-lg border-[1px] w-fit gap-2 animate-in text-foreground">
         <div className="flex flex-col gap-2 mb-2">
           <h1 className="text-2xl font-bold">Create a new account</h1>
+          <div className="flex flex-row justify-start gap-2 text-sm">
+            <p>Already have an account?</p>
+            <Link href="/login" className="font-medium underline">Login</Link>
+          </div>
         </div>
         <label className="text-md" htmlFor="username">
           Username
