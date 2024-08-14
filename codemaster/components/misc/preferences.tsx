@@ -155,13 +155,14 @@ export default function Preferences({ preferences, username }: {preferences: any
 
   const supabase = createClient();
   const router = useRouter();
-  const { body, header } = preferences;
+  const body = preferences?.body;
+  const header = preferences?.header;
 
-  const [bodyBackgroundColor, setBodyBackgroundColor] = useState(body.backgroundColor);
-  const [bodyTextColor, setBodyTextColor] = useState(body.color);
-  const [headerBackgroundColor, setHeaderBackgroundColor] = useState(header.backgroundColor);
-  const [headerTextColor, setHeaderTextColor] = useState(header.color);
-  const [theme, setTheme] = useState(preferences.codeColorTheme);
+  const [bodyBackgroundColor, setBodyBackgroundColor] = useState(body?.backgroundColor);
+  const [bodyTextColor, setBodyTextColor] = useState(body?.color);
+  const [headerBackgroundColor, setHeaderBackgroundColor] = useState(header?.backgroundColor);
+  const [headerTextColor, setHeaderTextColor] = useState(header?.color);
+  const [theme, setTheme] = useState(preferences?.codeColorTheme);
 
   function colorInputHandler(name: string, value: string, setter: any) {
     return (

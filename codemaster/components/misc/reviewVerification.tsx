@@ -1,6 +1,6 @@
 "use client";
 import { createClient } from "@/utils/supabase/client";
-import { SubmitButton } from "@/components/buttons/SubmitButton";
+import SubmitButton from "@/components/buttons/SubmitButton";
 import { toast } from "react-toastify";
 import ProfilePic from "@/components/images/profilepic";
 import convertDate from "@/app/utils/dateConversion/convertDateV2";

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { SubmitButton } from '@/components/buttons/SubmitButton';
+import SubmitButton from '@/components/buttons/SubmitButton';
 import submitMRQ from '@/app/utils/Submissions/submitMRQ';
 import saveMRQ from '@/app/utils/Saving/saveMRQ';
 import placeInCodeBox from '@/components/codeBoxes/CodeBox';
@@ -34,7 +34,7 @@ export default function MRQ(params: any) {
   const points: number = data.points;
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition;
-  let verified: boolean = data.verified
+  let verified: boolean = data.verified;
 
   let selectedOptions : any[] = options.map(() => useState(false));
   let status: string = "Not Attempted";

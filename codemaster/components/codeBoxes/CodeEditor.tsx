@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import Editor from "@monaco-editor/react";
 
-export default function CodeEditor2(
+export default function CodeEditor(
   { language, code, setCode }: 
   { language: string, code: string, setCode: (code: string) => void })
 {

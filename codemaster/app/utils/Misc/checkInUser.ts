@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import getUsername from "@/app/utils/Misc/getUsername";
 
 export default async function checkInUser() {
   const supabase = createClient();
@@ -12,7 +13,7 @@ export default async function checkInUser() {
     return redirect("/login");
   }
 
-  const username = user.user_metadata.username;
+  const username = getUsername(user);
 
   const { data: userData, error } = await supabase
     .from('Users')

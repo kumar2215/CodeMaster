@@ -3,6 +3,7 @@ import PremiumButton from "@/components/buttons/PremiumButton";
 import AuthButton from "@/components/buttons/AuthButton";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import getUsername from "@/app/utils/Misc/getUsername";
 
 export default async function Navbar({thisLink, style}: {thisLink: string, style?: any}) { // need to remove ? after style
 
@@ -16,7 +17,7 @@ export default async function Navbar({thisLink, style}: {thisLink: string, style
     return redirect("/login");
   }
 
-  const username = user.user_metadata.username;
+  const username = getUsername(user);
   let numNotifications = 0;
 
   if (username) {

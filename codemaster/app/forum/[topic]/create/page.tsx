@@ -23,7 +23,9 @@ export default async function Create({params: {topic}}: {params: {topic: string}
           <div className="p-3 border-4 bg-slate-50">
             <h1
             className="text-lg font-medium lg:text-2xl">
-              {`Create a new discussion (${topic})`}
+              {topic === "reports" 
+              ? `Report an issue`
+              : `Create a new discussion (${topic})`}
             </h1>
             <br/>
             <Post username={username} topic={topic}/>

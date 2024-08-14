@@ -1,6 +1,7 @@
 "use server";
 import { createClient } from '@/utils/supabase/server';
 import upload from '@/app/api/uploadQuestion/upload';
+import getUsername from '@/app/utils/Misc/getUsername';
 import sendNotification from '@/app/utils/Misc/sendNotification';
 
 const supabase = createClient();
@@ -80,7 +81,7 @@ export default async function submitForm(result, type) {
     return redirect("/login");
   }
 
-  const username = user.user_metadata.username;
+  const username = getUsername(user);
 
   let total_points = 0;
   result.questions.forEach((question) => {

@@ -1,19 +1,13 @@
-# Node modules
-node_modules/
 
 # Log files
 *.log
+
+# Environment variables
+.env
 .env.local
-# Environment variables
-.env
+
 # Node modules
 node_modules/
-
-# Log files
-*.log
-
-# Environment variables
-.env
 
 # Next.js build output
 .next/

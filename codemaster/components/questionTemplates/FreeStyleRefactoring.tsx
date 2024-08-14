@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { createClient } from '@/utils/supabase/client';
 import submitFreestyle from '@/app/utils/Submissions/submitFreestyle';
-import { SubmitButton } from '@/components/buttons/SubmitButton';
+import SubmitButton from '@/components/buttons/SubmitButton';
 import dropdownBtn from "@/assets/dropdown-btn.jpg"
 import { toast } from 'react-toastify';
 
@@ -21,6 +21,9 @@ export default function FreeStyleRefactoring({data}: {data: any}) {
   const points: number[] = data.points;
   const source = data.source;
   let verified: boolean = data.verified;
+
+  const submitted: boolean = data.submitted;
+  const setSubmitted: any = data.setSubmitted;
   
   let results: any[] = Array(inputs.length).fill('').map(x => useState({
     actual: '',
@@ -33,7 +36,6 @@ export default function FreeStyleRefactoring({data}: {data: any}) {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [ranOnce, setRanOnce] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [accPoints, setAccPoints] = useState(0);
   
   let totalPoints = 0;

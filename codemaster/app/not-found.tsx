@@ -4,8 +4,8 @@ import errorImage from "@/assets/404-dino_meme.jpg";
 export default function NotFound() {
   return (
     <div className="flex flex-col justify-center my-auto">
-      <div className="flex flex-col gap-4 p-4 bg-red-400 rounded-lg">
-        <div className="flex flex-row justify-between">
+      <div className="flex flex-col gap-12 p-4 bg-red-400 rounded-lg">
+        <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
           <div className="flex flex-col justify-center">
             <h1 className="font-bold text-white text-9xl">404</h1>
             <h2 className="text-4xl font-bold text-white">Page not found</h2>

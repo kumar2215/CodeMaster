@@ -1,5 +1,5 @@
 import Navbar from "@/components/misc/navbar";
-import QuestionsTableWithVoting  from "@/components/tables/questionsTableWithVoting";
+import QuestionsTableWithVoting  from "@/components/tables/QuestionsTableWithVoting";
 import checkInUser from "@/app/utils/Misc/checkInUser";
 
 const thisLink = "/problemset";
@@ -34,6 +34,7 @@ export default async function Debugging() {
     
     if (error) { console.error(error); }
     question.voting_status = new Date().getTime() > new Date(data.voting_deadline).getTime() ? "Closed" : "Open";
+    question.voting_deadline = new Date(data.voting_deadline).getTime();
     question.freestyle_id = freestyle_id;
     question.voted_alr = data.voters.includes(userData.username);
   }));

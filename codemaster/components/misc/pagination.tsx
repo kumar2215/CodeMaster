@@ -1,5 +1,5 @@
 "use client";
-import { SubmitButton } from "@/components/buttons/SubmitButton";
+import SubmitButton from "@/components/buttons/SubmitButton";
 import submitCompetition from "@/app/utils/Submissions/submitCompetition";
 import submitTournamentReview from "@/app/utils/Submissions/submitTournamentReview";
 import { createClient } from "@/utils/supabase/client";
@@ -78,7 +78,7 @@ export default function Pagination(params: any) {
   return (
     <div className="flex flex-row justify-between w-full max-w-5xl">
       {prevLink && 
-        <Link href={`/questions/${prevLink}`}>
+        <Link href={prevLink}>
           <button 
           className={className}
           style={{border: "1px solid black"}}
@@ -89,7 +89,7 @@ export default function Pagination(params: any) {
       }
       <form>
       {nextLink
-      ? <Link href={`/questions/${nextLink}`}>
+      ? <Link href={nextLink}>
           <button 
           className={className}
           style={{border: "1px solid black"}}

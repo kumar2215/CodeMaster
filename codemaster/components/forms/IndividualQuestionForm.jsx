@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import QuestionForm from './QuestionForm';
 import processAndValidateQuestion from '@/app/utils/Processing/processQuestion';
-import { SubmitButton } from '@/components/buttons/SubmitButton';
+import SubmitButton from '@/components/buttons/SubmitButton';
 import upload from '@/app/api/uploadQuestion/upload';
 import { toast } from 'react-toastify';
 
@@ -16,7 +16,6 @@ export default function IndividualQuestionForm({ user_data }) {
   async function onSubmit(data) {
     const question = data.questions[0];
     const processedQuestion = processAndValidateQuestion(question, null);    
-    console.log(processedQuestion);
     if (!processedQuestion || processedQuestion.parts.some(q => !q)) return;
     const successful = await upload(processedQuestion, "general", username, verified); 
     if (successful) {

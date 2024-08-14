@@ -2,7 +2,7 @@
 import { createClient } from "@/utils/supabase/client";
 import Likes from "@/components/buttons/LikesButton";
 import ReplyButton from "@/components/buttons/ReplyButton";
-import { SubmitButton } from "@/components/buttons/SubmitButton";
+import SubmitButton from "@/components/buttons/SubmitButton";
 import EditButton from "@/components/buttons/EditButton";
 import DeleteButton from "@/components/buttons/DeleteButton";
 import submitReply from "@/app/utils/Submissions/submitReply";

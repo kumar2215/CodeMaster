@@ -1,7 +1,6 @@
 import Navbar from "@/components/misc/navbar";
 import checkInUser from "@/app/utils/Misc/checkInUser";
-import { LeaderboardsTable } from "./LeaderboardsTable";
-import { LeaderboardsPage } from "./LeaderboardsPage";
+import LeaderboardsPage from "@/components/pages/LeaderboardsPage";
 
 const thisLink = "/leaderboards";
 
@@ -29,18 +28,12 @@ export default async function ContestsPage() {
   if (userData != null) {
 
     sortedByTournamentXP = [...userData];
-    sortedByTournamentXP.sort((a, b) => (b.tournament_XP) - (a.tournament_XP));
-
     sortedByContestXP = [...userData];
-    sortedByContestXP.sort((a, b) => (b.contest_XP) - (a.contest_XP));
-
     sortedByTotalXP = [...userData];
     sortedByTotalXP.forEach((obj) => {
       obj.total_XP = obj.XP + obj.tournament_XP + obj.contest_XP;
     });
     
-    sortedByTotalXP.sort((a, b) => b.total_XP - a.total_XP);
-
   }
 
   if (err) { console.error(err); }

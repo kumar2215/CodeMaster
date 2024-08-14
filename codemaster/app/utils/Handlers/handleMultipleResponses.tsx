@@ -1,19 +1,13 @@
 import MultipleResponses from "@/components/questionTemplates/MultipleResponses";
 import { createClient } from "@/utils/supabase/client";
 
-const supabase = createClient();
-
-export default async function handleMultipleResponses(questionPart: any, username: any) {
+export default async function HandleMultipleResponses({questionPart, username}: {questionPart: any, username: string}) {
   const questionId: string = questionPart.questionId;
   const partId: string = questionPart.partId;
-  const question: string = questionPart.question;
-  const part: string = questionPart.part;
-  const format: string[] = questionPart.format;
-  const inputs: any[] = questionPart.inputs;
   let points: number[] = questionPart.points;
-  const source: any = questionPart.source;
-  const partOfCompetition: any = questionPart.partOfCompetition;
-  
+
+  const supabase = createClient();
+
   const res = await supabase.from("Users").select("*").eq("username", username);
   if (res.error) { console.error(res.error); }
   
@@ -47,18 +41,9 @@ export default async function handleMultipleResponses(questionPart: any, usernam
   }
   
   const data = {
-    questionId: questionId,
-    partId: partId,
-    username: username,
-    question: question,
-    part: part,
-    format: format,
-    inputs: inputs,
-    points: points,
-    source: source,
-    verified: questionPart.verified,
-    partOfCompetition: partOfCompetition,
-    savedInputs: questionPart.savedInputs
+    ...questionPart,
+    username,
+    points
   }
 
   return <MultipleResponses data={data} />;

@@ -5,6 +5,7 @@ import Pagination from "@/components/misc/pagination";
 import ReviewPart from "@/components/misc/reviewPart";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import getUsername from "@/app/utils/Misc/getUsername";
 
 let previewMode: boolean = false;
 
@@ -22,7 +23,7 @@ async function handlePart(questionData: any, part: any, singlePart: boolean = fa
   const [Supabase, User] = await createSupabase();
   const supabase: any = Supabase;
   const user: any = User;
-  const username = user.user_metadata.username;
+  const username = getUsername(user);
 
   const questionType = part.type;
   const partId = part.part_id;
@@ -76,7 +77,11 @@ async function handlePart(questionData: any, part: any, singlePart: boolean = fa
   );
 }
 
-export default async function Question({params: {id}}: {params: {id: string}}) {
+export default async function Question(
+  {params: {id}, searchParams} : 
+  {params: {id: string}, 
+  searchParams: {contest: boolean, tournament: boolean, question: number, user: string}} // Need to use this to refactor later
+) {
   
   const [Supabase, User] = await createSupabase();
   const supabase: any = Supabase;
@@ -86,7 +91,7 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
     return redirect("/login");
   }
 
-  const username = user.user_metadata.username;
+  const username = searchParams.user ? searchParams.user : user.user_metadata.username;
 
   let ID = id;
   id = id.replace("%5B", "[");
@@ -112,15 +117,15 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
       current = parseInt(match[2]);
       totalQuestions = parseInt(match[3]);
       if (current < totalQuestions) {
-        nextId = `${competition}[${current+1}-${totalQuestions}]`
+        nextId = `/questions/${competition}[${current+1}-${totalQuestions}]` + (searchParams.user ? `?user=${username}` : '');
         nextText = "Next question";
       }
       if (current > 1) {
-        prevId = `${competition}[${current-1}-${totalQuestions}]`;
+        prevId = `/questions/${competition}[${current-1}-${totalQuestions}]` + (searchParams.user ? `?user=${username}` : '');
         prevText = "Previous question";
       } else {
-        prevId = `${type}/${Id}`;
-        prevText = "Go back to start page";
+        prevId = !searchParams.user ? `${type}/${Id}` : `/review/competition?type=${type}&id=${Id}&totalQuestions=${totalQuestions}`;
+        prevText = !searchParams.user ? "Go back to start page" : "Go back to review page";
       }
       const table = type === "contest" ? "Contests" : "Tournaments";
       const { data: competitionData, error: err } = await supabase.from(table).select(`*`).eq("id", Id).single();
@@ -187,8 +192,13 @@ export default async function Question({params: {id}}: {params: {id: string}}) {
   };
 
   if (!single && competitionDone.status === "Completed" && current === totalQuestions) {
-    nextId = `${type}/${Id}`;
+    nextId = `/questions/${type}/${Id}`;
     nextText = "Go back to start page";
+  }
+
+  if (!single && searchParams.user && current === totalQuestions) {
+    nextId = `/review/competition?type=${type}&id=${Id}&totalQuestions=${totalQuestions}`;
+    nextText = "Go back to review page";
   }
 
   const paginationData = {

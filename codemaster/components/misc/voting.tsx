@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import placeInCodeBox from "@/components/codeBoxes/CodeBox";
-import { SubmitButton } from "@/components/buttons/SubmitButton";
+import SubmitButton from "@/components/buttons/SubmitButton";
 import { toast } from "react-toastify";
 
 export default function Voting({freestyle_id, refactorings, language, username, colorTheme, voted_alr} : 
@@ -108,7 +108,11 @@ export default function Voting({freestyle_id, refactorings, language, username, 
       <h1 className="text-lg font-semibold text-left lg:text-2xl">Submitted refactorings:</h1>
       {numOfRefactorings === 0 
       ? <p>No refactorings submitted yet</p> 
-      : refactorings.map((refactoring: any, idx: number) => 
+      : <>
+        <p>The refactored code submitted by other users is shown below. 
+          Rank them based on what you think is worst to best with 1 being the best.
+          Choose visely as you can only vote once!</p>
+        {refactorings.map((refactoring: any, idx: number) => 
         <div key={idx} className="flex flex-row overflow-x-auto bg-gray-200 lg:w-full">
           {placeInCodeBox(refactoring.code, language, colorTheme)}
           <select 
@@ -126,7 +130,8 @@ export default function Voting({freestyle_id, refactorings, language, username, 
             })}
           </select>
         </div>
-      )}
+        )}
+        </>}
       {!voted_alr && !voted &&
       <div className="flex flex-row justify-end w-full mt-2">
         <SubmitButton
