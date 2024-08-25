@@ -1,4 +1,5 @@
 "use client";
+// @ts-ignore
 import html2pdf from "html2pdf.js";
 import ReactDOMserver from "react-dom/server";
 import parse from "html-react-parser";
@@ -7,6 +8,8 @@ import { toast } from "react-toastify";
 export default async function downloadResults(data: any, setLoading: any) {
   setLoading(true);
   console.log("Downloading results");
+
+  // console.log(html2pdf);
 
   const { name, user, links, score } = data;
   const origin = window.location.origin;
