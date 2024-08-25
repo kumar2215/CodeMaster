@@ -9,10 +9,9 @@ export default async function downloadResults(data: any, setLoading: any) {
   setLoading(true);
   console.log("Downloading results");
 
-  // console.log(html2pdf);
-
   const { name, user, links, score } = data;
   const origin = window.location.origin;
+  console.log("Origin: ", origin);
   const parser = new DOMParser();
 
   const elements = await Promise.all(links.map(async (link: string, index: number) => {
