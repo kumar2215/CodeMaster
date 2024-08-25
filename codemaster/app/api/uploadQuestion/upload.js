@@ -151,8 +151,6 @@ export default async function upload(question, purpose, username, isVerified = t
     }
   }
 
-  console.log("Total points: " + total_points);
-
   const { data: res, error } = await supabase.from("Questions").insert({
     type: type, title: title, content: content, language: language, difficulty: difficulty, 
     source: source, parts: parts, points: total_points, verified: isVerified, purpose: purpose, created_by: username

@@ -35,6 +35,8 @@ export default function MCQ(params: any) {
   const expected: number = data.expected;
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition;
+  const print: boolean = data.printing;
+  const lastPart: boolean = data.last;
   let verified: boolean = data.verified;
 
   let initialSelectedOption: number = 0;
@@ -64,9 +66,13 @@ export default function MCQ(params: any) {
   const handleSave = async () => {
     await saveMCQ(data, selectedOption);
   }
+
+  let className = "p-3 border-4 lg:w-full lg:max-w-5xl bg-slate-50";
+  if (print) className += " border-t-0";
+  if (!lastPart) className += " border-b-0";
   
   return (
-    <div className={!source ? "lg:w-full lg:max-w-5xl bg-slate-50 p-3 border-4" : ""}>
+    <div className={!source ? className : ""}>
     {part !== "null"
     ? (
     <div className="flex flex-row p-2">

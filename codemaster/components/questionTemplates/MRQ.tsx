@@ -34,6 +34,8 @@ export default function MRQ(params: any) {
   const points: number = data.points;
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition;
+  const print: boolean = data.printing;
+  const lastPart: boolean = data.last;
   let verified: boolean = data.verified;
 
   let selectedOptions : any[] = options.map(() => useState(false));
@@ -70,9 +72,13 @@ export default function MRQ(params: any) {
   const handleSave = async () => {
     await saveMRQ(data, selectedOptions.map((option: any[]) => option[0]));
   }
+
+  let className = "p-3 border-4 lg:w-full lg:max-w-5xl bg-slate-50";
+  if (print) className += " border-t-0";
+  if (!lastPart) className += " border-b-0";
   
   return (
-    <div className={!source ? "w-full max-w-5xl bg-slate-50 p-3 border-4" : ""}>
+    <div className={!source ? className : ""}>
     {part !== "null"
     ? (
     <div className="flex flex-row">

@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import submitFreestyle from '@/app/utils/Submissions/submitFreestyle';
 import saveFreestyle from '@/app/utils/Saving/saveFreestyle';
 import dropdownBtn from "@/assets/dropdown-btn.jpg";
+import placeInCodeBox from '@/components/codeBoxes/CodeBox';
 
 const CodeEditor = dynamic(() => import('@/components/codeBoxes/CodeEditor'), { ssr: false });
 
@@ -19,6 +20,8 @@ export default function FreeStyleDebugging({data}: {data: any}) {
   const points: number[] = data.points;
   const source = data.source;
   const partOfCompetition: any = data.partOfCompetition; 
+  const print: boolean = data.printing;
+  const lastPart: boolean = data.last;
   let verified: boolean = data.verified;
 
   const submitted: boolean = data.submitted;
@@ -58,8 +61,8 @@ export default function FreeStyleDebugging({data}: {data: any}) {
   let totalPoints = 0;
   for (let i = 0; i < inputs.length; i++) {
     totalPoints += points[i];
-  }
-  const [showTestCases, setShowTestCases] = useState(false);
+  };
+  const [showTestCases, setShowTestCases] = useState(print);
   
   const runCode = async () => {
     return await submitFreestyle(data, code, results, setIsLoading, setSubmitted, setAccPoints, setError, false);
@@ -72,9 +75,13 @@ export default function FreeStyleDebugging({data}: {data: any}) {
   const handleSave = async () => {
     await saveFreestyle(data, code);
   };
+
+  let className = "p-3 border-4 lg:w-full lg:max-w-5xl bg-slate-50";
+  if (print) className += " border-t-0";
+  if (!lastPart) className += " border-b-0";
   
   return (
-    <div className={!source ? "w-full max-w-5xl bg-slate-50 p-3 border-4" : ""}>
+    <div className={!source ? className : ""}>
     {part !== "null"
     ? (
     <div className="flex flex-row p-2">
@@ -85,7 +92,9 @@ export default function FreeStyleDebugging({data}: {data: any}) {
     <div className="text-base text-gray-500 lg:text-lg min-h-10">{question}</div>
     )}
     <div className='w-full mt-4 lg:mt-2'>
-      <CodeEditor language={language} code={code} setCode={setCode} />
+      {print
+      ? placeInCodeBox(code, language, "github")
+      :  <CodeEditor language={language} code={code} setCode={setCode} />}
     </div>
     { source
       ? source.link

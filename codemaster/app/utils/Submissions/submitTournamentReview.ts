@@ -23,24 +23,28 @@ export default async function submitTournamentReview({id, username} : {id: strin
   let allVerified: boolean = true;
   let allReviewed:  boolean = true;
 
-  for (const questionId of questionIds) {
+  const admins = process.env.NEXT_PUBLIC_ADMINS?.split(",");
+  if (admins && !admins.includes(username)) return ["You are not authorized to review this tournament.", "error"];
+  if (admins && !admins.includes(created_by)) {
+    for (const questionId of questionIds) {
 
-    const res2 = await supabase
-      .from("Questions")
-      .select("parts, verified")
-      .eq("id", questionId)
-      .single();
+      const res2 = await supabase
+        .from("Questions")
+        .select("parts, verified")
+        .eq("id", questionId)
+        .single();
 
-    if (res2.error) { 
-      console.error(res2.error); 
-      return ["Something went wrong. Please try again.", "error"];
-    }
+      if (res2.error) { 
+        console.error(res2.error); 
+        return ["Something went wrong. Please try again.", "error"];
+      }
 
-    allVerified = allVerified && res2.data.verified;
-    allReviewed = allReviewed && res2.data.parts.every((part: any) => part.reviewed);
+      allVerified = allVerified && res2.data.verified;
+      allReviewed = allReviewed && res2.data.parts.every((part: any) => part.reviewed);
 
-    if (!allReviewed) {
-      return ["Please review all questions before submitting.", "error"];
+      if (!allReviewed) {
+        return ["Please review all questions before submitting.", "error"];
+      }
     }
   }
 

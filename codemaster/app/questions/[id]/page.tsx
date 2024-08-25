@@ -19,7 +19,7 @@ async function createSupabase() {
   return [supabase, user];
 }
 
-async function handlePart(questionData: any, part: any, singlePart: boolean = false) { 
+async function handlePart(questionData: any, part: any, singlePart: boolean = false, last: boolean = false) { 
   const [Supabase, User] = await createSupabase();
   const supabase: any = Supabase;
   const user: any = User;
@@ -55,6 +55,8 @@ async function handlePart(questionData: any, part: any, singlePart: boolean = fa
   }
 
   partData.partOfCompetition = questionData.partOfCompetition;
+  partData.printing = questionData.printing;
+  partData.last = last;
 
   if (partData.review) {
     const commentId = partData.review.commentId;
@@ -80,7 +82,7 @@ async function handlePart(questionData: any, part: any, singlePart: boolean = fa
 export default async function Question(
   {params: {id}, searchParams} : 
   {params: {id: string}, 
-  searchParams: {contest: boolean, tournament: boolean, question: number, user: string}} // Need to use this to refactor later
+  searchParams: {user: string, printing: boolean}}
 ) {
   
   const [Supabase, User] = await createSupabase();
@@ -91,7 +93,8 @@ export default async function Question(
     return redirect("/login");
   }
 
-  const username = searchParams.user ? searchParams.user : user.user_metadata.username;
+  const username = searchParams.user ? searchParams.user : getUsername(user);
+  const printing = searchParams.printing;
 
   let ID = id;
   id = id.replace("%5B", "[");
@@ -191,6 +194,8 @@ export default async function Question(
     verified: !previewMode,
   };
 
+  questionData.printing = printing;
+
   if (!single && competitionDone.status === "Completed" && current === totalQuestions) {
     nextId = `/questions/${type}/${Id}`;
     nextText = "Go back to start page";
@@ -228,14 +233,15 @@ export default async function Question(
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-4 lg:w-full lg:gap-8" style={preferences.body}>
       <Navbar thisLink={thisLink} style={preferences.header} />
-      <div className="flex flex-col w-full gap-4 p-2 lg:p-0 lg:max-w-5xl">
-      <div className="p-3 border-4 bg-slate-50">
+      <div id="Question" className={`flex flex-col w-full ${!printing && "gap-4"} p-2 lg:p-0 lg:max-w-5xl`}>
+      <div className={`p-3 border-4 ${printing && questionData.parts.length > 1 && "border-b-0"} bg-slate-50`}>
         <div className="text-lg font-bold lg:text-2xl min-h-10">{`Question ${current ? current : ""}: ${questionData.title}`}</div>
 
+        {!questionData.partOfCompetition &&
         <div className="flex flex-row gap-2">
           <div className="text-base font-medium lg:text-lg min-h-10">Difficulty:</div>
           <div className={`text-base lg:text-lg font-medium min-h-10 ${color}`}>{questionData.difficulty}</div>
-        </div>
+        </div>}
 
         <div className="text-base text-gray-500 lg:text-lg min-h-10">
           {questionData.content.map((content: any, index: number) => 
@@ -267,13 +273,13 @@ export default async function Question(
       
       
       {questionData.parts.length > 1 && questionData.parts.map(async (part: any, index: number) =>
-        await handlePart(questionData, part)
+        await handlePart(questionData, part, false, questionData.parts.length-1 === index)
       )}
+      </div>
 
       {/* pagination */}
       {!single && <Pagination paginationData={paginationData} />}
       <br/>
-      </div>
     </div>
   );
 }

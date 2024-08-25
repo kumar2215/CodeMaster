@@ -5,6 +5,7 @@ import Link from "next/link";
 import convertDate from "@/app/utils/dateConversion/convertDateV1";
 import tournamentIcon from "@/assets/tournament-icon.jpg";
 import { redirect } from "next/navigation";
+import DownloadButton from "@/components/buttons/DownloadButton";
 const thisLink = "/tournaments";
 
 export default async function TournamentStartPage({params: {id}}: {params: {id: string}}) {
@@ -61,6 +62,14 @@ export default async function TournamentStartPage({params: {id}}: {params: {id: 
     : tournamentData.status === "Attempted"
     ? "Resume tournament"
     : "View results";
+
+    const links = Array.from({length: questions.length}).map((x, idx) => `/questions/tournament-${tournamentData.id}[${idx+1}-${questions.length}]?printing=true`);
+    const downloadData = {
+      name: tournamentData.name,
+      user: userData.username,
+      score: tournamentData.points,
+      links: links
+    }
 
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-10" style={{backgroundColor: "#80bfff"}}>
@@ -121,6 +130,8 @@ export default async function TournamentStartPage({params: {id}}: {params: {id: 
                 >
                   {btnText}
               </button>}
+
+            {btnText === "View results" && <DownloadButton data={downloadData} />}
           </div>
 
         </div>  

@@ -6,7 +6,7 @@ import sendNotification from '@/app/utils/Misc/sendNotification';
 
 const supabase = createClient();
 
-async function uploadData(formData, createdBy, type) {
+async function uploadData(formData, createdBy, type, verified) {
 
   const name = formData.name;
   const questions = formData.questions;
@@ -20,13 +20,26 @@ async function uploadData(formData, createdBy, type) {
     const answers = [];
 
     const purpose = type === "Contests" ? "contest" : "tournament";
-    const verified = type === "Contests";
 
-    for (const question of questions) {
+    const promises = questions.map(async (question) => {
       const [id, answer] = await upload(question, purpose, createdBy, verified);
       if (!id) return [false, "Form has already been submitted."];
-      questionIDs.push(id);
-      answers.push(answer);
+      return { id, answer };
+    });
+    
+    try {
+      const results = await Promise.all(promises);
+    
+      // If order is important, you can then extract the IDs and answers
+      results.forEach(({ id, answer }) => {
+        questionIDs.push(id);
+        answers.push(answer);
+      });
+    
+      // At this point, questionIDs and answers will maintain the order of questions
+    } catch (error) {
+      console.error(error.message);
+      return [false, error.message];
     }
 
     const { data, error } = await supabase
@@ -83,12 +96,21 @@ export default async function submitForm(result, type) {
 
   const username = getUsername(user);
 
+  const { data, error } = await supabase.from("Users").select("*").eq("username", username).single();
+  if (error) {
+    console.error("Error fetching user data:", error.message);
+    return [false, "Something went wrong. Please try again later."];
+  }
+
+  const user_type = data.user_type;
+  const verified = user_type.includes("admin");
+
   let total_points = 0;
   result.questions.forEach((question) => {
     total_points += question.points;
   });
   result.points = total_points;
 
-  return await uploadData(result, username, type);
+  return await uploadData(result, username, type, verified);
 }
 

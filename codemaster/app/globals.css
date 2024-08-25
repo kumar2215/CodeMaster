@@ -33,6 +33,12 @@
 }
 
 @layer base {
+  img {
+    display: initial;
+  }
+}
+
+@layer base {
   * {
     @apply border-foreground/20;
   }

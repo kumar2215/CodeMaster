@@ -4,6 +4,7 @@ import checkInUser from "@/app/utils/Misc/checkInUser";
 import convertDate from "@/app/utils/dateConversion/convertDateV1";
 import contestIcon from "@/assets/contest-icon.jpg";
 import { redirect } from "next/navigation";
+import DownloadButton from "@/components/buttons/DownloadButton";
 const thisLink = "/contests";
 
 export default async function ContestStartPage({params: {id}}: {params: {id: string}}) {
@@ -45,7 +46,6 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
 
   const questions = contestData.questions;
   const link = `/questions/contest-${contestData.id}[1-${questions.length}]`;
-  // const link = `/questions/${contestData.id}?contest=true&question=1`;
   const btnText = new Date(contestData.deadline).getTime() < new Date().getTime() && contestData.status !== "Completed"
     ? "Contest closed"
     : contestData.status === "Not Attempted"
@@ -53,6 +53,14 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
     : contestData.status === "Attempted"
     ? "Resume contest"
     : "View results";
+
+  const links = Array.from({length: 5}).map((x, idx) => `/questions/contest-${contestData.id}[${idx+1}-${questions.length}]?printing=true`);
+  const downloadData = {
+    name: contestData.name,
+    user: userData.username,
+    score: contestData.points,
+    links: links
+  }
 
   return (
     <div className="flex flex-col items-center flex-1 w-full gap-10" style={preferences.body}>
@@ -82,7 +90,7 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
               <p className='text-lg lg:text-xl'>{contestData.status}</p>
             </div>
 
-            {Array.from({length: 5}).map(x => <br/>)}
+            {Array.from({length: btnText === "View results" ? 3 : 5}).map(x => <br/>)}
 
             {btnText !== "Contest closed"
             ? <Link
@@ -100,6 +108,9 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
                 {btnText}
               </button>
             }
+
+            {btnText === "View results" && <DownloadButton data={downloadData} />}
+
           </div>
         </div>  
       </div>

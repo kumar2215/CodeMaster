@@ -4,7 +4,8 @@ import dynamic from 'next/dynamic';
 import { createClient } from '@/utils/supabase/client';
 import submitFreestyle from '@/app/utils/Submissions/submitFreestyle';
 import SubmitButton from '@/components/buttons/SubmitButton';
-import dropdownBtn from "@/assets/dropdown-btn.jpg"
+import dropdownBtn from "@/assets/dropdown-btn.jpg";
+import placeInCodeBox from '@/components/codeBoxes/CodeBox';
 import { toast } from 'react-toastify';
 
 const CodeEditor = dynamic(() => import('@/components/codeBoxes/CodeEditor'), { ssr: false });
@@ -21,6 +22,8 @@ export default function FreeStyleRefactoring({data}: {data: any}) {
   const points: number[] = data.points;
   const source = data.source;
   let verified: boolean = data.verified;
+  const print = data.printing;
+  const lastPart = data.last;
 
   const submitted: boolean = data.submitted;
   const setSubmitted: any = data.setSubmitted;
@@ -42,7 +45,7 @@ export default function FreeStyleRefactoring({data}: {data: any}) {
   for (let i = 0; i < inputs.length; i++) {
     totalPoints += points[i];
   }
-  const [showTestCases, setShowTestCases] = useState(false);
+  const [showTestCases, setShowTestCases] = useState(print);
 
   const runCode = async () => {
     setRanOnce(true);
@@ -83,9 +86,13 @@ export default function FreeStyleRefactoring({data}: {data: any}) {
       toast.success("Submitted for voting successfully!", {autoClose: 3000});
     }
   }
+
+  let className = "p-3 border-4 lg:w-full lg:max-w-5xl bg-slate-50";
+  if (print) className += " border-t-0";
+  if (!lastPart) className += " border-b-0";
   
   return (
-    <div className={!source ? "w-full max-w-5xl bg-slate-50 p-3 border-4" : ""}>
+    <div className={!source ? className : ""}>
     {part !== "null"
     ? (
     <div className="flex flex-row p-2">
@@ -96,7 +103,9 @@ export default function FreeStyleRefactoring({data}: {data: any}) {
     <div className="text-base text-gray-500 lg:text-lg min-h-10">{question}</div>
     )}
     <div className='w-full'>
-      <CodeEditor language={language} code={code} setCode={setCode} />
+      {print
+      ? placeInCodeBox(code, language, "github")
+      :  <CodeEditor language={language} code={code} setCode={setCode} />}
     </div>
     { source
       ? source.link

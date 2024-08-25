@@ -24,5 +24,14 @@ export default function processAndValidateFormData(data, type) {
 
   processedData.questions = processedData.questions.map((question, idx) => processAndValidateQuestion(question, idx));
   
+  processedData.questions.forEach((question) => {
+    let totalPoints = 0;
+    question.parts.forEach((part) => {
+      if (typeof part.points === 'number') totalPoints += part.points;
+      else totalPoints += part.points.reduce((acc, curr) => acc + curr, 0);
+    });
+    question.points = totalPoints;
+  });
+  
   return processedData;
 }

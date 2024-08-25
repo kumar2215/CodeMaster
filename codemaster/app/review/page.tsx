@@ -52,7 +52,7 @@ export default async function ReviewPage() {
           <QuestionReviewTable questions={questionsCreatedByUser} />
         </div>
 
-        {user_type.includes("admin") || user_type.includes("verified") &&
+        {(user_type.includes("admin") || user_type.includes("verified")) &&
         <div className="flex flex-col gap-5">
           <h1 className="flex flex-row text-xl font-bold text-left lg:text-3xl">
             Tournaments
