@@ -50,6 +50,8 @@ export default async function downloadResults(data: any, setLoading: any) {
     </html>
   );
 
+  console.log(elementToDownload);
+
   const opt = {
     margin: 0.2,
     filename: `${name} results.pdf`,

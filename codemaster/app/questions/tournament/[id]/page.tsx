@@ -106,7 +106,7 @@ export default async function TournamentStartPage({params: {id}}: {params: {id: 
             </div>
             }
 
-            {Array.from({length: btnText === "View results" ? 3 : 5}).map(x => <br/>)}
+            {Array.from({length: btnText === "View results" ? 2 : 4}).map(x => <br/>)}
             
             {verified && btnText !== "Tournament closed" && tournamentData.password_hash && (tournamentData.status === "Not Attempted" || tournamentData.status === "Attempted")
             ? <VerifyPassword 
