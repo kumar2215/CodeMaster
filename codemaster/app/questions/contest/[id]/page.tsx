@@ -54,7 +54,7 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
     ? "Resume contest"
     : "View results";
 
-  const links = Array.from({length: 5}).map((x, idx) => `/questions/contest-${contestData.id}[${idx+1}-${questions.length}]?printing=true`);
+  const links = Array.from({length: questions.length}).map((x, idx) => `/questions/contest-${contestData.id}[${idx+1}-${questions.length}]?printing=true`);
   const downloadData = {
     name: contestData.name,
     user: userData.username,

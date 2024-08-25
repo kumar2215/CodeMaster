@@ -6,7 +6,8 @@ import parse from "html-react-parser";
 import { toast } from "react-toastify";
 
 
-export default async function downloadResults(data: any) {
+export default async function downloadResults(data: any, setLoading: any) {
+  setLoading(true);
   console.log("Downloading results");
 
   const { name, user, links, score } = data;
@@ -59,4 +60,5 @@ export default async function downloadResults(data: any) {
   };
 
   html2pdf().set(opt).from(ReactDOMserver.renderToString(elementToDownload)).save();
+  setLoading(false);
 }
