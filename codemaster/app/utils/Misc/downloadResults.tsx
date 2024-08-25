@@ -1,5 +1,4 @@
 "use client";
-// @ts-ignore
 import html2pdf from "html2pdf.js";
 import ReactDOMserver from "react-dom/server";
 import parse from "html-react-parser";
