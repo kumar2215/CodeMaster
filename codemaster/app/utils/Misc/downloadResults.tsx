@@ -50,8 +50,6 @@ export default async function downloadResults(data: any, setLoading: any) {
     </html>
   );
 
-  console.log(elementToDownload);
-
   const opt = {
     margin: 0.2,
     filename: `${name} results.pdf`,
@@ -61,6 +59,6 @@ export default async function downloadResults(data: any, setLoading: any) {
     jsPDF: { unit: 'in', format: 'A4', orientation: 'portrait' }
   };
 
-  html2pdf().set(opt).from(ReactDOMserver.renderToString(elementToDownload)).save();
+  console.log(html2pdf().set(opt).from(ReactDOMserver.renderToString(elementToDownload)).save());
   setLoading(false);
 }
