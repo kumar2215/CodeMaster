@@ -90,7 +90,8 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
               <p className='text-lg lg:text-xl'>{contestData.status}</p>
             </div>
 
-            {Array.from({length: btnText === "View results" ? 3 : 5}).map(x => <br/>)}
+            {Array.from({length: 5}).map(x => <br/>)}
+            {/* {Array.from({length: btnText === "View results" ? 3 : 5}).map(x => <br/>)} */}
 
             {btnText !== "Contest closed"
             ? <Link
@@ -109,7 +110,7 @@ export default async function ContestStartPage({params: {id}}: {params: {id: str
               </button>
             }
 
-            {btnText === "View results" && <DownloadButton data={downloadData} />}
+            {/* {btnText === "View results" && <DownloadButton data={downloadData} />} */}
 
           </div>
         </div>  

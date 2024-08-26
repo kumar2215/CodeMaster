@@ -59,6 +59,7 @@ export default async function downloadResults(data: any, setLoading: any) {
     jsPDF: { unit: 'in', format: 'A4', orientation: 'portrait' }
   };
 
+  // works locally but not on production :(
   console.log(html2pdf().set(opt).from(ReactDOMserver.renderToString(elementToDownload)).save());
   setLoading(false);
 }
