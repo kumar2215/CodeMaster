@@ -52,7 +52,7 @@ export default function Notification(params: any) {
   return (
     <div className="relative flex flex-col group">
       <button 
-      className="relative bottom-[-10px] left-[-8px] opacity-0 group-hover:opacity-100 transition-opacity"
+      className="relative bottom-[-10px] right-[50%] opacity-0 group-hover:opacity-100 transition-opacity"
       onClick={deleteNotification}
       >
         <img src={remove_btn.src} className="w-4 h-4 rounded-full"/>
